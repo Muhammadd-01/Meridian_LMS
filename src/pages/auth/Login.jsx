@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'
 import { useDocumentTitle } from '../../hooks/useDocumentTitle'
 import { DEMO_ACCOUNTS } from '../../data/users'
-import { validateCredentials, homeForRole } from '../../services/mockAuthService'
+import { validateCredentials, postLoginPath } from '../../services/mockAuthService'
 import { cn } from '../../utils/cn'
 
 const ROLES = [
@@ -56,8 +56,7 @@ export default function Login() {
       toast.info(`Signed in as ${result.user.role === 'admin' ? 'an administrator' : 'a learner'} based on the account you used.`)
     }
     toast.success(`Welcome back, ${result.user.name.split(' ')[0]}!`)
-    const canReturn = from && !from.startsWith('/login') && (result.user.role === 'admin' ? !from.startsWith('/learn') : !from.startsWith('/admin'))
-    navigate(canReturn ? from : homeForRole(result.user.role), { replace: true })
+    navigate(postLoginPath(result.user.role, from), { replace: true })
   }
 
   return (

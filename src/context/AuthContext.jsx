@@ -19,6 +19,7 @@ const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 export function AuthProvider({ children }) {
   const { users, actions } = useData()
   const [session, setSession] = useState(readSession)
+  const [signedOut, setSignedOut] = useState(false)
 
   const user = useMemo(() => {
     if (!session) return null
@@ -35,6 +36,7 @@ export function AuthProvider({ children }) {
     removeKey(STORAGE_KEYS.session, 'local')
     removeKey(STORAGE_KEYS.session, 'session')
     writeJSON(STORAGE_KEYS.session, next, remember ? 'local' : 'session')
+    setSignedOut(false)
     setSession(next)
   }, [])
 
@@ -48,17 +50,23 @@ export function AuthProvider({ children }) {
   const logout = useCallback(() => {
     removeKey(STORAGE_KEYS.session, 'local')
     removeKey(STORAGE_KEYS.session, 'session')
+    setSignedOut(true)
     setSession(null)
   }, [])
+
+  // Called once the app has left the protected area, so later visits to learner/admin routes show the login screen.
+  const acknowledgeSignOut = useCallback(() => setSignedOut(false), [])
 
   const value = useMemo(() => ({
     user,
     role: user?.role || null,
     isAuthenticated: Boolean(user),
+    signedOut,
     login,
     logout,
     startSession,
-  }), [user, login, logout, startSession])
+    acknowledgeSignOut,
+  }), [user, signedOut, login, logout, startSession, acknowledgeSignOut])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

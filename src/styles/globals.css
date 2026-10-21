@@ -86,6 +86,17 @@
   button:not(:disabled), [role="button"]:not([aria-disabled="true"]) {
     cursor: pointer;
   }
+  /*
+   * Single-column grids default to minmax(0, 1fr) so long, truncated content can
+   * shrink on phones instead of widening the page. Any grid-cols-* utility overrides this.
+   */
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* Keep absolutely positioned descendants (e.g. sr-only labels) inside horizontal scrollers. */
+  .overflow-x-auto {
+    position: relative;
+  }
   ::selection {
     background: #cfe6ee;
   }

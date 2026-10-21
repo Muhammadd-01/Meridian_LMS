@@ -22,7 +22,13 @@ export function ToastProvider({ children }) {
     timers.current.delete(id)
   }, [])
 
+  const last = useRef({ key: '', at: 0 })
+
   const push = useCallback((type, message, options = {}) => {
+    // Ignore an identical toast fired again within a moment (e.g. effects re-run in StrictMode).
+    const key = `${type}:${message}`
+    if (last.current.key === key && Date.now() - last.current.at < 800) return null
+    last.current = { key, at: Date.now() }
     const id = `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
     setToasts((list) => [...list.slice(-3), { id, type, message, title: options.title }])
     timers.current.set(id, setTimeout(() => dismiss(id), options.duration || 4200))

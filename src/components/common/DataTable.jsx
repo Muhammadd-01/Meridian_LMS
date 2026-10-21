@@ -15,7 +15,7 @@ export default function DataTable({ columns, rows, rowKey = 'id', sort, onSort, 
 
   return (
     <div className={cn('card overflow-hidden', className)}>
-      <div className="overflow-x-auto scrollbar-thin">
+      <div className="relative overflow-x-auto scrollbar-thin">
         <table className="w-full min-w-[640px] text-left text-sm">
           {caption && <caption className="sr-only">{caption}</caption>}
           <thead className="border-b border-line bg-slate-50/80">

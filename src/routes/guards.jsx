@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
-import { homeForRole } from '../services/mockAuthService'
+import { homeForRole, postLoginPath } from '../services/mockAuthService'
 
 function RoleRedirect({ to, message }) {
   const toast = useToast()
@@ -17,8 +17,10 @@ function RoleRedirect({ to, message }) {
  * not a security boundary — a real product must enforce access on the server.
  */
 export function RequireRole({ role, children }) {
-  const { user } = useAuth()
+  const { user, signedOut } = useAuth()
   const location = useLocation()
+  // After an explicit sign-out, leave the protected area for the homepage instead of the login screen.
+  if (!user && signedOut) return <Navigate to="/" replace />
   if (!user) {
     return <Navigate to="/login" replace state={{ from: location.pathname + location.search, reason: 'auth' }} />
   }
@@ -35,6 +37,7 @@ export function RequireRole({ role, children }) {
 
 export function GuestOnly({ children }) {
   const { user } = useAuth()
-  if (user) return <Navigate to={homeForRole(user.role)} replace />
+  const location = useLocation()
+  if (user) return <Navigate to={postLoginPath(user.role, location.state?.from)} replace />
   return children
 }

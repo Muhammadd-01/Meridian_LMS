@@ -30,7 +30,7 @@ function CurriculumModule({ module, index, onPreview, defaultOpen }) {
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-sm font-bold text-primary">{index + 1}</span>
           <span className="min-w-0 flex-1">
             <span className="block font-semibold text-ink">{module.title}</span>
-            <span className="block text-xs text-muted">{module.lessons.length} lessons · {formatMinutes(minutes)}</span>
+            <span className="block text-xs text-muted">{module.lessons.length} lesson{module.lessons.length === 1 ? '' : 's'} · {formatMinutes(minutes)}</span>
           </span>
           <ChevronDown className={cn('h-5 w-5 text-muted transition-transform', open && 'rotate-180')} aria-hidden="true" />
         </button>

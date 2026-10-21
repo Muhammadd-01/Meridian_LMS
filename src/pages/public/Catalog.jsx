@@ -95,7 +95,7 @@ export default function Catalog({ embedded = false }) {
   const filterBy = (items, except) => items.filter((course) => GROUP_KEYS.every((key) => key === except || !selected[key].length || predicates[key](course, selected[key])))
   const filtered = filterBy(searched)
 
-  const sorted = useMemo(() => {
+  const sorted = (() => {
     const list = [...filtered]
     const term = normalise(q)
     switch (sort) {
@@ -110,7 +110,7 @@ export default function Catalog({ embedded = false }) {
           return score(b) - score(a)
         })
     }
-  }, [filtered, sort, q])
+  })()
 
   const pageData = paginate(sorted, page, pageSize)
 

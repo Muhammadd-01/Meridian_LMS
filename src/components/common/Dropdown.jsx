@@ -42,7 +42,13 @@ export default function Dropdown({ trigger, items, align = 'right', label = 'Ope
     }
   }
 
-  let actionIndex = -1
+  const indexed = []
+  let count = 0
+  for (const item of items) {
+    indexed.push(item.divider ? item : { ...item, index: count })
+    if (!item.divider) count += 1
+  }
+
   return (
     <div ref={rootRef} className={cn('relative', className)}>
       <button
@@ -75,10 +81,9 @@ export default function Dropdown({ trigger, items, align = 'right', label = 'Ope
           )}
         >
           {header && <div className="border-b border-line px-4 pt-2 pb-3">{header}</div>}
-          {items.map((item, i) => {
+          {indexed.map((item, i) => {
             if (item.divider) return <div key={`d-${i}`} className="my-1.5 border-t border-line" role="separator" />
-            actionIndex += 1
-            const index = actionIndex
+            const { index } = item
             const Icon = item.icon
             const classes = cn(
               'flex w-full items-center gap-3 px-4 py-2 text-left text-sm outline-none focus:bg-slate-100 hover:bg-slate-50',

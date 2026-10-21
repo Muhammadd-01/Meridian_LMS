@@ -193,3 +193,18 @@ export function pathProgress({ courses, enrollments }, userId, path) {
   const percent = items.length ? Math.round(items.reduce((s, i) => s + i.percent, 0) / items.length) : 0
   return { items, percent, completed: items.filter((i) => i.percent >= 100).length }
 }
+
+/** Assignments in the learner's active courses, with submission state, sorted by due date. */
+export function getDeadlines({ assignments, enrollments, submissions, courses }, userId) {
+  const active = enrollments.filter((e) => e.userId === userId && !e.archived)
+  return assignments
+    .filter((a) => active.some((e) => e.courseId === a.courseId))
+    .map((a) => {
+      const course = courses.find((c) => c.id === a.courseId)
+      const submission = submissions.find((s) => s.userId === userId && s.assignmentId === a.id)
+      const lesson = course ? getAllLessons(course).find((l) => l.assignmentId === a.id) : null
+      return { assignment: a, course, submission, lessonId: lesson?.id || null }
+    })
+    .filter((d) => d.course)
+    .sort((x, y) => new Date(x.assignment.dueDate) - new Date(y.assignment.dueDate))
+}

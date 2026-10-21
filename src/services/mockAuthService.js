@@ -38,3 +38,10 @@ export function authenticate(users, { email, password }) {
 export function homeForRole(role) {
   return role === 'admin' ? '/admin/dashboard' : '/learn/dashboard'
 }
+
+/** Where to send a user after sign-in: back to `from` when it suits their role, else their home. */
+export function postLoginPath(role, from) {
+  const allowed = from && !from.startsWith('/login') && !from.startsWith('/register') && !from.startsWith('/forgot-password')
+    && (role === 'admin' ? !from.startsWith('/learn') : !from.startsWith('/admin'))
+  return allowed ? from : homeForRole(role)
+}

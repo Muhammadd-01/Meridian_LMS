@@ -73,7 +73,7 @@ export function ProgressBar({ value = 0, size = 'md', tone = 'primary', label, s
 }
 
 /* ---------- EmptyState ---------- */
-export function EmptyState({ icon: IconComp, title, description, action, className, compact = false }) {
+export function EmptyState({ icon: IconComp, title, description, action, className, compact = false, titleAs: Heading = 'h3' }) {
   return (
     <div className={cn('flex flex-col items-center justify-center text-center', compact ? 'px-4 py-8' : 'px-6 py-14', className)}>
       <div className="relative mb-4">
@@ -82,7 +82,7 @@ export function EmptyState({ icon: IconComp, title, description, action, classNa
           {IconComp ? <IconComp className="h-7 w-7" aria-hidden="true" /> : <CircleAlert className="h-7 w-7" aria-hidden="true" />}
         </span>
       </div>
-      <h3 className="text-base font-semibold text-ink">{title}</h3>
+      <Heading className="text-base font-semibold text-ink">{title}</Heading>
       {description && <p className="mt-1 max-w-md text-sm text-muted">{description}</p>}
       {action && <div className="mt-5 flex flex-wrap justify-center gap-2">{action}</div>}
     </div>

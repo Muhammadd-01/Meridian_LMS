@@ -9,6 +9,7 @@ export default function MissingRecord({ title = 'We couldn’t find that page', 
       <div className="card mx-auto max-w-xl">
         <EmptyState
           icon={FileQuestion}
+          titleAs="h1"
           title={title}
           description={description || 'It may have been removed, unpublished, or the link may be incorrect.'}
           action={(

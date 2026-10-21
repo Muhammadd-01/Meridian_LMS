@@ -74,8 +74,8 @@ export default function LearnerLayout() {
 
   return (
     <div className="min-h-screen bg-page">
-      <DemoBanner />
-      <header className="sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur">
+      <div className="no-print"><DemoBanner /></div>
+      <header className="no-print sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur">
         <div className="flex h-16 items-center gap-3 px-4 sm:px-6">
           <button type="button" className="btn btn-ghost btn-icon -ml-2 lg:hidden" onClick={() => setDrawerOpen(true)} aria-label="Open learner navigation">
             <Menu className="h-5 w-5" />
@@ -97,7 +97,7 @@ export default function LearnerLayout() {
         </div>
       </header>
       <div className="flex">
-        <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-64 shrink-0 flex-col gap-6 overflow-y-auto border-r border-line bg-white p-4 lg:flex">
+        <aside className="no-print sticky top-16 hidden h-[calc(100vh-4rem)] w-64 shrink-0 flex-col gap-6 overflow-y-auto border-r border-line bg-white p-4 lg:flex">
           <AppSidebar groups={groups} tone="light" />
           <div className="mt-auto"><WeeklyGoalCard /></div>
         </aside>

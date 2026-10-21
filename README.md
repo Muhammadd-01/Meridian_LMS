@@ -16,6 +16,10 @@ npm run lint     # ESLint (flat config, React Hooks + React Refresh rules)
 
 Requires Node 20+.
 
+## Video walkthrough
+
+[`docs/video/meridian-lms-walkthrough.mp4`](docs/video/meridian-lms-walkthrough.mp4) is an 8-minute narrated tour of the public website, sign-in, the learner app and the admin console, with burned-in captions. The captions are also provided as [`meridian-lms-walkthrough.srt`](docs/video/meridian-lms-walkthrough.srt). The narration uses a synthetic neural voice.
+
 ## Demo accounts
 
 | Role    | Email                       | Password      |

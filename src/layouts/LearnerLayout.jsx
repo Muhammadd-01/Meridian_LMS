@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
-  LayoutDashboard, Library, Compass, Heart, Route, Award, Trophy, Bell, User, Settings, Menu, Target, Flame,
+  LayoutDashboard, Library, Compass, Heart, Award, Trophy, Bell, User, Settings, Menu, Target, Flame,
 } from 'lucide-react'
 import BrandLogo from '../components/common/BrandLogo'
 import AppSidebar from '../components/layout/AppSidebar'
@@ -74,7 +74,6 @@ export default function LearnerLayout() {
         { to: '/learn/my-learning', label: 'My Learning', icon: Library },
         { to: '/learn/browse', label: 'Browse Courses', icon: Compass },
         { to: '/learn/saved', label: 'Saved Courses', icon: Heart, badge: savedCount || null },
-        { to: '/learn/paths', label: 'Learning Paths', icon: Route },
       ],
     },
     {

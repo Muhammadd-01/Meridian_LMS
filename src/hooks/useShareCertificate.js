@@ -5,7 +5,7 @@ export function useShareCertificate() {
   const toast = useToast()
   return async (certificate) => {
     const url = `${window.location.origin}/certificates/${certificate.id}`
-    const shareData = { title: `Demo certificate: ${certificate.courseTitle}`, text: `I completed ${certificate.courseTitle} on Meridian LMS (demo).`, url }
+    const shareData = { title: `Demo certificate: ${certificate.courseTitle}`, text: `I completed ${certificate.courseTitle} on Meridian (demo).`, url }
     try {
       if (navigator.share && (!navigator.canShare || navigator.canShare(shareData))) {
         await navigator.share(shareData)

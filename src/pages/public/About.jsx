@@ -29,7 +29,7 @@ export default function About() {
               We work with clients across the {COMPANY.regions.join(', ')} from offices in {COMPANY.offices.map((o) => (o.city ? `${o.city}, ${o.country}` : o.country)).join('; ')}.
             </p>
             <p className="mt-4 leading-7 text-slate-700">
-              As the first TVTC foreign registered training center in Saudi Arabia, MEQMP combines globally certified trainers with industry-recognised auditors — and Meridian LMS brings that training online.
+              As the first TVTC foreign registered training center in Saudi Arabia, MEQMP combines globally certified trainers with industry-recognised auditors — and the Meridian learning platform brings that training online.
             </p>
             <ul className="mt-6 space-y-2.5">
               {COMPANY.highlights.map((h) => (

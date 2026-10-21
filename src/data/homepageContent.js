@@ -30,12 +30,12 @@ export const homepageContent = {
       quote: 'The Green Belt project charter assignment turned into a real improvement project at our warehouse.' },
   ],
   faqs: [
-    { id: 'f1', question: 'Who provides the training on Meridian LMS?', answer: 'Courses are based on the training catalogue of Meridian Quality Management Professionals (MEQMP), which offers advisory, training, compliance and sustainability services across the Middle East, Asia and North America. This LMS is a frontend demonstration of the online learning experience.' },
+    { id: 'f1', question: 'Who provides the training on Meridian?', answer: 'Courses are based on the training catalogue of Meridian Quality Management Professionals (MEQMP), which offers advisory, training, compliance and sustainability services across the Middle East, Asia and North America. This platform is a frontend demonstration of the online learning experience.' },
     { id: 'f2', question: 'What is the difference between Internal Auditor and Lead Auditor courses?', answer: 'Internal Auditor courses (about 16 hours) prepare you to audit your own organisation’s management system using ISO 19011. Lead Auditor courses (about 40 hours) add leading audit teams, the certification-audit context and a case-study audit with exam preparation.' },
     { id: 'f3', question: 'Which ISO standards are covered?', answer: 'ISO 9001, ISO 14001, ISO 45001, ISO/IEC 27001, ISO 22000, ISO 50001, ISO 41001 and ISO 31000, plus Lean Six Sigma, business continuity, OSHA, fire safety, first aid, defensive driving and PMP®/PMI-RMP® exam preparation.' },
     { id: 'f4', question: 'Do I receive a certificate?', answer: 'In this demo you receive a demo certificate when you complete every required lesson. It illustrates the experience and is not an accredited or externally verified credential.' },
     { id: 'f5', question: 'How is my progress saved?', answer: 'Progress, notes, bookmarks and quiz attempts are saved in your browser’s LocalStorage. Clearing site data or switching browsers resets them.' },
     { id: 'f6', question: 'Can my organisation train a whole team?', answer: 'Yes — see Meridian for Business. MEQMP delivers corporate training and advisory programmes tailored to your industry; contact the team to discuss your needs.' },
   ],
-  sections: { trending: true, paths: true, instructors: true, recent: true, programs: true, testimonials: true, faq: true },
+  sections: { trending: true, instructors: true, recent: true, programs: true, testimonials: true, faq: true },
 }

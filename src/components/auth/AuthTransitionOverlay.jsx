@@ -57,7 +57,7 @@ export default function AuthTransitionOverlay({ transition }) {
         <h2 key={done ? 'done' : 'progress'} className="mt-8 animate-slide-up text-2xl font-bold text-white sm:text-3xl">
           {done ? copy.done : copy.progress(transition.name)}
         </h2>
-        <p className="mt-2 animate-fade-in text-sm text-white/75">{done ? 'Meridian LMS' : copy.sub(transition.role)}</p>
+        <p className="mt-2 animate-fade-in text-sm text-white/75">{done ? 'Meridian' : copy.sub(transition.role)}</p>
         <div className="mt-8 h-1.5 w-56 overflow-hidden rounded-full bg-white/15">
           <span className="auth-progress block h-full rounded-full bg-gradient-to-r from-accent to-info" />
         </div>

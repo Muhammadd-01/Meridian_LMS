@@ -27,7 +27,7 @@ export default function ForgotPassword() {
         <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-info-soft text-info"><MailQuestion className="h-6 w-6" aria-hidden="true" /></span>
         <h1 className="mt-5 text-2xl font-bold text-ink">This is a demo — no email was sent</h1>
         <p className="mt-3 text-sm leading-6 text-muted">
-          In a production system, a password-reset link would be emailed to <strong className="text-ink">{email}</strong>. Meridian LMS has no backend or email service, so nothing was sent.
+          In a production system, a password-reset link would be emailed to <strong className="text-ink">{email}</strong>. This demo has no backend or email service, so nothing was sent.
         </p>
         <div className="mt-5 rounded-xl border border-line bg-slate-50 p-4 text-sm">
           <p className="font-semibold text-ink">You can sign in with the demo accounts:</p>

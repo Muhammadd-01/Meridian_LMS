@@ -11,7 +11,7 @@ import { cn } from '../../utils/cn'
 const TOPICS = [
   { topic: 'Getting started', items: [
     ['How do I try the platform?', 'Use the demo learner or admin accounts shown on the sign-in page, or create a local demo learner profile from “Join for Free”.'],
-    ['Is this a real learning platform?', 'No. Meridian LMS is a frontend demonstration. Courses, people and figures are fictional and no backend is involved.'],
+    ['Is this a real learning platform?', 'No. Meridian is a frontend demonstration. Courses, people and figures are fictional and no backend is involved.'],
   ] },
   { topic: 'Courses & progress', items: [
     ['How do I enrol in a course?', 'Open any course and choose “Enroll”. Enrolments are saved in your browser and appear under My Learning.'],

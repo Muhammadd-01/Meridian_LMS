@@ -49,7 +49,7 @@ const INTENTS = [
   {
     id: 'thanks',
     match: (t) => has(t, ['thank', 'thanks', 'thx', 'great help', 'appreciate', 'jazak']),
-    reply: () => ({ text: 'You’re welcome! Anything else I can help you with?', chips: ['Find a course', 'Career paths', 'Contact Meridian'] }),
+    reply: () => ({ text: 'You’re welcome! Anything else I can help you with?', chips: ['Find a course', 'Services', 'Contact Meridian'] }),
   },
   {
     id: 'bye',
@@ -66,7 +66,7 @@ const INTENTS = [
       return {
         text: 'Meridian offers **ISO Internal Auditor** (about 16 hours) and **ISO Lead Auditor** (about 40 hours) training for ISO 9001, ISO 14001, ISO 45001, ISO/IEC 27001, ISO 22000, ISO 50001, ISO 41001 and ISO 31000, all following ISO 19011 audit guidance. Internal auditor courses suit people auditing their own organisation; lead auditor courses prepare you to lead first-, second- and third-party audits.',
         courses: list,
-        links: [{ label: 'Internal Auditor courses', to: '/courses?category=internal-auditor' }, { label: 'Lead Auditor courses', to: '/courses?category=lead-auditor' }, { label: 'ISO Quality Auditor path', to: '/career-paths/iso-quality-auditor' }],
+        links: [{ label: 'Internal Auditor courses', to: '/courses?category=internal-auditor' }, { label: 'Lead Auditor courses', to: '/courses?category=lead-auditor' }],
         chips: ['Internal vs lead auditor?', 'ISO 45001 courses', 'Safety (HSE) courses'],
       }
     },
@@ -90,8 +90,8 @@ const INTENTS = [
       return {
         text: 'The **Safety & Environment** track includes OSHA 10 & 30 Hour, Fire Safety Awareness & Fire Fighting, First Aid/CPR/AED and Defensive Driving — plus ISO 45001 Internal and Lead Auditor courses for OH&S management systems.',
         courses: list,
-        links: [{ label: 'Safety & Environment courses', to: '/courses?category=safety-environment' }, { label: 'HSE Professional path', to: '/career-paths/hse-professional' }],
-        chips: ['ISO 45001 courses', 'Career paths', 'How do I enroll?'],
+        links: [{ label: 'Safety & Environment courses', to: '/courses?category=safety-environment' }],
+        chips: ['ISO 45001 courses', 'Fire safety', 'How do I enroll?'],
       }
     },
   },
@@ -121,18 +121,9 @@ const INTENTS = [
       return {
         text: `We have **${cats.length} categories**: ${cats.map((c) => c.name).join(', ')}.`,
         links: [{ label: 'Browse all categories', to: '/categories' }, ...cats.slice(0, 3).map((c) => ({ label: c.name, to: `/courses?category=${c.slug}` }))],
-        chips: ['ISO auditor training', 'Safety (HSE) courses', 'Career paths'],
+        chips: ['ISO auditor training', 'Safety (HSE) courses', 'Exam preparation'],
       }
     },
-  },
-  {
-    id: 'paths',
-    match: (t) => has(t, ['career', 'path', 'roadmap', 'become a', 'become an', 'job', 'role']),
-    reply: (data) => ({
-      text: `Career paths sequence courses into a roadmap with time estimates and a completion checklist. Available paths: ${data.careerPaths.map((p) => p.title).join(', ')}.`,
-      links: data.careerPaths.slice(0, 4).map((p) => ({ label: p.title, to: `/career-paths/${p.slug}` })).concat([{ label: 'All career paths', to: '/career-paths' }]),
-      chips: ['ISO auditor training', 'How do I enroll?'],
-    }),
   },
   {
     id: 'enroll',
@@ -247,7 +238,7 @@ const INTENTS = [
     id: 'business',
     match: (t) => has(t, ['business', 'corporate', 'company training', 'team', 'employees', 'organisation', 'organization', 'bulk', 'group training']),
     reply: () => ({
-      text: 'Meridian for Business supports team training with curated learning paths, progress analytics and quality-focused content. Request a (demo) consultation on the For Business page.',
+      text: 'Meridian for Business supports team training with tailored training plans, progress analytics and quality-focused content. Request a (demo) consultation on the For Business page.',
       links: [{ label: 'Meridian for Business', to: '/business' }],
       chips: ['ISO auditor training', 'Safety (HSE) courses'],
     }),
@@ -309,7 +300,7 @@ export function getBotReply(message, data, ctx = {}) {
       text: results.length === 1 ? `Here is a course that matches “${raw}”:` : `Here are ${results.length} courses that match “${raw}”:`,
       courses: results,
       links: [{ label: `See all results for “${raw}”`, to: `/courses?q=${encodeURIComponent(raw)}` }],
-      chips: ['How do I enroll?', 'Career paths'],
+      chips: ['How do I enroll?', 'Services'],
     }
   }
 

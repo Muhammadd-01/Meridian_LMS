@@ -4,7 +4,6 @@ import { buildCourses } from './courses'
 import { quizzes } from './quizzes'
 import { buildAssignments } from './assignments'
 import { buildUsers } from './users'
-import { careerPaths } from './careerPaths'
 import { homepageContent } from './homepageContent'
 import { seededRandom, hashString } from '../utils/ids'
 import { isoDay } from '../utils/format'
@@ -13,7 +12,7 @@ const DAY = 24 * 60 * 60 * 1000
 const HOUR = 60 * 60 * 1000
 
 export const DEFAULT_SETTINGS = {
-  platformName: 'Meridian LMS',
+  platformName: 'Meridian',
   tagline: 'Empowering quality and sustainable growth',
   primaryColor: '#2C5F6F',
   accentColor: '#F78D00',
@@ -350,7 +349,6 @@ export function createSeedData(now = Date.now()) {
     categories,
     instructors,
     users: buildUsers(now),
-    careerPaths,
     quizzes,
     assignments: buildAssignments(now),
     enrollments,
@@ -383,7 +381,7 @@ export function createSeedData(now = Date.now()) {
 }
 
 export const COLLECTION_KEYS = [
-  'courses', 'categories', 'instructors', 'users', 'careerPaths', 'quizzes', 'assignments', 'enrollments',
+  'courses', 'categories', 'instructors', 'users', 'quizzes', 'assignments', 'enrollments',
   'quizAttempts', 'submissions', 'reviews', 'announcements', 'notifications', 'discussions', 'activityLogs',
   'learningActivity', 'saved', 'notes', 'bookmarks', 'settings', 'content',
 ]

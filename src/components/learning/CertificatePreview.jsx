@@ -2,7 +2,7 @@ import { formatDate } from '../../utils/format'
 import logo from '../../assets/logos/meridian-logo.png'
 
 /** Landscape certificate artwork. Clearly marked as a demo, not a verified credential. */
-export default function CertificatePreview({ certificate, platformName = 'Meridian LMS' }) {
+export default function CertificatePreview({ certificate, platformName = 'Meridian' }) {
   return (
     <div className="print-area relative mx-auto aspect-[1.414/1] w-full max-w-4xl overflow-hidden rounded-xl border border-line bg-white shadow-[var(--shadow-raised)]">
       <div className="absolute inset-3 rounded-lg border-2 border-deep/80 sm:inset-5" aria-hidden="true" />

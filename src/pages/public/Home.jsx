@@ -6,7 +6,7 @@ import {
 } from 'lucide-react'
 import CourseCarousel from '../../components/courses/CourseCarousel'
 import CourseCard from '../../components/courses/CourseCard'
-import { CategoryCard, InstructorCard, CareerPathCard } from '../../components/courses/Cards'
+import { CategoryCard, InstructorCard } from '../../components/courses/Cards'
 import Icon from '../../components/common/Icon'
 import SmartImage from '../../components/common/SmartImage'
 import { Reveal, AnimatedCounter, Marquee } from '../../components/common/Motion'
@@ -204,7 +204,7 @@ function AboutCompany() {
 
 export default function Home() {
   useDocumentTitle('')
-  const { courses, categories, instructors, careerPaths, content } = useData()
+  const { courses, categories, instructors, content } = useData()
   const published = courses.filter((c) => c.status === 'published')
   const featured = published.filter((c) => c.featured)
   const trending = published.filter((c) => c.trending).sort((a, b) => b.enrollmentCount - a.enrollmentCount)
@@ -314,19 +314,6 @@ export default function Home() {
           </Reveal>
         </section>
 
-        {sections.paths !== false && (
-          <section aria-labelledby="paths-title">
-            <SectionHeading eyebrow="Learning paths" title={<span id="paths-title">Follow a path to a new role</span>} description="Curated sequences of courses with a skills roadmap and clear time estimates." action={<Link to="/career-paths" className="btn btn-ghost btn-sm text-secondary">All paths <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>} />
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {careerPaths.slice(0, 6).map((path, i) => (
-                <Reveal key={path.id} delay={(i % 3) * 90} className="h-full">
-                  <CareerPathCard path={path} />
-                </Reveal>
-              ))}
-            </div>
-          </section>
-        )}
-
         {sections.trending !== false && (
           <Reveal>
             <CourseCarousel eyebrow="Trending now" title="Trending courses" description="What learners on Meridian are enrolling in this month (sample data)." courses={trending} viewAllTo="/courses?sort=popular" />
@@ -335,7 +322,7 @@ export default function Home() {
 
         {sections.programs !== false && programs.length > 0 && (
           <section aria-labelledby="programs-title">
-            <SectionHeading eyebrow="Career-focused programs" title={<span id="programs-title">Professional certificates</span>} description="Multi-module programmes that prepare you for a specific role." action={<Link to="/programs" className="btn btn-ghost btn-sm text-secondary">All programs <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>} />
+            <SectionHeading eyebrow="Professional programmes" title={<span id="programs-title">Professional certificates</span>} description="Multi-module programmes that prepare you for a specific role." action={<Link to="/programs" className="btn btn-ghost btn-sm text-secondary">All programs <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>} />
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {programs.map((course, i) => (
                 <Reveal key={course.id} delay={i * 90} className="h-full"><CourseCard course={course} /></Reveal>

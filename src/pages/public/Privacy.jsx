@@ -2,7 +2,7 @@ import LegalPage from './LegalPage'
 
 const SECTIONS = [
   { title: 'Summary', body: [
-    'Meridian LMS is a frontend-only demonstration. It does not collect, transmit or sell personal data. Everything you do is stored in your own browser using LocalStorage.',
+    'This Meridian platform is a frontend-only demonstration. It does not collect, transmit or sell personal data. Everything you do is stored in your own browser using LocalStorage.',
   ] },
   { title: 'What is stored in your browser', body: [
     'The demo stores your session, profile preferences, enrolments, lesson progress, notes, bookmarks, quiz attempts, assignment submissions, reviews, notifications and — for the admin demo — catalogue and platform settings.',

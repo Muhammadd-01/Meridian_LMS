@@ -8,7 +8,7 @@ import { useBeforeUnload } from '../../hooks/useUtils'
 import { uid } from '../../utils/ids'
 import { Link } from 'react-router-dom'
 
-const SECTION_LABELS = { paths: 'Learning paths', trending: 'Trending courses', programs: 'Career-focused programs', instructors: 'Top instructors', recent: 'Recently added', testimonials: 'Testimonials', faq: 'FAQ' }
+const SECTION_LABELS = { trending: 'Trending courses', programs: 'Professional programmes', instructors: 'Top instructors', recent: 'Recently added', testimonials: 'Testimonials', faq: 'FAQ' }
 
 export default function AdminContent() {
   useDocumentTitle('Homepage content')

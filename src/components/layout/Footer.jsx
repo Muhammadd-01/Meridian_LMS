@@ -46,12 +46,19 @@ function Newsletter() {
 }
 
 export default function Footer() {
-  const { categories, careerPaths, settings } = useData()
+  const { categories, courses, settings } = useData()
   const { user } = useAuth()
   const sorted = [...categories].sort((a, b) => a.order - b.order).slice(0, 6)
   const columns = [
     { title: 'Explore', links: sorted.map((c) => ({ to: `/courses?category=${c.slug}`, label: c.name })) },
-    { title: 'Career paths', links: careerPaths.slice(0, 6).map((p) => ({ to: `/career-paths/${p.slug}`, label: p.title })) },
+    {
+      title: 'Popular programmes',
+      links: courses
+        .filter((c) => c.status === 'published' && c.featured)
+        .sort((a, b) => b.enrollmentCount - a.enrollmentCount)
+        .slice(0, 6)
+        .map((c) => ({ to: `/courses/${c.slug}`, label: c.title })),
+    },
     {
       title: 'Company',
       links: [

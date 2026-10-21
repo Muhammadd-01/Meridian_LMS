@@ -2,10 +2,10 @@ import LegalPage from './LegalPage'
 
 const SECTIONS = [
   { title: 'About these terms', body: [
-    'These sample terms describe how you may use the Meridian LMS demonstration. They are provided to illustrate a complete product experience and are not a binding legal agreement.',
+    'These sample terms describe how you may use the Meridian demonstration. They are provided to illustrate a complete product experience and are not a binding legal agreement.',
   ] },
   { title: 'Demonstration service', body: [
-    'Meridian LMS runs entirely in your web browser. There is no server, database or real account system. Courses, instructors, partner institutions, learners, reviews and statistics are fictional.',
+    'This platform runs entirely in your web browser. There is no server, database or real account system. Courses, instructors, partner institutions, learners, reviews and statistics are fictional.',
     'Any prices shown are demo labels. No payment is requested, collected or processed.',
   ] },
   { title: 'Demo accounts', body: [

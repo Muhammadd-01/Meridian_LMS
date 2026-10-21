@@ -17,7 +17,7 @@ function welcome(user) {
   return {
     id: 'welcome',
     from: 'bot',
-    text: `Hi${user ? ` ${user.name.split(' ')[0]}` : ''}! I’m **Meri**, Meridian’s learning assistant. Ask me about courses, ISO auditor and safety training, career paths, certificates or how this site works.`,
+    text: `Hi${user ? ` ${user.name.split(' ')[0]}` : ''}! I’m **Meri**, Meridian’s learning assistant. Ask me about courses, ISO auditor and safety training, services, certificates or how this site works.`,
     chips: WELCOME_CHIPS,
   }
 }

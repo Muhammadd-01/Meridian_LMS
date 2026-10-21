@@ -17,7 +17,6 @@ import { cn } from '../../utils/cn'
 
 const NAV_LINKS = [
   { to: '/courses', label: 'Courses' },
-  { to: '/career-paths', label: 'Career paths' },
   { to: '/services', label: 'Services' },
   { to: '/about', label: 'About' },
 ]
@@ -51,7 +50,6 @@ function TopBar() {
           <Link to="/help" className="flex items-center gap-1 text-white/80 transition-colors hover:text-accent"><LifeBuoy className="h-3.5 w-3.5" aria-hidden="true" />Help</Link>
           <a href={`mailto:${COMPANY.email}`} className="flex items-center gap-1 text-white/80 transition-colors hover:text-accent"><Mail className="h-3.5 w-3.5" aria-hidden="true" />{COMPANY.email}</a>
           <Link to="/verify-certificate" className="hidden items-center gap-1 text-white/80 transition-colors hover:text-accent xl:flex"><ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />Verify certificate</Link>
-          <Link to="/business" className="flex items-center gap-1 text-white/80 transition-colors hover:text-accent"><Building2 className="h-3.5 w-3.5" aria-hidden="true" />For Business</Link>
         </nav>
       </div>
     </div>
@@ -59,7 +57,7 @@ function TopBar() {
 }
 
 function ExploreMenu() {
-  const { categories, careerPaths, courses } = useData()
+  const { categories, courses } = useData()
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
   const location = useLocation()
@@ -76,6 +74,7 @@ function ExploreMenu() {
   const published = courses.filter((c) => c.status === 'published')
   const countFor = (id) => published.filter((c) => c.categoryId === id).length
   const spotlight = published.find((c) => c.id === 'crs-iso9001-la') || published.find((c) => c.featured)
+  const popular = published.filter((c) => c.featured && c.id !== spotlight?.id).sort((a, b) => b.enrollmentCount - a.enrollmentCount).slice(0, 6)
 
   return (
     <div ref={ref} className="relative" onKeyDown={(e) => { if (e.key === 'Escape') setOpen(false) }}>
@@ -124,12 +123,12 @@ function ExploreMenu() {
                   </span>
                 </Link>
               )}
-              <p className="eyebrow mb-2">Career paths</p>
+              <p className="eyebrow mb-2">Popular programmes</p>
               <ul className="space-y-0.5">
-                {careerPaths.slice(0, 6).map((p) => (
-                  <li key={p.id}>
-                    <Link to={`/career-paths/${p.slug}`} className="group flex items-center justify-between rounded-lg px-2.5 py-1.5 text-sm font-medium text-ink transition-colors hover:bg-white hover:text-primary">
-                      {p.title}
+                {popular.map((c) => (
+                  <li key={c.id}>
+                    <Link to={`/courses/${c.slug}`} className="group flex items-center justify-between gap-2 rounded-lg px-2.5 py-1.5 text-sm font-medium text-ink transition-colors hover:bg-white hover:text-primary">
+                      <span className="truncate">{c.title}</span>
                       <ArrowRight className="h-3.5 w-3.5 opacity-0 transition-all group-hover:opacity-100" aria-hidden="true" />
                     </Link>
                   </li>
@@ -213,6 +212,15 @@ export default function Header() {
           <HeaderSearch className="ml-auto hidden w-full max-w-xs md:block lg:ml-0 lg:flex-1 xl:max-w-sm" />
           <div className="ml-auto flex items-center gap-1.5 md:ml-0">
             <Link to="/courses" className="btn btn-ghost btn-icon md:hidden" aria-label="Search courses"><Search className="h-5 w-5" /></Link>
+            <NavLink
+              to="/business"
+              className={({ isActive }) => cn(
+                'nav-underline hidden items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold whitespace-nowrap transition-colors lg:inline-flex',
+                isActive ? 'text-primary' : 'text-slate-700 hover:text-primary',
+              )}
+            >
+              <Building2 className="h-4 w-4" aria-hidden="true" />For Business
+            </NavLink>
             {user ? (
               <>
                 <Link to={dashboardLink} className="btn btn-outline btn-sm hidden rounded-full sm:inline-flex">

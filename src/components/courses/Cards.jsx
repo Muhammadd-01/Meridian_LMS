@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, BookOpen, Clock, Star } from 'lucide-react'
+import { ArrowRight, BookOpen, Star } from 'lucide-react'
 import Icon from '../common/Icon'
 import SmartImage from '../common/SmartImage'
 import { Avatar } from '../common/ui'
@@ -40,38 +40,6 @@ export function InstructorCard({ instructor, courseCount, className }) {
         <span className="inline-flex items-center gap-1"><Star className="h-3.5 w-3.5 fill-accent text-accent" aria-hidden="true" />{instructor.rating ? instructor.rating.toFixed(1) : '—'}</span>
         <span className="inline-flex items-center gap-1"><BookOpen className="h-3.5 w-3.5" aria-hidden="true" />{courseCount} courses</span>
         {instructor.learners > 0 && <span>{formatCompact(instructor.learners)} learners</span>}
-      </div>
-    </Link>
-  )
-}
-
-export function CareerPathCard({ path, className, progress }) {
-  return (
-    <Link to={`/career-paths/${path.slug}`} className={cn('card card-hover card-glow group flex h-full flex-col overflow-hidden', className)}>
-      <div className="relative overflow-hidden">
-        <SmartImage src={path.image} alt="" seed={path.id} fallbackLabel={path.title} className="aspect-[2/1] w-full" imgClassName="transition-transform duration-700 group-hover:scale-110" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-deep/80 to-transparent" aria-hidden="true" />
-        <span className="absolute bottom-3 left-4 inline-flex items-center gap-1.5 rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-bold text-ink shadow">
-          <Clock className="h-3 w-3" aria-hidden="true" />~{path.estimatedMonths} months
-        </span>
-      </div>
-      <div className="flex flex-1 flex-col p-5">
-        <p className="eyebrow">Career path</p>
-        <h3 className="mt-1 text-lg font-semibold text-ink transition-colors group-hover:text-primary">{path.title}</h3>
-        <p className="mt-1 line-clamp-2 text-sm text-muted">{path.description}</p>
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {path.skills.slice(0, 4).map((skill) => <span key={skill} className="badge badge-neutral transition-colors group-hover:bg-primary-soft group-hover:text-primary">{skill}</span>)}
-        </div>
-        <div className="mt-auto flex items-center gap-4 pt-4 text-xs text-muted">
-          <span className="inline-flex items-center gap-1"><BookOpen className="h-3.5 w-3.5" aria-hidden="true" />{path.courseIds.length} courses</span>
-          {progress != null ? (
-            <span className="ml-auto font-semibold text-primary">{progress}% complete</span>
-          ) : (
-            <span className="ml-auto inline-flex items-center gap-1 font-semibold text-secondary">
-              View path <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-            </span>
-          )}
-        </div>
       </div>
     </Link>
   )

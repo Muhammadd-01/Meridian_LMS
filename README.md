@@ -1,4 +1,4 @@
-# Meridian LMS
+# Meridian
 
 A frontend-only learning management system demo: a Coursera-inspired course marketplace, a learner app with an interactive course player, and an admin console. It runs entirely in the browser with React, Vite and Tailwind CSS. All data is fictional seed data persisted to LocalStorage.
 
@@ -35,7 +35,7 @@ The sign-in page has a role selector and quick-fill buttons. "Join for Free" cre
 - **ISO auditor courses:** ISO 9001, 14001, 45001, 27001, 50001 and 41001 at both Internal Auditor and Lead Auditor level, plus ISO 22000 Internal Auditor and ISO 31000 Lead Auditor. All are generated from one ISO 19011-based curriculum template in `src/data/meqmpCourses.js`.
 - **Leadership and management:** Lean Six Sigma Green Belt and Black Belt, ARAMCO Schedule Q, Business Continuity Management (ISO 22301), Train the Trainer and 5S.
 - **Safety and exam preparation:** OSHA, Fire Safety & Fire Fighting, First Aid/CPR/AED and Defensive Driving, plus PMP® and PMI-RMP® exam preparation.
-- **Learning content:** 4 quizzes, 10 assignments, 6 career paths and 6 fictional trainers.
+- **Learning content:** 4 quizzes, 10 assignments and 6 fictional trainers. The platform has no career paths.
 
 Company facts are taken from the reference site and collected in `src/data/companyInfo.js`: founded 2005, services, certifications, industries, offices, phone and email. The wording is original and was not copied verbatim. Testimonials, trainers, learners, ratings and learner counts are fictional. Course outlines were written for this demo, and the app issues no accreditation or certification. You can replace any homepage text in **Admin → Homepage content**.
 
@@ -45,17 +45,17 @@ Company facts are taken from the reference site and collected in `src/data/compa
 
 **Confirmations and notifications**: a custom confirmation dialog (`ConfirmContext`) with *danger*, *warning*, *logout* and *success* tones. It is used when signing out and for admin deletes of courses, modules and lessons, quizzes, reviews, discussion threads and replies, and announcements. Categories and trainers use a dedicated delete dialog that also handles reassigning their courses. Results show as glass toasts with a countdown bar and an exit animation.
 
-**Meri, the site assistant**: a floating chatbot (bottom right) that answers questions about courses, ISO/HSE training, career paths, enrolment, pricing, certificates, progress, demo accounts, privacy, the company and contact details. It searches the live catalogue and links to matching courses. It is **rule-based** (`src/components/chat/knowledgeBase.js`), with no AI model or server, and the conversation is kept in `sessionStorage`.
+**Meri, the site assistant**: a floating chatbot (bottom right) that answers questions about courses, ISO/HSE training, services, enrolment, pricing, certificates, progress, demo accounts, privacy, the company and contact details. It searches the live catalogue and links to matching courses. It is **rule-based** (`src/components/chat/knowledgeBase.js`), with no AI model or server, and the conversation is kept in `sessionStorage`.
 
 **Motion and polish**: scroll-reveal animations, animated counters, marquees, page-enter transitions, card hover effects (lift, gradient glow border, image zoom, slide-in actions), a scroll-aware navbar with a top info bar and an animated Explore mega-menu, a redesigned footer (call-to-action band, newsletter demo, locations, ticker), and a back-to-top button with a scroll-progress ring. All motion respects `prefers-reduced-motion` and the in-app *Reduce motion* setting.
 
-**Public site**: home (hero, categories, featured courses, career paths, trending and recently added carousels, programs, instructors, testimonials, FAQ), course catalogue (search, seven filter groups, active filter chips, six sort orders, grid/list views, pagination, mobile filter drawer, all synced to the URL), course detail (curriculum with previews, reviews, related courses, enrolment panel), instructors, career paths with a roadmap and completion checklist, learning programs, Services, For Business, About, Contact, Verify certificate, Help, Terms, Privacy, shareable certificate page and a 404 page.
+**Public site**: home (hero, categories, featured courses, services, trending and recently added carousels, programs, instructors, testimonials, FAQ), course catalogue (search, seven filter groups, active filter chips, six sort orders, grid/list views, pagination, mobile filter drawer, all synced to the URL), course detail (curriculum with previews, reviews, related courses, enrolment panel), instructors, learning programs, Services, For Business, About, Contact, Verify certificate, Help, Terms, Privacy, shareable certificate page and a 404 page.
 
-**Learner app** (`/learn/*`): dashboard (gradient welcome banner with streak, animated stat counters, continue learning, weekly activity chart, goal ring, deadlines, achievements, notifications, recommendations, new-learner empty state), My Learning (In Progress / Completed / Not Started / Archived with search, filter and sort), Saved courses, Learning paths progress, Certificates (preview, print/save as PDF, share link), Achievements, Notifications (read/unread, dismiss, clear), Profile (avatar upload preview, interests, language, weekly goal) and Settings (notification preferences, reduced motion, reset demo data).
+**Learner app** (`/learn/*`): dashboard (gradient welcome banner with streak, animated stat counters, continue learning, weekly activity chart, goal ring, deadlines, achievements, notifications, recommendations, new-learner empty state), My Learning (In Progress / Completed / Not Started / Archived with search, filter and sort), Saved courses, Certificates (preview, print/save as PDF, share link), Achievements, Notifications (read/unread, dismiss, clear), Profile (avatar upload preview, interests, language, weekly goal) and Settings (notification preferences, reduced motion, reset demo data).
 
 **Course player** (`/learn/course/:courseId/:lessonId`): a custom HTML5 video player (play/pause, seek, volume, speed, captions, fullscreen, keyboard shortcuts, error state), article and reading renderers, quizzes (navigator grid, optional client-side timer, submit confirmation, scoring, explanations, retakes, attempt history), assignments (validation, simulated attachments, grade and feedback, resubmission), generated downloadable resources, notes, bookmarks, a simulated discussion board, module and course progress, resume-last-lesson and a completion state.
 
-**Admin console** (`/admin/*`): dashboard (gradient overview banner, animated KPIs and charts), course management (search, filters, sort, pagination, duplicate, publish/unpublish, archive, delete with cascade), a multi-section course editor with a curriculum builder (modules and lessons with reordering, validation, draft/publish, preview, unsaved-change warning), categories (icons, order, homepage feature, delete with reassignment), instructors, learners plus learner detail, enrollments, quizzes (question editor, pass threshold, timer), assignments and submission grading, review moderation, discussion moderation, announcements (audience, scheduling metadata, preview, in-app delivery), analytics (date, category and course filters), homepage content, platform settings (name, brand colours applied live, page sizes) and activity logs.
+**Admin console** (`/admin/*`): a redesigned dark sidebar with icon chips, an admin profile card, badges for pending work and a collapsible rail, plus a header showing the breadcrumb and date. The dashboard has a completion ring, KPI cards with 30-day change and sparklines, a status strip, an enrolments vs. completions chart, an enrolment-status donut, ranked top programmes, an activity timeline, quick actions, a track breakdown and a needs-attention list. The console also includes course management (search, filters, sort, pagination, duplicate, publish/unpublish, archive, delete with cascade), a multi-section course editor with a curriculum builder (modules and lessons with reordering, validation, draft/publish, preview, unsaved-change warning), categories (icons, order, homepage feature, delete with reassignment), instructors, learners plus learner detail, enrollments, quizzes (question editor, pass threshold, timer), assignments and submission grading, review moderation, discussion moderation, announcements (audience, scheduling metadata, preview, in-app delivery), analytics (date, category and course filters), homepage content, platform settings (name, brand colours applied live, page sizes) and activity logs.
 
 ## Architecture
 
@@ -65,7 +65,7 @@ src/
                 courses, learning (VideoPlayer, QuizRunner, AssignmentPanel…), forms, charts
   context/      DataContext (all collections + actions), AuthContext, ToastContext, ConfirmContext
   data/         centralized seed data (courses, categories, instructors, users, quizzes, assignments,
-                career paths, homepage content) and seed.js which assembles the full dataset
+                homepage content) and seed.js which assembles the full dataset
   hooks/        useDocumentTitle, useTableState, useShareCertificate, utilities
   layouts/      PublicLayout, AuthLayout, LearnerLayout, AdminLayout
   pages/        public, auth, learner, admin, errors (each page is lazy-loaded)
@@ -96,11 +96,11 @@ All keys are namespaced under `meridian.v1`:
 | `meridian.v1.meta` | `{ version, seededAt }` — schema version and seed timestamp |
 | `meridian.v1.session` | Demo session `{ userId, role, remember }`. Uses `localStorage` with "Remember me", otherwise `sessionStorage` |
 | `meridian.v1.ui` | Per-device UI prefs (admin sidebar collapsed, reduced motion) |
-| `meridian.v1.data.<collection>` | One key per collection: `courses`, `categories`, `instructors`, `users`, `careerPaths`, `quizzes`, `assignments`, `enrollments`, `quizAttempts`, `submissions`, `reviews`, `announcements`, `notifications`, `discussions`, `activityLogs`, `learningActivity`, `saved`, `notes`, `bookmarks`, `settings`, `content` |
+| `meridian.v1.data.<collection>` | One key per collection: `courses`, `categories`, `instructors`, `users`, `quizzes`, `assignments`, `enrollments`, `quizAttempts`, `submissions`, `reviews`, `announcements`, `notifications`, `discussions`, `activityLogs`, `learningActivity`, `saved`, `notes`, `bookmarks`, `settings`, `content` |
 
 Behaviour:
 
-- On first load (or when `DATA_VERSION` changes; it is currently `5`, bumped when the catalogue was limited to MEQMP trainings) every collection is seeded. After that, stored data is always read first and **never overwritten by seed data** on reload.
+- On first load (or when `DATA_VERSION` changes; it is currently `6`, bumped when career paths and the “LMS” label were removed) every collection is seeded. After that, stored data is always read first and **never overwritten by seed data** on reload.
 - Each collection is validated when read. A missing or corrupt collection falls back to its seed on its own, without touching the others.
 - Only collections that changed are written back. Changes made in another tab are synced through the `storage` event.
 - **Reset demo data** (learner Settings or admin Platform settings) asks for confirmation, then restores every collection from seed. The current session is kept.

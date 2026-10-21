@@ -72,11 +72,11 @@ export default function LearnerDashboard() {
           <EmptyState
             icon={Rocket}
             title="Start your learning journey"
-            description="You haven’t enrolled in any courses yet. Explore the catalogue or follow a career path — your progress, streaks and certificates will appear here."
+            description="You haven’t enrolled in any courses yet. Explore the catalogue to find your first programme — your progress, streaks and certificates will appear here."
             action={(
               <>
                 <Link to="/learn/browse" className="btn btn-primary"><Compass className="h-4 w-4" aria-hidden="true" />Browse courses</Link>
-                <Link to="/learn/paths" className="btn btn-secondary">Explore career paths</Link>
+                <Link to="/courses?category=internal-auditor" className="btn btn-secondary">ISO auditor courses</Link>
               </>
             )}
           />

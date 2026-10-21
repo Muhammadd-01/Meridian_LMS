@@ -491,7 +491,6 @@ export function DataProvider({ children }) {
           quizAttempts: st.quizAttempts.filter((a) => a.courseId !== courseId),
           assignments: st.assignments.filter((a) => a.courseId !== courseId),
           submissions: st.submissions.filter((x) => !assignmentIds.has(x.assignmentId)),
-          careerPaths: st.careerPaths.map((p) => ({ ...p, courseIds: p.courseIds.filter((id) => id !== courseId) })),
         }, 'course.deleted', 'course', courseId, course.title, `Removed ${removedEnrollments} related enrolment(s)`))
         return { removedEnrollments }
       },

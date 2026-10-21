@@ -28,7 +28,7 @@ export default function VerifyCertificate() {
 
   return (
     <>
-      <PageHero breadcrumbs={[{ label: 'Home', to: '/' }, { label: 'Verify certificate' }]} eyebrow="Certificates" title="Verify a certificate" description="Check a Meridian LMS certificate by its reference number." />
+      <PageHero breadcrumbs={[{ label: 'Home', to: '/' }, { label: 'Verify certificate' }]} eyebrow="Certificates" title="Verify a certificate" description="Check a Meridian certificate by its reference number." />
       <div className="container-page grid gap-8 py-14 lg:grid-cols-[1.2fr_1fr]">
         <form onSubmit={verify} noValidate className="card animate-pop-in p-6 sm:p-8">
           <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-deep text-white"><SearchCheck className="h-6 w-6" aria-hidden="true" /></span>

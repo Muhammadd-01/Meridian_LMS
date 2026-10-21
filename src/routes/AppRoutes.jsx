@@ -16,8 +16,6 @@ const CourseDetail = page(() => import('../pages/public/CourseDetail'))
 const Categories = page(() => import('../pages/public/Categories'))
 const Instructors = page(() => import('../pages/public/Instructors'))
 const InstructorProfile = page(() => import('../pages/public/InstructorProfile'))
-const CareerPaths = page(() => import('../pages/public/CareerPaths'))
-const CareerPathDetail = page(() => import('../pages/public/CareerPathDetail'))
 const Programs = page(() => import('../pages/public/Programs'))
 const Business = page(() => import('../pages/public/Business'))
 const About = page(() => import('../pages/public/About'))
@@ -39,7 +37,6 @@ const ForgotPassword = page(() => import('../pages/auth/ForgotPassword'))
 const LearnerDashboard = page(() => import('../pages/learner/Dashboard'))
 const MyLearning = page(() => import('../pages/learner/MyLearning'))
 const Saved = page(() => import('../pages/learner/Saved'))
-const LearningPaths = page(() => import('../pages/learner/LearningPaths'))
 const Certificates = page(() => import('../pages/learner/Certificates'))
 const CertificateView = page(() => import('../pages/learner/CertificateView'))
 const Achievements = page(() => import('../pages/learner/Achievements'))
@@ -86,8 +83,7 @@ export default function AppRoutes() {
           <Route path="categories" element={<Categories />} />
           <Route path="instructors" element={<Instructors />} />
           <Route path="instructors/:instructorId" element={<InstructorProfile />} />
-          <Route path="career-paths" element={<CareerPaths />} />
-          <Route path="career-paths/:pathId" element={<CareerPathDetail />} />
+          <Route path="career-paths/*" element={<Navigate to="/courses" replace />} />
           <Route path="programs" element={<Programs />} />
           <Route path="business" element={<Business />} />
           <Route path="about" element={<About />} />
@@ -114,7 +110,7 @@ export default function AppRoutes() {
           <Route path="my-learning" element={<MyLearning />} />
           <Route path="browse" element={<Catalog embedded />} />
           <Route path="saved" element={<Saved />} />
-          <Route path="paths" element={<LearningPaths />} />
+          <Route path="paths" element={<Navigate to="/learn/dashboard" replace />} />
           <Route path="certificates" element={<Certificates />} />
           <Route path="certificates/:certId" element={<CertificateView />} />
           <Route path="achievements" element={<Achievements />} />

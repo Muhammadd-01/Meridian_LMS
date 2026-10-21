@@ -180,20 +180,6 @@ export function resolveAuthor(id, users, instructors) {
   return { name: 'Former member', avatar: '', role: 'Learner' }
 }
 
-/** Average progress across a career path's courses for one learner (0 when not enrolled). */
-export function pathProgress({ courses, enrollments }, userId, path) {
-  const items = path.courseIds
-    .map((id) => {
-      const course = courses.find((c) => c.id === id)
-      if (!course) return null
-      const enrollment = enrollments.find((e) => e.userId === userId && e.courseId === id)
-      return { course, enrollment, percent: computeProgress(course, enrollment).percent }
-    })
-    .filter(Boolean)
-  const percent = items.length ? Math.round(items.reduce((s, i) => s + i.percent, 0) / items.length) : 0
-  return { items, percent, completed: items.filter((i) => i.percent >= 100).length }
-}
-
 /** Assignments in the learner's active courses, with submission state, sorted by due date. */
 export function getDeadlines({ assignments, enrollments, submissions, courses }, userId) {
   const active = enrollments.filter((e) => e.userId === userId && !e.archived)

@@ -1,6 +1,33 @@
 const DAY = 24 * 60 * 60 * 1000
 
 const SPECS = [
+  { id: 'asg-audit-report', courseId: 'crs-iso9001-la', title: 'Write audit findings from a case study', dueInDays: 9,
+    instructions: `## Brief
+You audited the purchasing process of the fictional manufacturer "Corvid Components". Using the case-study notes in the course resources, write the audit findings.
+
+## Requirements
+- At least two nonconformities, each stating the requirement, the objective evidence and the gap
+- One observation or opportunity for improvement
+- A short audit conclusion for the closing meeting`,
+    rubric: ['Clear requirement references', 'Objective evidence', 'Professional wording', 'Sound conclusion'] },
+  { id: 'asg-lss-charter', courseId: 'crs-lss-gb', title: 'Draft a Lean Six Sigma project charter', dueInDays: 8,
+    instructions: `## Brief
+Choose a process at work (or the fictional warehouse case) with a measurable problem and draft a DMAIC project charter.
+
+## Include
+- Problem and goal statements (SMART)
+- Scope, SIPOC and key metrics
+- Team, stakeholders and a high-level timeline`,
+    rubric: ['Problem definition', 'Measurable goal', 'Scope and SIPOC', 'Stakeholders'] },
+  { id: 'asg-hse-jsa', courseId: 'crs-osha', title: 'Complete a job safety analysis', dueInDays: 6,
+    instructions: `## Brief
+Prepare a job safety analysis for "working at height to replace a warehouse light fitting".
+
+## Include
+- Task broken into sequential steps
+- Hazards for each step
+- Controls following the hierarchy of controls, including PPE`,
+    rubric: ['Task breakdown', 'Hazard identification', 'Hierarchy of controls'] },
   { id: 'asg-react', courseId: 'crs-react', title: 'Build a reusable component library', dueInDays: 6,
     instructions: `## Brief
 Create three reusable React components — **Button**, **Card** and **Modal** — and use them in a small demo page.

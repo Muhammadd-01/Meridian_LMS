@@ -1,6 +1,7 @@
 import { unsplash, DEMO_VIDEO_URL } from './images'
 import { getLessonContent } from './lessonContent'
 import { hashString } from '../utils/ids'
+import { MEQMP_COURSE_SPECS } from './meqmpCourses'
 
 /**
  * Course catalogue seed. All courses, providers, ratings and enrolment numbers are
@@ -268,7 +269,7 @@ const COURSE_SPECS = [
     id: 'crs-qms', slug: 'quality-management-iso-9001-essentials', title: 'Quality Management Systems: ISO 9001 Essentials',
     shortDescription: 'Understand, implement and audit a quality management system aligned to ISO 9001.',
     description: 'A practical guide to quality management systems. Learn the process approach, risk-based thinking and the clauses of the standard, then practise internal auditing, corrective action and management review using fictional case-study organisations.',
-    image: unsplash('photo-1504868584819-f8e8b4b6d7e3'), categoryId: 'cat-business', instructorId: 'ins-sofia',
+    image: unsplash('photo-1504868584819-f8e8b4b6d7e3'), categoryId: 'cat-iso', instructorId: 'ins-sofia',
     providerName: 'Meridian Quality Management Professionals', difficulty: 'Intermediate', language: 'English', subtitles: ['English', 'Arabic'],
     durationHours: 20, courseType: 'Professional Certificate', access: 'paid', priceLabel: '$69 · demo price',
     rating: 4.9, reviewCount: 4310, enrollmentCount: 58900, featured: true, trending: false, status: 'published',
@@ -584,7 +585,7 @@ export function buildCourse(spec, now) {
 }
 
 export function buildCourses(now) {
-  return COURSE_SPECS.map((spec) => buildCourse(spec, now))
+  return [...MEQMP_COURSE_SPECS, ...COURSE_SPECS].map((spec) => buildCourse(spec, now))
 }
 
 export const COURSE_TYPES = ['Course', 'Specialization', 'Professional Certificate', 'Guided Project']

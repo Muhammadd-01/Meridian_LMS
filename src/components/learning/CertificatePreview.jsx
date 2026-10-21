@@ -1,4 +1,5 @@
 import { formatDate } from '../../utils/format'
+import logo from '../../assets/logos/meridian-logo.png'
 
 /** Landscape certificate artwork. Clearly marked as a demo, not a verified credential. */
 export default function CertificatePreview({ certificate, platformName = 'Meridian LMS' }) {
@@ -11,13 +12,9 @@ export default function CertificatePreview({ certificate, platformName = 'Meridi
         <path d="M50 5v90M5 50h90" stroke="#093F50" strokeWidth="4" />
       </svg>
       <div className="relative flex h-full flex-col items-center justify-between px-[8%] py-[6%] text-center">
-        <div className="flex items-center gap-2">
-          <svg viewBox="0 0 40 40" className="h-[clamp(20px,4vw,36px)] w-[clamp(20px,4vw,36px)]" aria-hidden="true">
-            <rect width="40" height="40" rx="10" fill="#093F50" />
-            <circle cx="20" cy="20" r="11.5" fill="none" stroke="#429BB7" strokeWidth="2.6" />
-            <path d="M20 6.5v27" stroke="#F78D00" strokeWidth="3.2" strokeLinecap="round" />
-          </svg>
-          <span className="text-[clamp(11px,1.8vw,16px)] font-bold tracking-[0.2em] text-deep uppercase">{platformName}</span>
+        <div className="flex flex-col items-center gap-1">
+          <img src={logo} alt="Meridian Quality Management Professionals" className="h-[clamp(30px,6.5vw,62px)] w-auto object-contain" />
+          <span className="text-[clamp(8px,1.1vw,11px)] font-semibold tracking-[0.3em] text-muted uppercase">{platformName}</span>
         </div>
         <div>
           <p className="text-[clamp(9px,1.4vw,13px)] font-semibold tracking-[0.3em] text-secondary uppercase">Certificate of completion</p>

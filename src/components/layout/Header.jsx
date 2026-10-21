@@ -1,9 +1,12 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { ChevronDown, Menu, Search, Building2, ArrowRight, LayoutDashboard, X } from 'lucide-react'
+import {
+  ChevronDown, Menu, Search, Building2, ArrowRight, LayoutDashboard, X, MapPin, BadgeCheck, LifeBuoy, Mail, Sparkles,
+} from 'lucide-react'
 import BrandLogo from '../common/BrandLogo'
 import Icon from '../common/Icon'
 import Modal from '../common/Modal'
+import SmartImage from '../common/SmartImage'
 import NotificationBell from '../navigation/NotificationBell'
 import ProfileMenu from '../navigation/ProfileMenu'
 import { useData } from '../../context/DataContext'
@@ -14,8 +17,41 @@ import { cn } from '../../utils/cn'
 const NAV_LINKS = [
   { to: '/courses', label: 'Courses' },
   { to: '/career-paths', label: 'Career paths' },
-  { to: '/programs', label: 'Learning programs' },
+  { to: '/programs', label: 'Programs' },
+  { to: '/about', label: 'About' },
 ]
+
+/** Tracks whether the page has scrolled past a threshold (for the condensed header). */
+function useScrolled(threshold = 12) {
+  const [scrolled, setScrolled] = useState(() => typeof window !== 'undefined' && window.scrollY > threshold)
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > threshold)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [threshold])
+  return scrolled
+}
+
+function TopBar() {
+  return (
+    <div className="hidden bg-gradient-to-r from-deep via-[#0d4b5e] to-primary text-white md:block">
+      <div className="container-page flex h-9 items-center gap-6 text-xs">
+        <p className="flex items-center gap-1.5 text-white/85">
+          <BadgeCheck className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
+          Quality, HSE & sustainability training — trusted across the Middle East, Asia & North America
+        </p>
+        <p className="hidden items-center gap-1.5 text-white/70 xl:flex">
+          <MapPin className="h-3.5 w-3.5" aria-hidden="true" /> Dammam · Sitra · Lahore · Canada
+        </p>
+        <nav aria-label="Utility" className="ml-auto flex items-center gap-4">
+          <Link to="/help" className="flex items-center gap-1 text-white/80 transition-colors hover:text-accent"><LifeBuoy className="h-3.5 w-3.5" aria-hidden="true" />Help</Link>
+          <Link to="/contact" className="flex items-center gap-1 text-white/80 transition-colors hover:text-accent"><Mail className="h-3.5 w-3.5" aria-hidden="true" />Contact</Link>
+          <Link to="/business" className="flex items-center gap-1 text-white/80 transition-colors hover:text-accent"><Building2 className="h-3.5 w-3.5" aria-hidden="true" />For Business</Link>
+        </nav>
+      </div>
+    </div>
+  )
+}
 
 function ExploreMenu() {
   const { categories, careerPaths, courses } = useData()
@@ -32,7 +68,9 @@ function ExploreMenu() {
   }
 
   const sorted = [...categories].sort((a, b) => a.order - b.order)
-  const countFor = (id) => courses.filter((c) => c.categoryId === id && c.status === 'published').length
+  const published = courses.filter((c) => c.status === 'published')
+  const countFor = (id) => published.filter((c) => c.categoryId === id).length
+  const spotlight = published.find((c) => c.id === 'crs-iso9001-la') || published.find((c) => c.featured)
 
   return (
     <div ref={ref} className="relative" onKeyDown={(e) => { if (e.key === 'Escape') setOpen(false) }}>
@@ -41,41 +79,58 @@ function ExploreMenu() {
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-controls="explore-menu"
-        className={cn('btn btn-sm gap-1', open ? 'bg-primary text-white hover:bg-primary-hover' : 'bg-primary-soft text-primary hover:bg-[#d9eaee]')}
+        className={cn(
+          'btn btn-sm gap-1.5 rounded-full px-4',
+          open ? 'bg-primary text-white shadow-md' : 'bg-primary-soft text-primary hover:bg-primary hover:text-white',
+        )}
       >
-        Explore <ChevronDown className={cn('h-4 w-4 transition-transform', open && 'rotate-180')} aria-hidden="true" />
+        <Sparkles className="h-4 w-4" aria-hidden="true" />
+        Explore <ChevronDown className={cn('h-4 w-4 transition-transform duration-300', open && 'rotate-180')} aria-hidden="true" />
       </button>
       {open && (
-        <div id="explore-menu" className="absolute left-0 z-50 mt-3 w-[min(92vw,760px)] animate-slide-up overflow-hidden rounded-2xl border border-line bg-white shadow-[var(--shadow-raised)]">
-          <div className="grid gap-0 md:grid-cols-[1.4fr_1fr]">
+        <div id="explore-menu" className="absolute left-0 z-50 mt-3 w-[min(94vw,880px)] origin-top-left animate-pop-in overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_60px_-25px_rgb(9_63_80/0.45)]">
+          <div className="grid md:grid-cols-[1.5fr_1fr]">
             <div className="p-5">
               <p className="eyebrow mb-3">Browse by category</p>
               <ul className="grid grid-cols-1 gap-1 sm:grid-cols-2">
-                {sorted.map((cat) => (
-                  <li key={cat.id}>
-                    <Link to={`/courses?category=${cat.slug}`} className="flex items-center gap-3 rounded-lg px-2.5 py-2 text-sm hover:bg-slate-50">
-                      <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-soft text-primary">
+                {sorted.map((cat, i) => (
+                  <li key={cat.id} className="animate-slide-up" style={{ animationDelay: `${i * 25}ms`, animationFillMode: 'both' }}>
+                    <Link to={`/courses?category=${cat.slug}`} className="group flex items-center gap-3 rounded-xl px-2.5 py-2 text-sm transition-colors hover:bg-primary-soft">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-soft text-primary transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
                         <Icon name={cat.icon} className="h-4 w-4" />
                       </span>
-                      <span className="min-w-0">
+                      <span className="min-w-0 flex-1">
                         <span className="block font-medium text-ink">{cat.name}</span>
                         <span className="block text-xs text-muted">{countFor(cat.id)} courses</span>
                       </span>
+                      <ArrowRight className="h-4 w-4 -translate-x-2 text-secondary opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" aria-hidden="true" />
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="border-t border-line bg-slate-50 p-5 md:border-t-0 md:border-l">
-              <p className="eyebrow mb-3">Career paths</p>
-              <ul className="space-y-1">
-                {careerPaths.map((p) => (
+            <div className="border-t border-line bg-gradient-to-b from-slate-50 to-primary-soft/60 p-5 md:border-t-0 md:border-l">
+              {spotlight && (
+                <Link to={`/courses/${spotlight.slug}`} className="group mb-5 block overflow-hidden rounded-xl border border-line bg-white transition-shadow hover:shadow-lg">
+                  <SmartImage src={spotlight.thumbnail} alt="" seed={spotlight.id} className="aspect-[2/1] w-full" imgClassName="transition-transform duration-500 group-hover:scale-110" />
+                  <span className="block p-3">
+                    <span className="badge badge-accent mb-1">Spotlight</span>
+                    <span className="block text-sm font-semibold text-ink group-hover:text-primary">{spotlight.title}</span>
+                  </span>
+                </Link>
+              )}
+              <p className="eyebrow mb-2">Career paths</p>
+              <ul className="space-y-0.5">
+                {careerPaths.slice(0, 6).map((p) => (
                   <li key={p.id}>
-                    <Link to={`/career-paths/${p.slug}`} className="block rounded-lg px-2.5 py-2 text-sm font-medium text-ink hover:bg-white">{p.title}</Link>
+                    <Link to={`/career-paths/${p.slug}`} className="group flex items-center justify-between rounded-lg px-2.5 py-1.5 text-sm font-medium text-ink transition-colors hover:bg-white hover:text-primary">
+                      {p.title}
+                      <ArrowRight className="h-3.5 w-3.5 opacity-0 transition-all group-hover:opacity-100" aria-hidden="true" />
+                    </Link>
                   </li>
                 ))}
               </ul>
-              <div className="mt-4 flex flex-col gap-2 border-t border-line pt-4">
+              <div className="mt-4 flex flex-wrap gap-3 border-t border-line pt-4">
                 <Link to="/categories" className="inline-flex items-center gap-1 text-sm font-semibold text-secondary hover:underline">All categories <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
                 <Link to="/courses" className="inline-flex items-center gap-1 text-sm font-semibold text-secondary hover:underline">Full catalogue <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
               </div>
@@ -95,24 +150,25 @@ function HeaderSearch({ className, autoFocus }) {
   return (
     <form
       role="search"
-      className={cn('relative', className)}
+      className={cn('group relative', className)}
       onSubmit={(e) => {
         e.preventDefault()
         navigate(query.trim() ? `/courses?q=${encodeURIComponent(query.trim())}` : '/courses')
       }}
     >
       <label htmlFor={autoFocus ? 'mobile-search' : 'header-search'} className="sr-only">Search courses</label>
+      <Search className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-muted transition-colors group-focus-within:text-primary" aria-hidden="true" />
       <input
         id={autoFocus ? 'mobile-search' : 'header-search'}
         type="search"
         value={query}
         autoFocus={autoFocus}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="What do you want to learn?"
-        className="input rounded-full py-2 pr-11 pl-4"
+        placeholder="Search ISO, safety, data, AI…"
+        className="input rounded-full border-slate-200 bg-slate-50 py-2 pr-12 pl-10 transition-all focus:bg-white focus:shadow-[0_0_0_4px_rgb(66_155_183/0.15)]"
       />
-      <button type="submit" className="absolute top-1/2 right-1 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-primary text-white hover:bg-primary-hover" aria-label="Search">
-        <Search className="h-4 w-4" aria-hidden="true" />
+      <button type="submit" className="absolute top-1/2 right-1 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-gradient-to-br from-primary to-deep text-white transition-transform hover:scale-110" aria-label="Search">
+        <ArrowRight className="h-4 w-4" aria-hidden="true" />
       </button>
     </form>
   )
@@ -122,71 +178,84 @@ export default function Header() {
   const { user } = useAuth()
   const [mobileOpen, setMobileOpen] = useState(false)
   const location = useLocation()
+  const scrolled = useScrolled()
   const dashboardLink = user?.role === 'admin' ? '/admin/dashboard' : '/learn/dashboard'
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
-      <div className="container-page flex h-16 items-center gap-3 lg:gap-5">
-        <button type="button" className="btn btn-ghost btn-icon -ml-2 lg:hidden" onClick={() => setMobileOpen(true)} aria-label="Open navigation menu">
-          <Menu className="h-5 w-5" />
-        </button>
-        <BrandLogo />
-        <div className="hidden lg:block"><ExploreMenu /></div>
-        <nav aria-label="Primary" className="hidden items-center gap-1 xl:flex">
-          {NAV_LINKS.map((link) => (
-            <NavLink key={link.to} to={link.to} className={({ isActive }) => cn('rounded-lg px-3 py-2 text-sm font-medium transition-colors', isActive ? 'text-primary' : 'text-slate-700 hover:bg-slate-100 hover:text-ink')}>
-              {link.label}
-            </NavLink>
-          ))}
-        </nav>
-        <HeaderSearch className="ml-auto hidden w-full max-w-sm md:block lg:ml-0 lg:flex-1" />
-        <div className="ml-auto flex items-center gap-1 md:ml-0">
-          <Link to="/courses" className="btn btn-ghost btn-icon md:hidden" aria-label="Search courses"><Search className="h-5 w-5" /></Link>
-          <NavLink to="/business" className="hidden items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 lg:inline-flex">
-            <Building2 className="h-4 w-4" aria-hidden="true" /> For Business
-          </NavLink>
-          {user ? (
-            <>
-              <Link to={dashboardLink} className="btn btn-outline btn-sm hidden sm:inline-flex">
-                <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
-                {user.role === 'admin' ? 'Admin' : 'My learning'}
-              </Link>
-              <NotificationBell viewAllTo={user.role === 'learner' ? '/learn/notifications' : undefined} />
-              <ProfileMenu />
-            </>
-          ) : (
-            <>
-              <Link to="/login" state={{ from: location.pathname + location.search }} className="btn btn-ghost btn-sm hidden sm:inline-flex">Sign in</Link>
-              <Link to="/register" className="btn btn-primary btn-sm">Join for Free</Link>
-            </>
-          )}
+    <>
+      <TopBar />
+      <header
+        className={cn(
+          'sticky top-0 z-40 border-b transition-all duration-300',
+          scrolled
+            ? 'border-line/80 bg-white/90 shadow-[0_10px_30px_-18px_rgb(9_63_80/0.35)] backdrop-blur-xl'
+            : 'border-transparent bg-white/70 backdrop-blur-md',
+        )}
+      >
+        <div className={cn('container-page flex items-center gap-3 transition-[height] duration-300 lg:gap-5', scrolled ? 'h-16' : 'h-[72px]')}>
+          <button type="button" className="btn btn-ghost btn-icon -ml-2 lg:hidden" onClick={() => setMobileOpen(true)} aria-label="Open navigation menu">
+            <Menu className="h-5 w-5" />
+          </button>
+          <BrandLogo size={scrolled ? 'sm' : 'md'} />
+          <div className="hidden lg:block"><ExploreMenu /></div>
+          <nav aria-label="Primary" className="hidden items-center xl:flex">
+            {NAV_LINKS.map((link) => (
+              <NavLink key={link.to} to={link.to} className={({ isActive }) => cn('nav-underline rounded-lg px-3 py-2 text-sm font-semibold transition-colors', isActive ? 'text-primary' : 'text-slate-700 hover:text-primary')}>
+                {link.label}
+              </NavLink>
+            ))}
+          </nav>
+          <HeaderSearch className="ml-auto hidden w-full max-w-xs md:block lg:ml-0 lg:flex-1 xl:max-w-sm" />
+          <div className="ml-auto flex items-center gap-1.5 md:ml-0">
+            <Link to="/courses" className="btn btn-ghost btn-icon md:hidden" aria-label="Search courses"><Search className="h-5 w-5" /></Link>
+            {user ? (
+              <>
+                <Link to={dashboardLink} className="btn btn-outline btn-sm hidden rounded-full sm:inline-flex">
+                  <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
+                  {user.role === 'admin' ? 'Admin' : 'My learning'}
+                </Link>
+                <NotificationBell viewAllTo={user.role === 'learner' ? '/learn/notifications' : undefined} />
+                <ProfileMenu />
+              </>
+            ) : (
+              <>
+                <Link to="/login" state={{ from: location.pathname + location.search }} className="btn btn-ghost btn-sm hidden rounded-full font-semibold sm:inline-flex">Sign in</Link>
+                <Link to="/register" className="btn btn-gradient btn-sm rounded-full px-4 shadow-[0_8px_20px_-8px_rgb(9_63_80/0.6)] transition-transform hover:-translate-y-0.5">
+                  Join for Free
+                </Link>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      </header>
 
       <Modal open={mobileOpen} onClose={() => setMobileOpen(false)} variant="drawer" side="left" title="Menu">
         <MobileNav user={user} onNavigate={() => setMobileOpen(false)} />
       </Modal>
-    </header>
+    </>
   )
 }
 
 function MobileNav({ user, onNavigate }) {
   const { categories } = useData()
   const sorted = [...categories].sort((a, b) => a.order - b.order)
-  const link = 'flex items-center justify-between rounded-lg px-3 py-2.5 text-[15px] font-medium text-ink hover:bg-slate-100'
+  const link = 'group flex items-center justify-between rounded-xl px-3 py-2.5 text-[15px] font-semibold text-ink transition-colors hover:bg-primary-soft hover:text-primary'
   return (
     <nav aria-label="Mobile" className="flex flex-col gap-5" onClick={(e) => { if (e.target.closest('a')) onNavigate() }}>
+      <BrandLogo to="/" />
       <HeaderSearch autoFocus />
       <div className="flex flex-col">
-        {NAV_LINKS.map((l) => <Link key={l.to} to={l.to} className={link}>{l.label}<ArrowRight className="h-4 w-4 text-muted" aria-hidden="true" /></Link>)}
-        <Link to="/categories" className={link}>All categories<ArrowRight className="h-4 w-4 text-muted" aria-hidden="true" /></Link>
-        <Link to="/business" className={link}>For Business<ArrowRight className="h-4 w-4 text-muted" aria-hidden="true" /></Link>
+        {[...NAV_LINKS, { to: '/categories', label: 'All categories' }, { to: '/business', label: 'For Business' }, { to: '/contact', label: 'Contact' }].map((l, i) => (
+          <Link key={l.to} to={l.to} className={cn(link, 'animate-slide-up')} style={{ animationDelay: `${i * 35}ms`, animationFillMode: 'both' }}>
+            {l.label}<ArrowRight className="h-4 w-4 text-muted transition-transform group-hover:translate-x-1" aria-hidden="true" />
+          </Link>
+        ))}
       </div>
       <div>
         <p className="eyebrow mb-2 px-3">Categories</p>
         <div className="grid grid-cols-1 gap-0.5">
           {sorted.map((c) => (
-            <Link key={c.id} to={`/courses?category=${c.slug}`} className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-ink hover:bg-slate-100">
+            <Link key={c.id} to={`/courses?category=${c.slug}`} className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-ink transition-colors hover:bg-slate-100">
               <Icon name={c.icon} className="h-4 w-4 text-secondary" /> {c.name}
             </Link>
           ))}
@@ -197,7 +266,7 @@ function MobileNav({ user, onNavigate }) {
           <Link to={user.role === 'admin' ? '/admin/dashboard' : '/learn/dashboard'} className="btn btn-primary">Go to {user.role === 'admin' ? 'admin dashboard' : 'my dashboard'}</Link>
         ) : (
           <>
-            <Link to="/register" className="btn btn-primary">Join for Free</Link>
+            <Link to="/register" className="btn btn-gradient">Join for Free</Link>
             <Link to="/login" className="btn btn-secondary">Sign in</Link>
           </>
         )}
@@ -217,15 +286,15 @@ export function DemoBanner() {
   })
   if (!settings.showDemoBanner || hidden) return null
   return (
-    <div className="bg-deep text-white">
-      <div className="container-page flex items-center gap-3 py-2 text-xs sm:text-[13px]">
+    <div className="bg-accent-soft text-[#7a3f00]">
+      <div className="container-page flex items-center gap-3 py-1.5 text-xs">
         <span className="badge bg-accent text-ink">Demo</span>
-        <p className="min-w-0 flex-1 text-white/90">
-          Frontend demonstration — courses, people and metrics are fictional, and everything you do is stored only in this browser.
+        <p className="min-w-0 flex-1">
+          Frontend demonstration — learner data, metrics and ratings are illustrative, and everything you do is stored only in this browser.
         </p>
         <button
           type="button"
-          className="rounded p-1 text-white/80 hover:bg-white/10 hover:text-white"
+          className="rounded p-1 hover:bg-black/5"
           aria-label="Dismiss demo notice"
           onClick={() => {
             try { window.sessionStorage.setItem('meridian.v1.ui.bannerHidden', '1') } catch { /* ignore */ }

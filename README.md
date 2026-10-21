@@ -27,6 +27,18 @@ The sign-in page has a role selector and quick-fill buttons. "Join for Free" cre
 
 ## What's included
 
+**Meridian (MEQMP) training catalogue**: 25 courses modelled on the trainings published at [meqmp.com/trainings](https://meqmp.com/trainings/), across two new categories (*Quality & ISO Standards*, *Health, Safety & Environment*):
+- ISO Internal Auditor and Lead Auditor tracks for ISO 9001, 14001, 45001, 27001, 22000, 50001, 31000 and 41001, generated from one ISO 19011-based curriculum template in `src/data/meqmpCourses.js`
+- Lean Six Sigma Green and Black Belt, PMP® and PMI-RMP® exam preparation, Business Continuity (ISO 22301), Train the Trainer, ARAMCO Schedule Q Awareness, 5S
+- OSHA 10/30-hour, Fire Safety & Fire Fighting, First Aid/CPR/AED, Defensive Driving, Sustainability & ESG
+- New quizzes (ISO Auditing Fundamentals, HSE Essentials, Lean Six Sigma Basics), assignments and two career paths (*ISO Quality Auditor*, *HSE Professional*)
+
+Course outlines are written for this demo. Ratings and learner counts are illustrative, and no accreditation or certification is issued.
+
+**Meri, the site assistant**: a floating chatbot (bottom right) that answers questions about courses, ISO/HSE training, career paths, enrolment, pricing, certificates, progress, demo accounts, privacy, the company and contact details. It searches the live catalogue and links to matching courses. It is **rule-based** (`src/components/chat/knowledgeBase.js`), with no AI model or server, and the conversation is kept in `sessionStorage`.
+
+**Motion and polish**: scroll-reveal animations, animated counters, marquees, page-enter transitions, card hover effects (lift, gradient glow border, image zoom, slide-in actions), a scroll-aware navbar with a top info bar and an animated Explore mega-menu, a redesigned footer (call-to-action band, newsletter demo, locations, ticker), and a back-to-top button with a scroll-progress ring. All motion respects `prefers-reduced-motion` and the in-app *Reduce motion* setting.
+
 **Public site**: home (hero, categories, featured courses, career paths, trending and recently added carousels, programs, instructors, testimonials, FAQ), course catalogue (search, seven filter groups, active filter chips, six sort orders, grid/list views, pagination, mobile filter drawer, all synced to the URL), course detail (curriculum with previews, reviews, related courses, enrolment panel), instructors, career paths with a roadmap and completion checklist, learning programs, For Business, About, Contact, Help, Terms, Privacy, shareable certificate page and a 404 page.
 
 **Learner app** (`/learn/*`): dashboard (stats, continue learning, weekly activity chart, goal ring, deadlines, achievements, notifications, recommendations, new-learner empty state), My Learning (In Progress / Completed / Not Started / Archived with search, filter and sort), Saved courses, Learning paths progress, Certificates (preview, print/save as PDF, share link), Achievements, Notifications (read/unread, dismiss, clear), Profile (avatar upload preview, interests, language, weekly goal) and Settings (notification preferences, reduced motion, reset demo data).
@@ -61,7 +73,7 @@ src/
 
 Colours are Tailwind v4 theme tokens in `src/styles/globals.css` (`--color-primary #2C5F6F`, `--color-deep #093F50`, `--color-info #429BB7`, `--color-accent #F78D00`, …). Admin Settings can override the primary and accent colours at runtime.
 
-**Logo:** the supplied Meridian logo wasn't in the project, so `BrandLogo` renders a vector brand mark. Drop the official file at `src/assets/logos/meridian-logo.png` (or `.svg`/`.webp`) and it is used automatically at its natural aspect ratio.
+**Logo:** the official Meridian Quality Management Professionals logo is in `src/assets/logos/`. There are three transparent PNGs made from the supplied artwork: full colour (`meridian-logo.png`), a white-text variant for dark backgrounds (`meridian-logo-light.png`) and the globe mark (`meridian-mark.png`, also used for `public/favicon.png`). `BrandLogo` keeps each image's natural aspect ratio.
 
 Chart colours (`src/components/charts/chartTheme.js`) use a fixed categorical order that was validated for colour-vision-deficiency separation and 3:1 contrast. Every chart card has an accessible table view.
 
@@ -78,7 +90,7 @@ All keys are namespaced under `meridian.v1`:
 
 Behaviour:
 
-- On first load (or when `DATA_VERSION` changes) every collection is seeded. After that, stored data is always read first and **never overwritten by seed data** on reload.
+- On first load (or when `DATA_VERSION` changes; it is currently `4`, bumped for the MEQMP catalogue) every collection is seeded. After that, stored data is always read first and **never overwritten by seed data** on reload.
 - Each collection is validated when read. A missing or corrupt collection falls back to its seed on its own, without touching the others.
 - Only collections that changed are written back. Changes made in another tab are synced through the `storage` event.
 - **Reset demo data** (learner Settings or admin Platform settings) asks for confirmation, then restores every collection from seed. The current session is kept.

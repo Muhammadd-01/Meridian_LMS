@@ -49,7 +49,7 @@ export function ToastProvider({ children }) {
       <div
         aria-live="polite"
         aria-atomic="false"
-        className="pointer-events-none fixed inset-x-0 bottom-0 z-[80] flex flex-col items-center gap-2 p-4 sm:inset-x-auto sm:right-4 sm:bottom-4 sm:items-end"
+        className="pointer-events-none fixed inset-x-0 top-0 z-[80] flex flex-col items-center gap-2 p-4 sm:inset-x-auto sm:top-20 sm:right-4 sm:items-end"
       >
         {toasts.map((t) => {
           const style = STYLES[t.type] || STYLES.info

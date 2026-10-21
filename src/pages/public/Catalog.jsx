@@ -6,6 +6,7 @@ import FilterSidebar from '../../components/courses/FilterSidebar'
 import Pagination from '../../components/common/Pagination'
 import SearchInput from '../../components/common/SearchInput'
 import Modal from '../../components/common/Modal'
+import { Reveal } from '../../components/common/Motion'
 import { Breadcrumbs, CourseCardSkeleton, EmptyState, PageHeader } from '../../components/common/ui'
 import { useData } from '../../context/DataContext'
 import { useDocumentTitle } from '../../hooks/useDocumentTitle'
@@ -218,7 +219,11 @@ export default function Catalog({ embedded = false }) {
               </div>
             ) : pageData.items.length ? (
               <div className={cn('grid gap-5', view === 'grid' ? 'sm:grid-cols-2 xl:grid-cols-3' : '')}>
-                {pageData.items.map((course) => <CourseCard key={course.id} course={course} variant={view} />)}
+                {pageData.items.map((course, i) => (
+                  <Reveal key={`${course.id}-${view}`} delay={(i % 6) * 60} className="h-full">
+                    <CourseCard course={course} variant={view} />
+                  </Reveal>
+                ))}
               </div>
             ) : (
               <div className="card">

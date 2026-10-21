@@ -3,6 +3,7 @@ import { ChevronRight, Star, CircleAlert, FlaskConical } from 'lucide-react'
 import { cn } from '../../utils/cn'
 import { hashString } from '../../utils/ids'
 import { initials } from '../../utils/format'
+import { Reveal } from './Motion'
 
 /* ---------- Avatar ---------- */
 const AVATAR_COLORS = ['bg-[#093F50]', 'bg-[#2C5F6F]', 'bg-[#266173]', 'bg-[#1F6F88]', 'bg-[#9A4F00]', 'bg-[#475569]']
@@ -162,13 +163,14 @@ export function StatCard({ label, value, icon: IconComp, hint, tone = 'primary',
     warning: 'bg-warning-soft text-[#B45309]',
   }
   return (
-    <div className={cn('card flex items-start gap-4 p-5', className)}>
+    <div className={cn('card hover-lift group relative flex items-start gap-4 overflow-hidden p-5', className)}>
+      <span className="pointer-events-none absolute -top-10 -right-10 h-24 w-24 rounded-full bg-gradient-to-br from-info/10 to-accent/10 opacity-0 transition-all duration-500 group-hover:scale-150 group-hover:opacity-100" aria-hidden="true" />
       {IconComp && (
-        <span className={cn('flex h-11 w-11 shrink-0 items-center justify-center rounded-xl', tones[tone])}>
+        <span className={cn('relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6', tones[tone])}>
           <IconComp className="h-5 w-5" aria-hidden="true" />
         </span>
       )}
-      <div className="min-w-0">
+      <div className="relative min-w-0">
         <p className="text-sm font-medium text-muted">{label}</p>
         <p className="mt-0.5 text-2xl font-bold tracking-tight text-ink">{value}</p>
         {hint && <p className="mt-1 text-xs text-muted">{hint}</p>}
@@ -239,13 +241,18 @@ export function Spinner({ className }) {
 /* ---------- Section heading ---------- */
 export function SectionHeading({ eyebrow, title, description, action, className }) {
   return (
-    <div className={cn('mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between', className)}>
+    <Reveal className={cn('mb-7 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between', className)}>
       <div>
-        {eyebrow && <p className="eyebrow mb-1.5">{eyebrow}</p>}
+        {eyebrow && (
+          <p className="eyebrow mb-2 flex items-center gap-2">
+            <span className="h-0.5 w-6 rounded-full bg-gradient-to-r from-accent to-info" aria-hidden="true" />
+            {eyebrow}
+          </p>
+        )}
         <h2 className="section-title">{title}</h2>
         {description && <p className="mt-1.5 max-w-2xl text-[15px] text-muted">{description}</p>}
       </div>
       {action}
-    </div>
+    </Reveal>
   )
 }

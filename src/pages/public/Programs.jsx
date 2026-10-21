@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Award, Layers, BookOpen, Rocket, ArrowRight } from 'lucide-react'
 import PageHero from '../../components/layout/PageHero'
 import CourseCard from '../../components/courses/CourseCard'
+import { Reveal } from '../../components/common/Motion'
 import { useData } from '../../context/DataContext'
 import { useDocumentTitle } from '../../hooks/useDocumentTitle'
 
@@ -21,13 +22,15 @@ export default function Programs() {
       <PageHero breadcrumbs={[{ label: 'Home', to: '/' }, { label: 'Learning programs' }]} eyebrow="Programs" title="Learning programs for every goal" description="From short guided projects to career-ready professional certificates." />
       <div className="container-page space-y-14 py-12">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {PROGRAM_TYPES.map((p) => (
-            <a key={p.type} href={`#${p.type.replace(/\s+/g, '-').toLowerCase()}`} className="card card-hover p-5">
-              <p.icon className="h-6 w-6 text-secondary" aria-hidden="true" />
+          {PROGRAM_TYPES.map((p, i) => (
+            <Reveal key={p.type} delay={i * 80} className="h-full">
+            <a href={`#${p.type.replace(/\s+/g, '-').toLowerCase()}`} className="card card-hover card-glow group block h-full p-5">
+              <p.icon className="h-6 w-6 text-secondary transition-transform duration-300 group-hover:scale-125 group-hover:-rotate-6" aria-hidden="true" />
               <h2 className="mt-3 font-semibold text-ink">{p.type}</h2>
               <p className="mt-1 text-sm text-muted">{p.description}</p>
               <p className="mt-3 text-sm font-semibold text-secondary">{published.filter((c) => c.courseType === p.type).length} available</p>
             </a>
+            </Reveal>
           ))}
         </div>
         {PROGRAM_TYPES.map((p) => {
@@ -40,7 +43,7 @@ export default function Programs() {
                 <Link to={`/courses?type=${encodeURIComponent(p.type)}`} className="btn btn-ghost btn-sm text-secondary">View in catalogue <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
               </div>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                {list.slice(0, 8).map((c) => <CourseCard key={c.id} course={c} />)}
+                {list.slice(0, 8).map((c, i) => <Reveal key={c.id} delay={(i % 4) * 70} className="h-full"><CourseCard course={c} /></Reveal>)}
               </div>
             </section>
           )

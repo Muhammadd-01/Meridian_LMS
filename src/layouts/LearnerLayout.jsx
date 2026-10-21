@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, Library, Compass, Heart, Route, Award, Trophy, Bell, User, Settings, Menu, Target,
 } from 'lucide-react'
@@ -39,6 +39,7 @@ export default function LearnerLayout() {
   const { notifications, saved } = useData()
   const { user } = useAuth()
   const navigate = useNavigate()
+  const { pathname } = useLocation()
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [query, setQuery] = useState('')
   const unread = notifications.filter((n) => n.userId === user.id && !n.read).length
@@ -102,7 +103,7 @@ export default function LearnerLayout() {
           <div className="mt-auto"><WeeklyGoalCard /></div>
         </aside>
         <main id="main-content" tabIndex={-1} className="min-w-0 flex-1 px-4 py-6 outline-none sm:px-6 lg:px-8 lg:py-8">
-          <div className="mx-auto max-w-6xl">
+          <div key={pathname} className="mx-auto max-w-6xl animate-page-in">
             <Outlet />
           </div>
         </main>

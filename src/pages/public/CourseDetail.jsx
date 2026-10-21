@@ -186,8 +186,11 @@ export default function CourseDetail() {
         </div>
       )}
 
-      <section className="bg-deep text-white">
-        <div className="container-page grid gap-8 py-10 lg:grid-cols-[1fr_360px] lg:py-14">
+      <section className="relative overflow-hidden bg-deep text-white">
+        <div className="pointer-events-none absolute inset-0 bg-dots-light" aria-hidden="true" />
+        <div className="pointer-events-none absolute -top-24 left-1/3 h-80 w-80 animate-blob rounded-full bg-info/20 blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 animate-blob rounded-full bg-accent/10 blur-3xl [animation-delay:-6s]" aria-hidden="true" />
+        <div className="relative container-page grid gap-8 py-10 lg:grid-cols-[1fr_360px] lg:py-14">
           <div className="min-w-0">
             <Breadcrumbs tone="light" items={[{ label: 'Home', to: '/' }, { label: 'Courses', to: '/courses' }, ...(category ? [{ label: category.name, to: `/courses?category=${category.slug}` }] : []), { label: course.title }]} />
             <div className="mt-5 flex flex-wrap gap-2">
@@ -215,7 +218,7 @@ export default function CourseDetail() {
           </div>
 
           <aside className="lg:row-span-2" aria-label="Enrolment">
-            <div className="card overflow-hidden text-ink lg:sticky lg:top-24">
+            <div className="card animate-pop-in overflow-hidden text-ink shadow-[0_30px_60px_-30px_rgb(0_0_0/0.5)] lg:sticky lg:top-24">
               <button type="button" className="group relative block w-full" onClick={() => firstPreview && setPreview(firstPreview)} disabled={!firstPreview} aria-label="Preview this course">
                 <SmartImage src={course.thumbnail} alt="" seed={course.id} fallbackLabel={course.title} className="aspect-video w-full" />
                 {firstPreview && (

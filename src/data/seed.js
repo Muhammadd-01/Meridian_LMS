@@ -72,6 +72,13 @@ const ENROLLMENT_SPECS = [
   ['usr-l17', 'crs-communication', 9, 0.5, 1],
   ['usr-l18', 'crs-it-support', 6, 0.05, 5],
   ['usr-l19', 'crs-python', 4, 0.1, 0],
+  ['usr-l07', 'crs-iso9001-la', 30, 0.55, 2],
+  ['usr-l02', 'crs-lss-gb', 25, 0.3, 3],
+  ['usr-l05', 'crs-osha', 40, 1, 6],
+  ['usr-l14', 'crs-pmp', 15, 0.2, 2],
+  ['usr-l18', 'crs-iso45001-ia', 9, 0.4, 1],
+  ['usr-l17', 'crs-ttt', 12, 0.65, 3],
+  ['usr-l20', 'crs-first-aid', 50, 1, 30],
 ]
 
 function buildEnrollments(courses, now) {

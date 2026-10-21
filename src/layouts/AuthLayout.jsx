@@ -15,6 +15,8 @@ export default function AuthLayout() {
       <aside className="relative hidden overflow-hidden bg-deep text-white lg:block" aria-hidden="false">
         <img src={IMAGES.studying} alt="" className="absolute inset-0 h-full w-full object-cover opacity-25" />
         <div className="absolute inset-0 bg-gradient-to-br from-deep via-deep/90 to-primary/80" />
+        <div className="absolute inset-0 bg-dots-light" aria-hidden="true" />
+        <div className="absolute -right-20 -bottom-20 h-80 w-80 animate-blob rounded-full bg-info/25 blur-3xl" aria-hidden="true" />
         <div className="relative flex h-full flex-col justify-between p-12">
           <BrandLogo tone="light" />
           <div className="max-w-md">
@@ -39,7 +41,7 @@ export default function AuthLayout() {
           </Link>
         </div>
         <div className="flex flex-1 items-center justify-center px-6 py-10 sm:px-10">
-          <div className="w-full max-w-md">
+          <div className="w-full max-w-md animate-page-in">
             <Outlet />
           </div>
         </div>

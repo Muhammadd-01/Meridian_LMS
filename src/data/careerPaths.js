@@ -3,6 +3,37 @@ import { unsplash } from './images'
 /** Curated, fictional learning journeys. Durations are estimates for a learner studying ~6 hours/week. */
 export const careerPaths = [
   {
+    id: 'path-quality-auditor', slug: 'iso-quality-auditor', title: 'ISO Quality Auditor',
+    image: unsplash('photo-1450101499163-c8848c66ca85'),
+    description: 'Audit management systems with confidence — from internal auditor to lead auditor.',
+    overview: 'Quality auditors help organisations prove and improve how they work. This path follows the MEQMP-style auditor track: understand ISO 9001, learn ISO 19011 audit practice as an internal auditor, step up to lead auditor, and add Lean Six Sigma tools to drive improvement after the audit.',
+    level: 'Intermediate to Advanced', estimatedMonths: 4, estimatedHours: 116,
+    skills: ['ISO 9001', 'ISO 19011', 'Audit Leadership', 'Root Cause Analysis', 'Lean Six Sigma'],
+    courseIds: ['crs-qms', 'crs-iso9001-ia', 'crs-iso9001-la', 'crs-lss-gb'],
+    roadmap: [
+      { title: 'Know the standard', description: 'Learn the intent and requirements of ISO 9001.', skills: ['ISO 9001', 'Process approach'] },
+      { title: 'Audit internally', description: 'Plan and run internal audits using ISO 19011.', skills: ['Internal auditing', 'Checklists'] },
+      { title: 'Lead audits', description: 'Lead teams through certification-style audits.', skills: ['Lead auditing', 'Reporting'] },
+      { title: 'Drive improvement', description: 'Turn findings into lasting improvement with Lean Six Sigma.', skills: ['DMAIC', 'Root cause analysis'] },
+    ],
+    roles: ['Internal Auditor', 'QA/QC Engineer', 'Quality Manager', 'Lead Auditor'],
+  },
+  {
+    id: 'path-hse', slug: 'hse-professional', title: 'HSE Professional',
+    image: unsplash('photo-1541888946425-d81bb19240f5'),
+    description: 'Keep people safe and sites compliant with OSHA, ISO 45001 and emergency response skills.',
+    overview: 'Health, safety and environment professionals protect people, assets and the environment. This path builds practical safety knowledge with OSHA training, emergency response skills and first aid, then moves into ISO 45001 management systems and auditing.',
+    level: 'Beginner to Advanced', estimatedMonths: 4, estimatedHours: 102,
+    skills: ['OSHA', 'Hazard Recognition', 'Fire Safety', 'First Aid', 'ISO 45001'],
+    courseIds: ['crs-osha', 'crs-fire', 'crs-first-aid', 'crs-iso45001-ia', 'crs-iso45001-la'],
+    roadmap: [
+      { title: 'Safety foundations', description: 'OSHA standards and hazard recognition.', skills: ['OSHA', 'PPE'] },
+      { title: 'Emergency readiness', description: 'Fire safety, first aid, CPR and AED.', skills: ['Fire safety', 'First aid'] },
+      { title: 'Management systems', description: 'Build and audit an ISO 45001 OH&S management system.', skills: ['ISO 45001', 'Auditing'] },
+    ],
+    roles: ['HSE Officer', 'Safety Supervisor', 'HSE Manager', 'OH&S Auditor'],
+  },
+  {
     id: 'path-frontend', slug: 'frontend-developer', title: 'Frontend Developer',
     image: unsplash('photo-1461749280684-dccba630e2f6'),
     description: 'Build fast, accessible and beautiful web interfaces with JavaScript and React.',

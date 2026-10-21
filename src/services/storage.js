@@ -2,7 +2,7 @@
  * Namespaced LocalStorage helpers. LocalStorage is used purely for this frontend demo —
  * it is not secure storage and is not a substitute for a backend database.
  */
-export const DATA_VERSION = 3
+export const DATA_VERSION = 4
 export const NAMESPACE = 'meridian.v1'
 
 export const STORAGE_KEYS = {

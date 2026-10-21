@@ -3,6 +3,22 @@ import { portrait } from './images'
 /** Fictional instructors. Ratings and learner counts are illustrative demo data. */
 export const instructors = [
   {
+    id: 'ins-hannah', name: 'Hannah Whitfield', title: 'Principal Lead Auditor — QMS, EMS & FSMS',
+    organization: 'Meridian Quality Management Professionals',
+    avatar: portrait('photo-1573497019940-1c28c88b4f3e'),
+    bio: 'Hannah has led hundreds of first-, second- and third-party audits across manufacturing, construction, food and services. She teaches ISO 9001, ISO 14001 and ISO 22000 auditor programmes with a strong emphasis on practical case studies and clear, evidence-based reporting.',
+    expertise: ['ISO 9001', 'ISO 14001', 'ISO 22000', 'ISO 19011 Auditing'],
+    rating: 4.9, learners: 21300, status: 'active', website: '', joinedAt: '2021-06-12',
+  },
+  {
+    id: 'ins-tariq', name: 'Eng. Tariq Al-Mansouri', title: 'HSE Lead Trainer',
+    organization: 'Meridian Quality Management Professionals',
+    avatar: portrait('photo-1560250097-0b93528c311a'),
+    bio: 'Tariq is a health and safety engineer with two decades of experience on industrial, oil and gas and construction projects. He trains supervisors and workforces in OSHA standards, ISO 45001, fire safety and emergency response, and believes every safety lesson should be practical enough to use on site the next day.',
+    expertise: ['ISO 45001', 'OSHA', 'Fire Safety', 'Emergency Response'],
+    rating: 4.8, learners: 18700, status: 'active', website: '', joinedAt: '2021-08-30',
+  },
+  {
     id: 'ins-elena', name: 'Dr. Elena Vasquez', title: 'Principal Frontend Engineer',
     organization: 'Larkspur Institute of Technology',
     avatar: portrait('photo-1494790108377-be9c29b29330'),

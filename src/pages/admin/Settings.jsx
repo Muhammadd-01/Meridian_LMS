@@ -73,7 +73,7 @@ export default function AdminSettings() {
           <div>
             <p className="label">Logo preview</p>
             <div className="flex flex-wrap items-center gap-4 rounded-xl border border-line p-4"><BrandLogo to={null} /><span className="rounded-lg bg-deep p-3"><BrandLogo tone="light" to={null} /></span></div>
-            <p className="hint">Add the official logo file as <code>src/assets/logos/meridian-logo.png</code> (or .svg) to replace the vector mark automatically.</p>
+            <p className="hint">The official Meridian logo is loaded from <code>src/assets/logos/</code> (full colour, white-text and globe-mark variants).</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <ColorField id="st-primary" label="Primary colour" value={form.primaryColor} error={errors.primaryColor} onChange={(v) => set('primaryColor', v)} />

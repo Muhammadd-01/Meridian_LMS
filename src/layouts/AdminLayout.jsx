@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, LineChart, BookOpen, Tags, Presentation, Users, ClipboardCheck, ListChecks, FileText, Star,
   MessagesSquare, Megaphone, PanelsTopLeft, Settings, History, PanelLeftClose, PanelLeftOpen, Menu, ExternalLink,
@@ -17,6 +17,7 @@ import { cn } from '../utils/cn'
 export default function AdminLayout() {
   const { reviews, submissions, courses } = useData()
   const navigate = useNavigate()
+  const { pathname } = useLocation()
   const [collapsed, setCollapsed] = useState(() => Boolean(readJSON(STORAGE_KEYS.ui, {})?.adminSidebarCollapsed))
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [query, setQuery] = useState('')
@@ -110,7 +111,7 @@ export default function AdminLayout() {
           </div>
         </header>
         <main id="main-content" tabIndex={-1} className="flex-1 px-4 py-6 outline-none sm:px-6 lg:px-8 lg:py-8">
-          <div className="mx-auto max-w-7xl">
+          <div key={pathname} className="mx-auto max-w-7xl animate-page-in">
             <Outlet />
           </div>
         </main>

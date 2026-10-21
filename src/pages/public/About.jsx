@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Target, HeartHandshake, ShieldCheck, Lightbulb } from 'lucide-react'
 import PageHero from '../../components/layout/PageHero'
 import SmartImage from '../../components/common/SmartImage'
+import { Reveal } from '../../components/common/Motion'
 import { useData } from '../../context/DataContext'
 import { useDocumentTitle } from '../../hooks/useDocumentTitle'
 import { IMAGES } from '../../data/images'
@@ -18,13 +19,14 @@ export default function About() {
   const { courses, instructors, categories, settings } = useData()
   return (
     <>
-      <PageHero breadcrumbs={[{ label: 'Home', to: '/' }, { label: 'About' }]} eyebrow="About us" title={`About ${settings.platformName}`} description="Meridian LMS is a demonstration learning platform inspired by the Meridian Quality Management Professionals brand." />
+      <PageHero breadcrumbs={[{ label: 'Home', to: '/' }, { label: 'About' }]} eyebrow="About us" title={`About ${settings.platformName}`} description="The learning platform of Meridian Quality Management Professionals (MEQMP) — advisory, training, compliance and sustainability experts." />
       <div className="container-page space-y-16 py-12">
         <section className="grid items-center gap-10 lg:grid-cols-2">
           <div>
             <h2 className="section-title">Our mission</h2>
             <p className="mt-4 leading-7 text-slate-700">We believe professional learning should be practical, well-structured and measurable. Meridian brings together expert-led courses, guided career paths and honest progress tracking so learners can build skills that matter — and organisations can see real development.</p>
-            <p className="mt-4 leading-7 text-slate-700">This application is a <strong>frontend-only demonstration</strong>. All instructors, partner institutions, learners, reviews and figures are fictional, and every action you take is stored in your own browser.</p>
+            <p className="mt-4 leading-7 text-slate-700">According to its website, MEQMP has operated across the Middle East, Asia and North America since 2005, with offices in Dammam (Saudi Arabia), Sitra (Bahrain), Lahore (Pakistan) and Canada. Its training catalogue spans ISO internal and lead auditor programmes, leadership and management, safety and environment, and exam preparation — the same tracks you’ll find in this LMS.</p>
+            <p className="mt-4 leading-7 text-slate-700">This application is a <strong>frontend-only demonstration</strong>. Instructor profiles, learners, reviews and platform metrics are illustrative, and every action you take is stored in your own browser.</p>
             <div className="mt-6 flex gap-3">
               <Link to="/courses" className="btn btn-primary">Explore courses</Link>
               <Link to="/contact" className="btn btn-secondary">Contact us</Link>
@@ -35,12 +37,14 @@ export default function About() {
         <section>
           <h2 className="section-title">What we value</h2>
           <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {VALUES.map((v) => (
-              <div key={v.title} className="card p-6">
-                <v.icon className="h-6 w-6 text-secondary" aria-hidden="true" />
+            {VALUES.map((v, i) => (
+              <Reveal key={v.title} delay={i * 80} className="h-full">
+                <div className="card card-hover card-glow group h-full p-6">
+                <v.icon className="h-6 w-6 text-secondary transition-transform duration-300 group-hover:scale-125" aria-hidden="true" />
                 <h3 className="mt-3 font-semibold text-ink">{v.title}</h3>
                 <p className="mt-1 text-sm text-muted">{v.text}</p>
-              </div>
+                </div>
+              </Reveal>
             ))}
           </div>
         </section>

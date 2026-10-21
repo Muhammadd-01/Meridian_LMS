@@ -7,9 +7,9 @@ export const homepageContent = {
     subtext: 'Discover expert-led courses, develop in-demand skills, and take the next step in your learning journey with Meridian.',
   },
   stats: [
-    { id: 'st1', value: '25+', label: 'Expert-led courses' },
-    { id: 'st2', value: '10', label: 'Subject categories' },
-    { id: 'st3', value: '6', label: 'Career paths' },
+    { id: 'st1', value: '50+', label: 'Expert-led courses' },
+    { id: 'st2', value: '12', label: 'Subject categories' },
+    { id: 'st3', value: '8', label: 'Career paths' },
     { id: 'st4', value: '4.7★', label: 'Average course rating' },
   ],
   benefits: [

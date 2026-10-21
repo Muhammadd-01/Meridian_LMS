@@ -3,6 +3,7 @@ import { Users } from 'lucide-react'
 import PageHero from '../../components/layout/PageHero'
 import SearchInput from '../../components/common/SearchInput'
 import { InstructorCard } from '../../components/courses/Cards'
+import { Reveal } from '../../components/common/Motion'
 import { EmptyState } from '../../components/common/ui'
 import { useData } from '../../context/DataContext'
 import { useDocumentTitle } from '../../hooks/useDocumentTitle'
@@ -22,8 +23,10 @@ export default function Instructors() {
       <div className="container-page py-12">
         {results.length ? (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {results.map((ins) => (
-              <InstructorCard key={ins.id} instructor={ins} courseCount={courses.filter((c) => c.instructorId === ins.id && c.status === 'published').length} />
+            {results.map((ins, i) => (
+              <Reveal key={ins.id} delay={(i % 4) * 80} className="h-full">
+                <InstructorCard instructor={ins} className="h-full" courseCount={courses.filter((c) => c.instructorId === ins.id && c.status === 'published').length} />
+              </Reveal>
             ))}
           </div>
         ) : (

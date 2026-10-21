@@ -5,6 +5,8 @@ import { AuthProvider } from './context/AuthContext'
 import { ToastProvider } from './context/ToastContext'
 import { ConfirmProvider } from './context/ConfirmContext'
 import AppRoutes from './routes/AppRoutes'
+import BackToTop from './components/common/BackToTop'
+import ChatBot from './components/chat/ChatBot'
 
 /** Scrolls to top and moves focus to the main region after route changes (not on first load). */
 function RouteFocusManager() {
@@ -40,6 +42,8 @@ export default function App() {
               <SkipLink />
               <RouteFocusManager />
               <AppRoutes />
+              <BackToTop />
+              <ChatBot />
             </AuthProvider>
           </ConfirmProvider>
         </ToastProvider>

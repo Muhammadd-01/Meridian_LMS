@@ -26,6 +26,8 @@ const Help = page(() => import('../pages/public/Help'))
 const Terms = page(() => import('../pages/public/Terms'))
 const Privacy = page(() => import('../pages/public/Privacy'))
 const CertificateVerify = page(() => import('../pages/public/CertificateVerify'))
+const Services = page(() => import('../pages/public/Services'))
+const VerifyCertificate = page(() => import('../pages/public/VerifyCertificate'))
 const NotFound = page(() => import('../pages/errors/NotFound'))
 
 // Auth
@@ -94,6 +96,8 @@ export default function AppRoutes() {
           <Route path="terms" element={<Terms />} />
           <Route path="privacy" element={<Privacy />} />
           <Route path="certificates/:certId" element={<CertificateVerify />} />
+          <Route path="services" element={<Services />} />
+          <Route path="verify-certificate" element={<VerifyCertificate />} />
           <Route path="*" element={<NotFound />} />
         </Route>
 

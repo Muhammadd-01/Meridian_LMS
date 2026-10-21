@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
-  ArrowRight, Search, ChevronDown, Quote, PlayCircle, BadgeCheck, CircleCheck, Star, ClipboardCheck,
-  ShieldCheck, Users, HardHat, Globe2, Briefcase, FileQuestion, Award,
+  ArrowRight, Search, ChevronDown, Quote, PlayCircle, CircleCheck, Star, X,
+  ShieldCheck, Users, Globe2, Award,
 } from 'lucide-react'
 import CourseCarousel from '../../components/courses/CourseCarousel'
 import CourseCard from '../../components/courses/CourseCard'
@@ -13,26 +13,19 @@ import { Reveal, AnimatedCounter, Marquee } from '../../components/common/Motion
 import { GlobePattern } from '../../components/common/BrandDecor'
 import { SectionHeading, Avatar } from '../../components/common/ui'
 import { useData } from '../../context/DataContext'
-import { useAuth } from '../../context/AuthContext'
 import { useDocumentTitle } from '../../hooks/useDocumentTitle'
 import { IMAGES } from '../../data/images'
+import { SERVICES, PROCESS, INDUSTRIES, CHALLENGES } from '../../data/companyInfo'
 import { cn } from '../../utils/cn'
 
-const STANDARDS = ['ISO 9001', 'ISO 14001', 'ISO 45001', 'ISO/IEC 27001', 'ISO 22000', 'ISO 50001', 'ISO 31000', 'ISO 41001', 'ISO 22301', 'OSHA', 'Lean Six Sigma', 'PMP®', 'ESG']
+const STANDARDS = ['ISO 9001', 'ISO 14001', 'ISO 45001', 'ISO/IEC 27001', 'ISO 22000', 'ISO 50001', 'ISO 31000', 'ISO 41001', 'ISO 22301', 'OSHA 10 & 30', 'Lean Six Sigma', 'PMP®', 'PMI-RMP®', 'ARAMCO Schedule Q']
 
-const TRACKS = [
-  { icon: ClipboardCheck, title: 'Internal Auditor', text: 'Audit your own management system with ISO 19011 techniques.', to: '/courses?q=internal%20auditor' },
-  { icon: BadgeCheck, title: 'Lead Auditor', text: 'Lead first-, second- and third-party audits with confidence.', to: '/courses?q=lead%20auditor' },
-  { icon: Briefcase, title: 'Leadership & Management', text: 'Lean Six Sigma, business continuity and train-the-trainer.', to: '/courses?category=business' },
-  { icon: HardHat, title: 'Safety & Environment', text: 'OSHA, fire safety, first aid, defensive driving and ESG.', to: '/courses?category=health-safety-environment' },
-  { icon: FileQuestion, title: 'Exam Preparation', text: 'Structured preparation for PMP® and PMI-RMP® exams.', to: '/courses?q=exam%20preparation' },
-]
 
 function Hero() {
   const { content, courses } = useData()
   const navigate = useNavigate()
   const [query, setQuery] = useState('')
-  const popular = ['ISO 9001', 'Lead Auditor', 'OSHA', 'Six Sigma', 'PMP', 'Python']
+  const popular = ['ISO 9001', 'Lead Auditor', 'ISO 45001', 'OSHA', 'Six Sigma', 'PMP']
   const published = courses.filter((c) => c.status === 'published')
   const spotlight = published.find((c) => c.id === 'crs-iso9001-la') || published[0]
   const [first, ...rest] = content.hero.headline.split('. ')
@@ -49,7 +42,7 @@ function Hero() {
           <Reveal>
             <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-white/80 px-3 py-1.5 text-xs font-semibold text-accent-ink shadow-sm backdrop-blur">
               <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" /><span className="relative inline-flex h-2 w-2 rounded-full bg-accent" /></span>
-              New: ISO Lead Auditor & HSE programmes
+              ISO 9001:2015 certified · First TVTC foreign registered training center in KSA
             </span>
           </Reveal>
           <Reveal delay={80}>
@@ -73,7 +66,7 @@ function Hero() {
               <label htmlFor="hero-search" className="sr-only">Search courses</label>
               <div className="relative flex-1">
                 <Search className="pointer-events-none absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-muted transition-colors group-focus-within:text-primary" aria-hidden="true" />
-                <input id="hero-search" type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search ISO, safety, management, tech…" className="h-12 w-full rounded-xl border-0 bg-transparent pr-3 pl-11 text-base text-ink placeholder:text-slate-400 focus:outline-none" />
+                <input id="hero-search" type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search ISO auditor, safety, Six Sigma, PMP…" className="h-12 w-full rounded-xl border-0 bg-transparent pr-3 pl-11 text-base text-ink placeholder:text-slate-400 focus:outline-none" />
               </div>
               <button type="submit" className="btn btn-gradient btn-lg rounded-xl">Search <ArrowRight className="h-5 w-5" aria-hidden="true" /></button>
             </form>
@@ -136,7 +129,7 @@ function Hero() {
               </div>
             ))}
           </dl>
-          <p className="mt-2 text-right text-xs text-slate-400">Figures reflect this demo’s catalogue.</p>
+          <p className="mt-2 text-right text-xs text-slate-400">Company figures as published by MEQMP.</p>
         </Reveal>
       </div>
 
@@ -173,7 +166,7 @@ function AboutCompany() {
     { value: '2005', label: 'Operating since' },
     { value: '530+', label: 'Consultancy projects' },
     { value: '2500+', label: 'Trainings delivered' },
-    { value: '3', label: 'Regions served' },
+    { value: '4', label: 'Global offices' },
   ]
   return (
     <section className="relative overflow-hidden rounded-[2rem] bg-deep text-white" aria-labelledby="about-company">
@@ -185,13 +178,13 @@ function AboutCompany() {
           <p className="eyebrow flex items-center gap-2 text-[#9fd3e3]"><span className="h-0.5 w-6 rounded-full bg-accent" aria-hidden="true" />About Meridian (MEQMP)</p>
           <h2 id="about-company" className="mt-3 text-3xl font-bold text-white sm:text-4xl">Partners in quality excellence and strategic growth</h2>
           <p className="mt-4 leading-7 text-white/80">
-            Meridian Quality Management Professionals provides advisory, training, compliance, sustainability and corporate wellbeing services to organisations across the Middle East, Asia and North America, with offices in Dammam, Sitra, Lahore and Canada.
+            Meridian Quality Management Professionals is an ISO 9001:2015 certified organisation providing advisory, training, compliance, sustainability and corporate wellbeing services across the Middle East, Asia and North America since 2005 — and the first TVTC foreign registered training center in Saudi Arabia.
           </p>
           <div className="mt-6 flex flex-wrap gap-2">
             {services.map((s) => <span key={s} className="rounded-full bg-white/10 px-3 py-1 text-sm font-medium text-white ring-1 ring-white/15 transition-colors hover:bg-accent hover:text-ink">{s}</span>)}
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/courses?category=quality-iso-standards" className="btn btn-accent rounded-full">Explore ISO training <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+            <Link to="/courses?category=lead-auditor" className="btn btn-accent rounded-full">Explore ISO training <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
             <Link to="/about" className="btn btn-on-dark rounded-full">About us</Link>
           </div>
         </Reveal>
@@ -212,7 +205,6 @@ function AboutCompany() {
 export default function Home() {
   useDocumentTitle('')
   const { courses, categories, instructors, careerPaths, content } = useData()
-  const { user } = useAuth()
   const published = courses.filter((c) => c.status === 'published')
   const featured = published.filter((c) => c.featured)
   const trending = published.filter((c) => c.trending).sort((a, b) => b.enrollmentCount - a.enrollmentCount)
@@ -229,33 +221,60 @@ export default function Home() {
       <div className="container-page space-y-24 py-20">
         <section id="categories" className="scroll-mt-24" aria-labelledby="categories-title">
           <SectionHeading
-            eyebrow="Popular categories"
-            title={<span id="categories-title">Explore what you can learn</span>}
-            description="From ISO auditing and workplace safety to data, AI and leadership — courses for every stage of your career."
-            action={<Link to="/categories" className="btn btn-ghost btn-sm text-secondary">All categories <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>}
+            eyebrow="Training tracks"
+            title={<span id="categories-title">Choose your training track</span>}
+            description="Five training tracks from Meridian’s catalogue — from internal auditor essentials to lead auditor, safety and exam preparation."
+            action={<Link to="/categories" className="btn btn-ghost btn-sm text-secondary">All tracks <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>}
           />
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {featuredCategories.map((cat, i) => (
-              <Reveal key={cat.id} delay={(i % 4) * 70}>
+              <Reveal key={cat.id} delay={i * 70}>
                 <CategoryCard category={cat} count={published.filter((c) => c.categoryId === cat.id).length} className="h-full" />
               </Reveal>
             ))}
           </div>
         </section>
 
-        <section aria-labelledby="tracks-title">
-          <SectionHeading eyebrow="Training tracks" title={<span id="tracks-title">Professional training, the Meridian way</span>} description="Our catalogue follows the same tracks as Meridian’s classroom programmes." />
+        <section className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-center" aria-labelledby="challenges-title">
+          <Reveal variant="left">
+            <p className="eyebrow flex items-center gap-2"><span className="h-0.5 w-6 rounded-full bg-gradient-to-r from-accent to-info" aria-hidden="true" />Why choose MEQMP</p>
+            <h2 id="challenges-title" className="section-title mt-2">Are these holding your organisation back?</h2>
+            <p className="mt-3 text-muted">Rising costs, inefficiencies, missed deadlines and compliance pressure are common hurdles to growth and consistent quality.</p>
+            <ul className="mt-6 grid gap-2 sm:grid-cols-2">
+              {CHALLENGES.map((c, i) => (
+                <li key={c} className="flex animate-slide-up items-center gap-2 rounded-xl border border-line bg-white px-3 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent" style={{ animationDelay: `${i * 60}ms`, animationFillMode: 'both' }}>
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-danger-soft text-danger"><X className="h-3.5 w-3.5" aria-hidden="true" /></span>{c}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {content.benefits.map((b, i) => (
+              <Reveal key={b.id} delay={i * 90} variant="zoom" className="h-full">
+                <div className="card card-hover card-glow group relative h-full overflow-hidden p-6">
+                  <span className="pointer-events-none absolute -top-6 -right-4 text-[80px] leading-none font-black text-slate-100 transition-colors group-hover:text-accent-soft" aria-hidden="true">0{i + 1}</span>
+                  <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-deep text-white shadow-lg transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110"><Icon name={b.icon} className="h-6 w-6" /></span>
+                  <h3 className="relative mt-4 font-semibold text-ink">{b.title}</h3>
+                  <p className="relative mt-1 text-sm leading-6 text-muted">{b.text}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+
+        <section aria-labelledby="services-title">
+          <SectionHeading eyebrow="Our services" title={<span id="services-title">More than training</span>} description="MEQMP supports organisations end to end — from advisory and compliance to sustainability and corporate wellbeing." action={<Link to="/services" className="btn btn-ghost btn-sm text-secondary">All services <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>} />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {TRACKS.map((t, i) => (
-              <Reveal key={t.title} delay={i * 80}>
-                <Link to={t.to} className="card card-hover card-glow group relative flex h-full flex-col overflow-hidden p-5">
+            {SERVICES.map((sv, i) => (
+              <Reveal key={sv.id} delay={i * 80} className="h-full">
+                <Link to={sv.to || `/services#${sv.id}`} className="card card-hover card-glow group relative flex h-full flex-col overflow-hidden p-5">
                   <span className="pointer-events-none absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-gradient-to-r from-accent via-info to-primary transition-transform duration-500 group-hover:scale-x-100" aria-hidden="true" />
                   <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-soft to-info-soft text-primary transition-all duration-300 group-hover:scale-110 group-hover:from-primary group-hover:to-deep group-hover:text-white">
-                    <t.icon className="h-6 w-6" aria-hidden="true" />
+                    <Icon name={sv.icon} className="h-6 w-6" />
                   </span>
-                  <h3 className="mt-4 font-semibold text-ink transition-colors group-hover:text-primary">{t.title}</h3>
-                  <p className="mt-1 flex-1 text-sm text-muted">{t.text}</p>
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-secondary">Explore <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" /></span>
+                  <h3 className="mt-4 font-semibold text-ink transition-colors group-hover:text-primary">{sv.title}</h3>
+                  <p className="mt-1 line-clamp-3 flex-1 text-sm text-muted">{sv.summary}</p>
+                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-secondary">Learn more <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" /></span>
                 </Link>
               </Reveal>
             ))}
@@ -263,7 +282,7 @@ export default function Home() {
         </section>
 
         <section aria-labelledby="featured-title">
-          <SectionHeading eyebrow="Featured" title={<span id="featured-title">Featured courses</span>} description="Hand-picked programmes — including Meridian’s most popular ISO and safety training." action={<Link to="/courses" className="btn btn-ghost btn-sm text-secondary">Browse all <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>} />
+          <SectionHeading eyebrow="Featured" title={<span id="featured-title">Featured courses</span>} description="Meridian’s most popular ISO auditor, Lean Six Sigma and safety programmes." action={<Link to="/courses" className="btn btn-ghost btn-sm text-secondary">Browse all <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>} />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {featured.slice(0, 8).map((course, i) => (
               <Reveal key={course.id} delay={(i % 4) * 80} className="h-full">
@@ -274,6 +293,26 @@ export default function Home() {
         </section>
 
         <AboutCompany />
+
+        <section aria-labelledby="process-title">
+          <SectionHeading eyebrow="How we work" title={<span id="process-title">We get it right the first time</span>} />
+          <ol className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {PROCESS.map((p, i) => (
+              <Reveal as="li" key={p.step} delay={i * 100} className="h-full">
+                <div className="card card-hover group relative h-full overflow-hidden p-6">
+                  <span className="text-5xl font-black text-primary-soft transition-colors duration-300 group-hover:text-accent">{p.step}</span>
+                  <h3 className="mt-2 text-lg font-semibold text-ink">{p.title}</h3>
+                  <p className="text-sm font-medium text-secondary">{p.tagline}</p>
+                  <p className="mt-2 text-sm leading-6 text-muted">{p.text}</p>
+                  {i < PROCESS.length - 1 && <ArrowRight className="absolute top-8 right-5 hidden h-5 w-5 text-slate-300 transition-transform group-hover:translate-x-1 group-hover:text-accent xl:block" aria-hidden="true" />}
+                </div>
+              </Reveal>
+            ))}
+          </ol>
+          <Reveal className="mt-8 rounded-2xl border border-line bg-white py-4">
+            <Marquee items={INDUSTRIES} separator="◆" itemClassName="text-sm font-semibold text-primary" reverse />
+          </Reveal>
+        </section>
 
         {sections.paths !== false && (
           <section aria-labelledby="paths-title">
@@ -293,27 +332,6 @@ export default function Home() {
             <CourseCarousel eyebrow="Trending now" title="Trending courses" description="What learners on Meridian are enrolling in this month (sample data)." courses={trending} viewAllTo="/courses?sort=popular" />
           </Reveal>
         )}
-
-        <section aria-labelledby="benefits-title">
-          <SectionHeading eyebrow="Why Meridian" title={<span id="benefits-title">Learning designed around real careers</span>} description="Practical courses, guided paths and honest progress tracking — built for busy professionals." />
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {content.benefits.map((b, i) => (
-              <Reveal key={b.id} delay={i * 90} className="h-full">
-                <div className="card card-hover group relative h-full overflow-hidden p-6">
-                  <span className="pointer-events-none absolute -top-6 -right-6 text-[88px] leading-none font-black text-slate-100 transition-colors group-hover:text-accent-soft" aria-hidden="true">0{i + 1}</span>
-                  <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-accent text-ink shadow-[0_10px_20px_-10px_rgb(247_141_0/0.9)] transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110"><Icon name={b.icon} className="h-6 w-6" /></span>
-                  <h3 className="relative mt-5 font-semibold text-ink">{b.title}</h3>
-                  <p className="relative mt-1.5 text-sm leading-6 text-muted">{b.text}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-          <Reveal className="mt-8 text-center">
-            <Link to={user ? (user.role === 'admin' ? '/admin/dashboard' : '/learn/dashboard') : '/register'} className="btn btn-gradient btn-lg rounded-full px-7">
-              {user ? 'Go to your dashboard' : 'Join for Free'} <ArrowRight className="h-5 w-5" aria-hidden="true" />
-            </Link>
-          </Reveal>
-        </section>
 
         {sections.programs !== false && programs.length > 0 && (
           <section aria-labelledby="programs-title">
@@ -372,9 +390,9 @@ export default function Home() {
         <Reveal>
           <section className="grid gap-6 rounded-[2rem] border border-line bg-white p-6 sm:grid-cols-3 sm:p-8" aria-label="Why learners choose Meridian">
             {[
-              { icon: ShieldCheck, title: 'Quality-first content', text: 'Built on Meridian’s quality management heritage.' },
-              { icon: Globe2, title: 'Global perspective', text: 'Training for teams across the Middle East, Asia & North America.' },
-              { icon: Award, title: 'Show your progress', text: 'Quizzes, assignments and demo certificates.' },
+              { icon: ShieldCheck, title: 'Globally certified trainers', text: 'Learn from practitioners and industry-recognised auditors.' },
+              { icon: Globe2, title: 'Regional expertise', text: 'Serving the Middle East, Asia & North America since 2005.' },
+              { icon: Award, title: 'Proven track record', text: 'Thousands of trainings and hundreds of consultancy projects.' },
             ].map((f) => (
               <div key={f.title} className="group flex gap-4">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-white"><f.icon className="h-5 w-5" aria-hidden="true" /></span>

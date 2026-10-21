@@ -155,6 +155,7 @@ export default function AdminInstructors() {
       </Modal>
 
       <Modal open={Boolean(deleting)} onClose={() => setDeleting(null)} size="sm" title="Remove instructor?" footer={<><button type="button" className="btn btn-secondary" onClick={() => setDeleting(null)}>Cancel</button><button type="button" className="btn btn-danger" onClick={doDelete} disabled={deleting && coursesOf(deleting.id).length > 0 && !reassign}>Remove</button></>}>
+        {deleting && <div className="mb-4 flex items-center gap-3 rounded-xl bg-danger-soft p-3"><span className="flex h-10 w-10 shrink-0 animate-pop-in items-center justify-center rounded-full bg-gradient-to-br from-danger to-[#f87171] text-white"><Trash2 className="h-5 w-5" aria-hidden="true" /></span><p className="text-sm font-medium text-danger">This permanently removes the record from this browser.</p></div>}
         {deleting && (coursesOf(deleting.id).length ? (
           <div className="space-y-3 text-sm">
             <p><strong>{deleting.name}</strong> teaches {coursesOf(deleting.id).length} course(s). Reassign them first.</p>

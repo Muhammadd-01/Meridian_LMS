@@ -1,13 +1,55 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Eye, EyeOff, TriangleAlert } from 'lucide-react'
-import { Field, Spinner } from '../../components/common/ui'
+import { TriangleAlert, User, Mail, Lock, ShieldCheck, ArrowRight, Check, X, Rocket } from 'lucide-react'
+import AuthInput from '../../components/auth/AuthInput'
+import { Spinner } from '../../components/common/ui'
 import { useData } from '../../context/DataContext'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'
 import { useDocumentTitle } from '../../hooks/useDocumentTitle'
 import { isValidEmail, passwordIssues } from '../../services/mockAuthService'
 import { cn } from '../../utils/cn'
+
+const RULES = [
+  { label: '8+ characters', test: (p) => p.length >= 8 },
+  { label: 'Uppercase letter', test: (p) => /[A-Z]/.test(p) },
+  { label: 'Number', test: (p) => /[0-9]/.test(p) },
+  { label: 'Symbol', test: (p) => /[^A-Za-z0-9]/.test(p) },
+]
+const STRENGTH = [
+  { label: 'Too weak', color: 'bg-danger', text: 'text-danger' },
+  { label: 'Weak', color: 'bg-danger', text: 'text-danger' },
+  { label: 'Fair', color: 'bg-warning', text: 'text-[#B45309]' },
+  { label: 'Good', color: 'bg-info', text: 'text-[#1F6F88]' },
+  { label: 'Strong', color: 'bg-success', text: 'text-success' },
+]
+
+function PasswordStrength({ password }) {
+  const score = RULES.filter((r) => r.test(password)).length
+  const level = STRENGTH[password ? score : 0]
+  return (
+    <div className="mt-2" aria-live="polite">
+      <div className="flex gap-1.5" aria-hidden="true">
+        {[1, 2, 3, 4].map((i) => (
+          <span key={i} className={cn('h-1.5 flex-1 rounded-full transition-all duration-500', password && score >= i ? level.color : 'bg-slate-200')} />
+        ))}
+      </div>
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+        <ul className="flex flex-wrap gap-x-3 gap-y-1">
+          {RULES.map((r) => {
+            const ok = r.test(password)
+            return (
+              <li key={r.label} className={cn('flex items-center gap-1 text-[11px] font-medium transition-colors', ok ? 'text-success' : 'text-muted')}>
+                {ok ? <Check className="h-3 w-3" aria-hidden="true" /> : <X className="h-3 w-3" aria-hidden="true" />}{r.label}
+              </li>
+            )
+          })}
+        </ul>
+        {password && <span className={cn('text-xs font-bold', level.text)}>{level.label}</span>}
+      </div>
+    </div>
+  )
+}
 
 export default function Register() {
   useDocumentTitle('Join for free')
@@ -17,8 +59,8 @@ export default function Register() {
   const navigate = useNavigate()
   const [values, setValues] = useState({ name: '', email: '', password: '', confirm: '', agree: false })
   const [errors, setErrors] = useState({})
-  const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [shaking, setShaking] = useState(false)
 
   if (!settings.allowSelfRegistration) {
     return (
@@ -51,6 +93,7 @@ export default function Register() {
     const next = validate()
     setErrors(next)
     if (Object.keys(next).length) {
+      setShaking(true)
       document.getElementById(`reg-${Object.keys(next)[0]}`)?.focus()
       return
     }
@@ -59,60 +102,47 @@ export default function Register() {
     setLoading(false)
     if (!result.ok) {
       setErrors({ email: 'A demo profile with this email already exists. Try signing in instead.' })
+      setShaking(true)
       return
     }
-    startSession(result.user, true)
-    toast.success(`Welcome to ${settings.platformName}, ${result.user.name.split(' ')[0]}! Your demo profile was created in this browser.`)
+    startSession(result.user, true, { kind: 'register' })
+    toast.success('Your demo learner profile was created in this browser.', { title: `Welcome, ${result.user.name.split(' ')[0]}!` })
     navigate('/learn/dashboard', { replace: true })
   }
 
-  const input = (key, props = {}) => ({
-    id: `reg-${key}`,
-    value: values[key],
-    onChange: set(key),
-    className: cn('input', errors[key] && 'input-invalid'),
-    'aria-invalid': Boolean(errors[key]),
-    'aria-describedby': errors[key] ? `reg-${key}-error` : undefined,
-    ...props,
-  })
+  const confirmOk = values.confirm && values.confirm === values.password
 
   return (
     <div>
-      <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">Join Meridian for free</h1>
-      <p className="mt-2 text-sm text-muted">Already have a profile? <Link to="/login" className="link">Sign in</Link></p>
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-soft px-3 py-1 text-xs font-semibold text-accent-ink"><Rocket className="h-3.5 w-3.5" aria-hidden="true" />Free to join</span>
+      <h1 className="mt-3 text-[28px] leading-tight font-extrabold tracking-tight text-deep">Create your learner profile</h1>
+      <p className="mt-1.5 text-sm text-muted">Already have one? <Link to="/login" className="link">Sign in</Link></p>
 
-      <div className="mt-5 flex items-start gap-2 rounded-lg border border-warning/30 bg-warning-soft p-3 text-xs text-[#92400E]">
+      <div className="mt-5 flex items-start gap-2 rounded-xl border border-warning/30 bg-warning-soft p-3 text-xs text-[#92400E]">
         <TriangleAlert className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-        <p>This creates a <strong>local demo profile</strong> stored in your browser — no server account is created. Don’t reuse a real password; it is stored unencrypted for the demo.</p>
+        <p>This creates a <strong>local demo profile</strong> in your browser — no server account is created. Don’t reuse a real password.</p>
       </div>
 
-      <form onSubmit={onSubmit} noValidate className="mt-6 space-y-4">
-        <Field label="Full name" htmlFor="reg-name" error={errors.name} required>
-          <input type="text" autoComplete="name" {...input('name')} />
-        </Field>
-        <Field label="Email" htmlFor="reg-email" error={errors.email} required>
-          <input type="email" autoComplete="email" {...input('email')} />
-        </Field>
-        <Field label="Password" htmlFor="reg-password" error={errors.password} hint="At least 8 characters with an uppercase letter and a number." required>
-          <div className="relative">
-            <input type={show ? 'text' : 'password'} autoComplete="new-password" {...input('password', { className: cn('input pr-11', errors.password && 'input-invalid') })} />
-            <button type="button" onClick={() => setShow((s) => !s)} className="absolute top-1/2 right-2 -translate-y-1/2 rounded-md p-1.5 text-muted hover:bg-slate-100" aria-label={show ? 'Hide password' : 'Show password'} aria-pressed={show}>
-              {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            </button>
-          </div>
-        </Field>
-        <Field label="Confirm password" htmlFor="reg-confirm" error={errors.confirm} required>
-          <input type={show ? 'text' : 'password'} autoComplete="new-password" {...input('confirm')} />
-        </Field>
+      <form onSubmit={onSubmit} noValidate onAnimationEnd={(e) => { if (e.target === e.currentTarget) setShaking(false) }} className={cn('mt-6 space-y-4', shaking && 'animate-shake')}>
+        <AuthInput id="reg-name" label="Full name" icon={User} autoComplete="name" placeholder="e.g. Sara Ahmed" value={values.name} onChange={set('name')} error={errors.name} required />
+        <AuthInput id="reg-email" label="Email address" icon={Mail} type="email" autoComplete="email" placeholder="you@example.com" value={values.email} onChange={set('email')} error={errors.email} required />
         <div>
-          <label className="flex items-start gap-2 text-sm text-slate-700">
+          <AuthInput id="reg-password" label="Password" icon={Lock} reveal autoComplete="new-password" placeholder="Create a password" value={values.password} onChange={set('password')} error={errors.password} required />
+          <PasswordStrength password={values.password} />
+        </div>
+        <div className="relative">
+          <AuthInput id="reg-confirm" label="Confirm password" icon={ShieldCheck} reveal autoComplete="new-password" placeholder="Repeat your password" value={values.confirm} onChange={set('confirm')} error={errors.confirm} required />
+          {confirmOk && !errors.confirm && <span className="absolute top-0 right-0 inline-flex animate-pop-in items-center gap-1 text-xs font-semibold text-success"><Check className="h-3.5 w-3.5" aria-hidden="true" />Matches</span>}
+        </div>
+        <div>
+          <label className="flex cursor-pointer items-start gap-2 text-sm text-slate-700">
             <input id="reg-agree" type="checkbox" className="checkbox mt-0.5" checked={values.agree} onChange={set('agree')} aria-invalid={Boolean(errors.agree)} />
             <span>I understand this is a demo and accept the <Link to="/terms" className="link">terms of use</Link>.</span>
           </label>
-          {errors.agree && <p className="field-error" role="alert">{errors.agree}</p>}
+          {errors.agree && <p className="field-error animate-slide-up" role="alert">{errors.agree}</p>}
         </div>
-        <button type="submit" className="btn btn-primary btn-lg w-full" disabled={loading}>
-          {loading && <Spinner />} Create demo profile
+        <button type="submit" className="btn btn-gradient btn-lg group w-full rounded-xl shadow-[0_14px_30px_-14px_rgb(9_63_80/0.8)]" disabled={loading}>
+          {loading ? <><Spinner /> Creating profile…</> : <>Create my profile <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" aria-hidden="true" /></>}
         </button>
       </form>
     </div>

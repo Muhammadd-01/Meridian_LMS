@@ -1,5 +1,6 @@
 import { DEMO_ACCOUNTS } from '../../data/users'
 import { normalise, searchItems } from '../../utils/query'
+import { COMPANY, SERVICES, INDUSTRIES } from '../../data/companyInfo'
 
 /**
  * Rule-based assistant for the Meridian LMS demo. It matches the visitor's message against
@@ -12,7 +13,7 @@ const STOPWORDS = new Set(('a an the i me my we you your to for of on in at by w
   'learn learning study studying teach me please recommend suggest suggestion something what which who how where when there here that this ' +
   'have has offer offers available tell know more info information best good new start started beginner advanced intermediate').split(' '))
 
-const DEFAULT_CHIPS = ['Find a course', 'ISO auditor training', 'Safety (HSE) courses', 'How do I enroll?', 'Demo login details', 'About Meridian']
+const DEFAULT_CHIPS = ['Find a course', 'ISO auditor training', 'Safety courses', 'Services', 'How do I enroll?', 'Contact Meridian']
 
 const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 /** True when any phrase appears at a word start (so "enrol" matches "enrolment" but "test" ignores "latest"). */
@@ -59,12 +60,13 @@ const INTENTS = [
     id: 'iso',
     match: (t) => has(t, ['iso', 'auditor', 'audit', 'qms', 'ems', 'isms', '9001', '14001', '45001', '27001', '22000', '50001', '31000', '41001', '19011', 'quality management', 'schedule q', 'aramco']),
     reply: (data, ctx, raw) => {
-      const specific = courseResults(data, raw, 4).filter((c) => c.categoryId === 'cat-iso')
-      const list = specific.length ? specific : data.courses.filter((c) => c.categoryId === 'cat-iso' && c.status === 'published' && c.featured).slice(0, 3)
+      const iso = (c) => c.categoryId === 'cat-internal-auditor' || c.categoryId === 'cat-lead-auditor'
+      const specific = courseResults(data, raw, 4).filter(iso)
+      const list = specific.length ? specific : data.courses.filter((c) => iso(c) && c.status === 'published' && c.featured).slice(0, 3)
       return {
-        text: 'Meridian offers **ISO Internal Auditor** (about 16 hours) and **Lead Auditor** (about 40 hours) programmes for ISO 9001, 14001, 45001, 27001, 22000, 50001, 31000 and 41001, all following ISO 19011 audit guidance. Internal auditor courses suit people auditing their own organisation; lead auditor courses prepare you to lead first-, second- and third-party audits.',
+        text: 'Meridian offers **ISO Internal Auditor** (about 16 hours) and **ISO Lead Auditor** (about 40 hours) training for ISO 9001, ISO 14001, ISO 45001, ISO/IEC 27001, ISO 22000, ISO 50001, ISO 41001 and ISO 31000, all following ISO 19011 audit guidance. Internal auditor courses suit people auditing their own organisation; lead auditor courses prepare you to lead first-, second- and third-party audits.',
         courses: list,
-        links: [{ label: 'All Quality & ISO courses', to: '/courses?category=quality-iso-standards' }, { label: 'ISO Quality Auditor path', to: '/career-paths/iso-quality-auditor' }],
+        links: [{ label: 'Internal Auditor courses', to: '/courses?category=internal-auditor' }, { label: 'Lead Auditor courses', to: '/courses?category=lead-auditor' }, { label: 'ISO Quality Auditor path', to: '/career-paths/iso-quality-auditor' }],
         chips: ['Internal vs lead auditor?', 'ISO 45001 courses', 'Safety (HSE) courses'],
       }
     },
@@ -75,20 +77,20 @@ const INTENTS = [
     match: (t) => has(t, ['internal vs lead', 'difference between internal', 'internal or lead', 'lead or internal']),
     reply: () => ({
       text: '**Internal Auditor** (≈16 hrs, Intermediate): learn the standard and ISO 19011 so you can audit your own organisation’s management system.\n\n**Lead Auditor** (≈40 hrs, Advanced): everything in the internal course plus leading audit teams, certification-audit context (ISO/IEC 17021) and a case-study exam preparation. Start with Internal Auditor if you’re new to auditing.',
-      links: [{ label: 'Compare ISO courses', to: '/courses?category=quality-iso-standards' }],
+      links: [{ label: 'Internal Auditor track', to: '/courses?category=internal-auditor' }, { label: 'Lead Auditor track', to: '/courses?category=lead-auditor' }],
       chips: ['ISO 9001 Lead Auditor', 'Find a course'],
     }),
   },
   {
     id: 'hse',
-    match: (t) => has(t, ['safety', 'hse', 'osha', 'fire', 'first aid', 'cpr', 'aed', 'driving', 'hazard', 'health and safety', 'environment', 'esg', 'sustainab', 'carbon']),
+    match: (t) => has(t, ['safety', 'hse', 'osha', 'fire', 'first aid', 'cpr', 'aed', 'driving', 'driver', 'hazard', 'health and safety']),
     reply: (data, ctx, raw) => {
-      const specific = courseResults(data, raw, 3).filter((c) => c.categoryId === 'cat-hse' || c.categoryId === 'cat-iso')
-      const list = specific.length ? specific : data.courses.filter((c) => c.categoryId === 'cat-hse' && c.status === 'published').slice(0, 3)
+      const specific = courseResults(data, raw, 3).filter((c) => c.categoryId === 'cat-safety' || c.id.startsWith('crs-iso45001'))
+      const list = specific.length ? specific : data.courses.filter((c) => c.categoryId === 'cat-safety' && c.status === 'published').slice(0, 3)
       return {
-        text: 'Our **Health, Safety & Environment** training includes OSHA 10/30-hour, Fire Safety & Fire Fighting, First Aid/CPR/AED, Defensive Driving and Sustainability & ESG Fundamentals — plus ISO 45001 auditor programmes for OH&S management systems.',
+        text: 'The **Safety & Environment** track includes OSHA 10 & 30 Hour, Fire Safety Awareness & Fire Fighting, First Aid/CPR/AED and Defensive Driving — plus ISO 45001 Internal and Lead Auditor courses for OH&S management systems.',
         courses: list,
-        links: [{ label: 'All HSE courses', to: '/courses?category=health-safety-environment' }, { label: 'HSE Professional path', to: '/career-paths/hse-professional' }],
+        links: [{ label: 'Safety & Environment courses', to: '/courses?category=safety-environment' }, { label: 'HSE Professional path', to: '/career-paths/hse-professional' }],
         chips: ['ISO 45001 courses', 'Career paths', 'How do I enroll?'],
       }
     },
@@ -104,10 +106,10 @@ const INTENTS = [
   },
   {
     id: 'pm',
-    match: (t) => has(t, ['pmp', 'rmp', 'project management', 'project manager', 'agile', 'scrum', 'business continuity', '22301']),
+    match: (t) => has(t, ['pmp', 'rmp', 'exam', 'project management', 'project manager', 'risk management', 'business continuity', '22301', 'train the trainer', 'trainer course']),
     reply: (data, ctx, raw) => ({
-      text: 'Project and risk professionals can choose from **PMP® Exam Preparation**, **PMI-RMP® Exam Preparation**, **Project Management Fundamentals**, **Agile & Scrum in Practice** and **Business Continuity Management (ISO 22301)**.',
-      courses: courseResults(data, raw, 3).length ? courseResults(data, raw, 3) : data.courses.filter((c) => ['crs-pmp', 'crs-pm', 'crs-agile'].includes(c.id)),
+      text: 'For exams and management, Meridian offers **PMP® Exam Preparation**, **PMI-RMP® Exam Preparation**, **ISO 31000 Lead Auditor (risk management)**, **Business Continuity Management (ISO 22301)** and **Train the Trainer**.',
+      courses: courseResults(data, raw, 3).length ? courseResults(data, raw, 3) : data.courses.filter((c) => ['crs-pmp', 'crs-rmp', 'crs-bcm'].includes(c.id)),
       chips: ['Lean Six Sigma', 'Find a course'],
     }),
   },
@@ -158,7 +160,7 @@ const INTENTS = [
     match: (t) => has(t, ['certificate', 'certification', 'certified', 'credential', 'accredit', 'verify']),
     reply: (data, ctx) => ({
       text: 'Complete every **required lesson** in a course (quizzes need a passing score) and a **demo certificate** appears under *Certificates*. You can preview it, print/save it as a PDF and copy a share link. Note: demo certificates are illustrative and are not externally verified credentials.',
-      links: ctx.user?.role === 'learner' ? [{ label: 'My certificates', to: '/learn/certificates' }] : [{ label: 'Sign in to view certificates', to: '/login' }],
+      links: [...(ctx.user?.role === 'learner' ? [{ label: 'My certificates', to: '/learn/certificates' }] : [{ label: 'Sign in to view certificates', to: '/login' }]), { label: 'Verify a certificate', to: '/verify-certificate' }],
       chips: ['How is progress tracked?', 'Find a course'],
     }),
   },
@@ -207,19 +209,37 @@ const INTENTS = [
     }),
   },
   {
+    id: 'services',
+    match: (t) => has(t, ['service', 'advisory', 'compliance', 'sustainab', 'esg', 'wellbeing', 'well-being', 'leed', 'carbon', 'consult', 'certification support', 'ecovadis', 'mostadam']),
+    reply: () => ({
+      text: `Beyond training, MEQMP offers ${SERVICES.map((s) => `**${s.title}**`).join(', ')}. Examples include Lean Six Sigma consulting, ISO and legal compliance audits, risk assessments, carbon footprint assessment, LEED/Mostadam/EcoVadis certification support and employee wellbeing programmes.`,
+      links: [{ label: 'Explore services', to: '/services' }, { label: 'Book a strategy call', to: '/business' }],
+      chips: ['Industries you serve', 'Contact Meridian'],
+    }),
+  },
+  {
+    id: 'industries',
+    match: (t) => has(t, ['industr', 'sector', 'oil', 'gas', 'construction', 'healthcare', 'banking', 'hospitality', 'manufactur']),
+    reply: () => ({
+      text: `MEQMP works with organisations in ${INDUSTRIES.join(', ')}.`,
+      links: [{ label: 'About MEQMP', to: '/about' }],
+      chips: ['Services', 'ISO auditor training'],
+    }),
+  },
+  {
     id: 'about',
     match: (t) => has(t, ['about', 'meridian', 'meqmp', 'company', 'who are you', 'who is', 'history', 'since', 'experience']),
     reply: () => ({
-      text: '**Meridian Quality Management Professionals (MEQMP)** provides advisory, training, compliance, sustainability and corporate wellbeing services. On its website, MEQMP describes itself as ISO 9001:2015 certified and operating across the Middle East, Asia and North America since 2005, with offices in Dammam (Saudi Arabia), Sitra (Bahrain), Lahore (Pakistan) and Canada.\n\nThis LMS is a frontend demonstration of the learning experience.',
-      links: [{ label: 'About us', to: '/about' }, { label: 'Contact', to: '/contact' }],
-      chips: ['ISO auditor training', 'Contact Meridian', 'For Business'],
+      text: `**${COMPANY.name} (MEQMP)** is an ISO 9001:2015 certified organisation providing advisory, training, compliance, sustainability and corporate wellbeing services across the Middle East, Asia and North America since ${COMPANY.since}. It was the first TVTC foreign registered training center in Saudi Arabia, and MEQMP reports 530+ consultancy projects and 2500+ trainings. Offices: Saudi Arabia, Bahrain, Pakistan and Canada.`,
+      links: [{ label: 'About us', to: '/about' }, { label: 'Services', to: '/services' }],
+      chips: ['ISO auditor training', 'Contact Meridian', 'Industries you serve'],
     }),
   },
   {
     id: 'contact',
     match: (t) => has(t, ['contact', 'phone', 'email', 'call', 'office', 'location', 'address', 'where are you', 'reach', 'talk to', 'human', 'support team']),
-    reply: (data) => ({
-      text: `You can send a message through the contact form (demo — messages aren’t actually sent). Meridian’s offices are in **Dammam, Saudi Arabia · Sitra, Bahrain · Lahore, Pakistan · Canada**. Demo support email: ${data.settings.supportEmail}.`,
+    reply: () => ({
+      text: `You can reach Meridian by phone at **${COMPANY.phone}** or by email at **${COMPANY.email}**. Offices: **Saudi Arabia · Bahrain · Pakistan · Canada**. (The contact form on this demo site doesn’t send messages.)`,
       links: [{ label: 'Contact form', to: '/contact' }, { label: 'Help centre', to: '/help' }],
     }),
   },
@@ -268,7 +288,7 @@ export function getBotReply(message, data, ctx = {}) {
   if (!t) return { text: 'Type a question, or pick one of the suggestions below.', chips: DEFAULT_CHIPS }
 
   if (t === 'find a course' || t === 'find course') {
-    return { text: 'Sure! What would you like to learn? Try a topic like “ISO 9001”, “fire safety”, “Python” or “project management”.', chips: ['ISO 9001', 'Fire safety', 'Python', 'Six Sigma'] }
+    return { text: 'Sure! What would you like to learn? Try a topic like “ISO 9001”, “lead auditor”, “fire safety” or “PMP”.', chips: ['ISO 9001', 'Fire safety', 'Six Sigma', 'PMP exam'] }
   }
 
   const matched = INTENTS.filter((intent) => intent.match(t)).sort((a, b) => (b.priority || 0) - (a.priority || 0))

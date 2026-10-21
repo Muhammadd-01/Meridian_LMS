@@ -10,7 +10,7 @@ import { cn } from '../../utils/cn'
 export default function ChartCard({ title, description, sample = false, table, actions, children, className, height = 260 }) {
   const [showTable, setShowTable] = useState(false)
   return (
-    <section className={cn('card flex flex-col p-5', className)} aria-label={title}>
+    <section className={cn('card hover-lift flex flex-col p-5', className)} aria-label={title}>
       <div className="mb-4 flex flex-wrap items-start justify-between gap-2">
         <div className="min-w-0">
           <h2 className="flex flex-wrap items-center gap-2 text-base font-semibold text-ink">

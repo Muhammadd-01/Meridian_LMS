@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import {
-  ChevronDown, Menu, Search, Building2, ArrowRight, LayoutDashboard, X, MapPin, BadgeCheck, LifeBuoy, Mail, Sparkles,
+  ChevronDown, Menu, Search, Building2, ArrowRight, LayoutDashboard, X, MapPin, BadgeCheck, LifeBuoy, Mail, Sparkles, Phone, ShieldCheck,
 } from 'lucide-react'
 import BrandLogo from '../common/BrandLogo'
 import Icon from '../common/Icon'
@@ -12,12 +12,13 @@ import ProfileMenu from '../navigation/ProfileMenu'
 import { useData } from '../../context/DataContext'
 import { useAuth } from '../../context/AuthContext'
 import { useClickOutside } from '../../hooks/useUtils'
+import { COMPANY } from '../../data/companyInfo'
 import { cn } from '../../utils/cn'
 
 const NAV_LINKS = [
   { to: '/courses', label: 'Courses' },
   { to: '/career-paths', label: 'Career paths' },
-  { to: '/programs', label: 'Programs' },
+  { to: '/services', label: 'Services' },
   { to: '/about', label: 'About' },
 ]
 
@@ -38,14 +39,18 @@ function TopBar() {
       <div className="container-page flex h-9 items-center gap-6 text-xs">
         <p className="flex items-center gap-1.5 text-white/85">
           <BadgeCheck className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
-          Quality, HSE & sustainability training — trusted across the Middle East, Asia & North America
+          <span className="hidden lg:inline">ISO 9001:2015 certified · </span>Advisory, training, compliance & sustainability
         </p>
-        <p className="hidden items-center gap-1.5 text-white/70 xl:flex">
-          <MapPin className="h-3.5 w-3.5" aria-hidden="true" /> Dammam · Sitra · Lahore · Canada
+        <a href={`tel:${COMPANY.phone.replace(/\s/g, '')}`} className="hidden items-center gap-1.5 text-white/80 transition-colors hover:text-accent lg:flex">
+          <Phone className="h-3.5 w-3.5" aria-hidden="true" /> {COMPANY.phone}
+        </a>
+        <p className="hidden items-center gap-1.5 text-white/70 2xl:flex">
+          <MapPin className="h-3.5 w-3.5" aria-hidden="true" /> Saudi Arabia · Bahrain · Pakistan · Canada
         </p>
         <nav aria-label="Utility" className="ml-auto flex items-center gap-4">
           <Link to="/help" className="flex items-center gap-1 text-white/80 transition-colors hover:text-accent"><LifeBuoy className="h-3.5 w-3.5" aria-hidden="true" />Help</Link>
-          <Link to="/contact" className="flex items-center gap-1 text-white/80 transition-colors hover:text-accent"><Mail className="h-3.5 w-3.5" aria-hidden="true" />Contact</Link>
+          <a href={`mailto:${COMPANY.email}`} className="flex items-center gap-1 text-white/80 transition-colors hover:text-accent"><Mail className="h-3.5 w-3.5" aria-hidden="true" />{COMPANY.email}</a>
+          <Link to="/verify-certificate" className="hidden items-center gap-1 text-white/80 transition-colors hover:text-accent xl:flex"><ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />Verify certificate</Link>
           <Link to="/business" className="flex items-center gap-1 text-white/80 transition-colors hover:text-accent"><Building2 className="h-3.5 w-3.5" aria-hidden="true" />For Business</Link>
         </nav>
       </div>
@@ -164,7 +169,7 @@ function HeaderSearch({ className, autoFocus }) {
         value={query}
         autoFocus={autoFocus}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search ISO, safety, data, AI…"
+        placeholder="Search ISO, safety, Six Sigma, PMP…"
         className="input rounded-full border-slate-200 bg-slate-50 py-2 pr-12 pl-10 transition-all focus:bg-white focus:shadow-[0_0_0_4px_rgb(66_155_183/0.15)]"
       />
       <button type="submit" className="absolute top-1/2 right-1 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-gradient-to-br from-primary to-deep text-white transition-transform hover:scale-110" aria-label="Search">
@@ -245,7 +250,7 @@ function MobileNav({ user, onNavigate }) {
       <BrandLogo to="/" />
       <HeaderSearch autoFocus />
       <div className="flex flex-col">
-        {[...NAV_LINKS, { to: '/categories', label: 'All categories' }, { to: '/business', label: 'For Business' }, { to: '/contact', label: 'Contact' }].map((l, i) => (
+        {[...NAV_LINKS, { to: '/programs', label: 'Programs' }, { to: '/categories', label: 'Training tracks' }, { to: '/business', label: 'For Business' }, { to: '/verify-certificate', label: 'Verify certificate' }, { to: '/contact', label: 'Contact' }].map((l, i) => (
           <Link key={l.to} to={l.to} className={cn(link, 'animate-slide-up')} style={{ animationDelay: `${i * 35}ms`, animationFillMode: 'both' }}>
             {l.label}<ArrowRight className="h-4 w-4 text-muted transition-transform group-hover:translate-x-1" aria-hidden="true" />
           </Link>

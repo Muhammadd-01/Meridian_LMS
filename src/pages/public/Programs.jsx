@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Award, Layers, BookOpen, Rocket, ArrowRight } from 'lucide-react'
+import { Award, BookOpen, GraduationCap, ShieldCheck, ArrowRight } from 'lucide-react'
 import PageHero from '../../components/layout/PageHero'
 import CourseCard from '../../components/courses/CourseCard'
 import { Reveal } from '../../components/common/Motion'
@@ -7,10 +7,10 @@ import { useData } from '../../context/DataContext'
 import { useDocumentTitle } from '../../hooks/useDocumentTitle'
 
 const PROGRAM_TYPES = [
-  { type: 'Professional Certificate', icon: Award, description: 'Job-focused, multi-module programmes that prepare you for a specific role, ending with a capstone and demo certificate.' },
-  { type: 'Specialization', icon: Layers, description: 'In-depth series that build deep expertise in one topic over several modules.' },
-  { type: 'Course', icon: BookOpen, description: 'Focused courses that teach a single skill set in a few weeks.' },
-  { type: 'Guided Project', icon: Rocket, description: 'Short, hands-on projects completed in a few hours.' },
+  { type: 'Professional Certificate', icon: Award, description: 'In-depth programmes such as ISO Lead Auditor, Lean Six Sigma and OSHA that end with a case study or project.' },
+  { type: 'Course', icon: BookOpen, description: 'Focused courses such as ISO Internal Auditor that build practical skills in about two days of study.' },
+  { type: 'Exam Preparation', icon: GraduationCap, description: 'Structured preparation for PMI’s PMP® and PMI-RMP® certification exams.' },
+  { type: 'Awareness Training', icon: ShieldCheck, description: 'Short essentials such as first aid, fire safety, defensive driving, 5S and Schedule Q.' },
 ]
 
 export default function Programs() {
@@ -19,7 +19,7 @@ export default function Programs() {
   const published = courses.filter((c) => c.status === 'published')
   return (
     <>
-      <PageHero breadcrumbs={[{ label: 'Home', to: '/' }, { label: 'Learning programs' }]} eyebrow="Programs" title="Learning programs for every goal" description="From short guided projects to career-ready professional certificates." />
+      <PageHero breadcrumbs={[{ label: 'Home', to: '/' }, { label: 'Learning programs' }]} eyebrow="Programs" title="Learning programs for every goal" description="From short awareness sessions to in-depth lead auditor certificates and exam preparation." />
       <div className="container-page space-y-14 py-12">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {PROGRAM_TYPES.map((p, i) => (

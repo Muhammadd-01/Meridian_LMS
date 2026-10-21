@@ -68,17 +68,19 @@ export default function AdminLayout() {
     <div className="min-h-screen bg-page">
       <aside
         className={cn(
-          'fixed inset-y-0 left-0 z-30 hidden flex-col bg-deep transition-[width] duration-200 lg:flex',
+          'fixed inset-y-0 left-0 z-30 hidden flex-col overflow-hidden bg-gradient-to-b from-deep via-[#0a4253] to-[#062f3c] shadow-[8px_0_30px_-20px_rgb(9_63_80/0.8)] transition-[width] duration-300 lg:flex',
           collapsed ? 'w-[76px]' : 'w-64',
         )}
       >
-        <div className={cn('flex h-16 shrink-0 items-center border-b border-white/10', collapsed ? 'justify-center px-2' : 'px-5')}>
+        <div className={cn('relative flex h-16 shrink-0 items-center border-b border-white/10', collapsed ? 'justify-center px-2' : 'px-5')}>
           <BrandLogo tone="light" to="/admin/dashboard" compact={collapsed} />
         </div>
-        <div className="flex-1 overflow-y-auto px-3 py-5 scrollbar-thin">
+        <div className="pointer-events-none absolute inset-0 bg-dots-light" aria-hidden="true" />
+        <div className="pointer-events-none absolute -bottom-20 -left-20 h-56 w-56 rounded-full bg-info/20 blur-3xl" aria-hidden="true" />
+        <div className="relative flex-1 overflow-y-auto px-3 py-5 scrollbar-thin">
           <AppSidebar groups={groups} collapsed={collapsed} tone="dark" />
         </div>
-        <div className="border-t border-white/10 p-3">
+        <div className="relative border-t border-white/10 p-3">
           <button type="button" onClick={toggleCollapsed} className={cn('flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white', collapsed && 'justify-center')} aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}>
             {collapsed ? <PanelLeftOpen className="h-[18px] w-[18px]" aria-hidden="true" /> : <><PanelLeftClose className="h-[18px] w-[18px]" aria-hidden="true" /> Collapse</>}
           </button>
@@ -86,7 +88,8 @@ export default function AdminLayout() {
       </aside>
 
       <div className={cn('flex min-h-screen flex-col transition-[padding] duration-200', collapsed ? 'lg:pl-[76px]' : 'lg:pl-64')}>
-        <header className="sticky top-0 z-20 border-b border-line bg-white/95 backdrop-blur">
+        <header className="sticky top-0 z-20 border-b border-line/80 bg-white/85 shadow-[0_8px_24px_-18px_rgb(9_63_80/0.35)] backdrop-blur-xl">
+          <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-accent via-info to-primary opacity-70" aria-hidden="true" />
           <div className="flex h-16 items-center gap-3 px-4 sm:px-6">
             <button type="button" className="btn btn-ghost btn-icon -ml-2 lg:hidden" onClick={() => setDrawerOpen(true)} aria-label="Open admin navigation">
               <Menu className="h-5 w-5" />
@@ -110,7 +113,7 @@ export default function AdminLayout() {
             </div>
           </div>
         </header>
-        <main id="main-content" tabIndex={-1} className="flex-1 px-4 py-6 outline-none sm:px-6 lg:px-8 lg:py-8">
+        <main id="main-content" tabIndex={-1} className="flex-1 bg-mesh px-4 py-6 outline-none sm:px-6 lg:px-8 lg:py-8">
           <div key={pathname} className="mx-auto max-w-7xl animate-page-in">
             <Outlet />
           </div>

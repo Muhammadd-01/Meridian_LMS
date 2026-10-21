@@ -5,6 +5,6 @@ export function useDocumentTitle(title) {
   const { settings } = useData()
   const platform = settings?.platformName || 'Meridian LMS'
   useEffect(() => {
-    document.title = title ? `${title} · ${platform}` : `${platform} — Build Skills. Unlock Your Potential.`
+    document.title = title ? `${title} · ${platform}` : `${platform} — Empowering Quality & Sustainable Growth`
   }, [title, platform])
 }

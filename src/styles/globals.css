@@ -51,6 +51,13 @@
   --animate-blob: blob 14s ease-in-out infinite;
   --animate-spin-slow: spin 28s linear infinite;
   --animate-bounce-soft: bounce-soft 1.2s ease-in-out infinite;
+  --animate-shake: shake 380ms ease-in-out;
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+  }
 
   @keyframes page-in {
     from { opacity: 0; transform: translateY(14px); }
@@ -359,6 +366,41 @@
   .typing-dot { animation: typing-dot 1.2s infinite ease-in-out; }
   .typing-dot:nth-child(2) { animation-delay: 0.15s; }
   .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+  /* Toasts: slide in, shrink a countdown bar, slide out. */
+  .toast-enter { animation: toast-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .toast-leave { animation: toast-out 260ms ease-in both; }
+  .toast-progress { width: 100%; animation-name: toast-countdown; animation-timing-function: linear; animation-fill-mode: forwards; }
+  .toast-enter:hover .toast-progress { animation-play-state: paused; }
+  @keyframes toast-in {
+    from { opacity: 0; transform: translateX(40px) scale(0.96); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes toast-out {
+    to { opacity: 0; transform: translateX(40px) scale(0.96); }
+  }
+  @keyframes toast-countdown {
+    from { width: 100%; }
+    to { width: 0%; }
+  }
+
+  /* Auth transition overlay */
+  .auth-overlay-in { animation: auth-overlay-in 380ms ease-out both; }
+  .auth-overlay-out { animation: auth-overlay-out 420ms ease-in both; }
+  @keyframes auth-overlay-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes auth-overlay-out { to { opacity: 0; transform: scale(1.03); } }
+  .auth-progress { animation: auth-progress var(--auth-duration, 1300ms) cubic-bezier(0.65, 0, 0.35, 1) forwards; }
+  @keyframes auth-progress { from { width: 0%; } to { width: 100%; } }
+  .auth-ring { animation: spin 1.1s linear infinite; }
+  .check-draw { stroke-dasharray: 48; stroke-dashoffset: 48; animation: check-draw 500ms 120ms ease-out forwards; }
+  @keyframes check-draw { to { stroke-dashoffset: 0; } }
+
+  /* Rotating highlight cards on the auth screens */
+  .fade-swap { animation: fade-swap 600ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+  @keyframes fade-swap {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+  }
 
   .scrollbar-thin { scrollbar-width: thin; }
   .no-scrollbar { scrollbar-width: none; }

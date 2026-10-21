@@ -3,7 +3,7 @@ import { ChevronRight, Star, CircleAlert, FlaskConical } from 'lucide-react'
 import { cn } from '../../utils/cn'
 import { hashString } from '../../utils/ids'
 import { initials } from '../../utils/format'
-import { Reveal } from './Motion'
+import { Reveal, AnimatedCounter } from './Motion'
 
 /* ---------- Avatar ---------- */
 const AVATAR_COLORS = ['bg-[#093F50]', 'bg-[#2C5F6F]', 'bg-[#266173]', 'bg-[#1F6F88]', 'bg-[#9A4F00]', 'bg-[#475569]']
@@ -141,11 +141,11 @@ export function Breadcrumbs({ items, tone = 'dark', className }) {
 /* ---------- PageHeader ---------- */
 export function PageHeader({ title, description, actions, breadcrumbs, eyebrow, className }) {
   return (
-    <div className={cn('mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between', className)}>
+    <div className={cn('mb-7 flex animate-slide-up flex-col gap-4 sm:flex-row sm:items-end sm:justify-between', className)}>
       <div className="min-w-0">
         {breadcrumbs && <Breadcrumbs items={breadcrumbs} className="mb-2" />}
-        {eyebrow && <p className="eyebrow mb-1">{eyebrow}</p>}
-        <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-[28px]">{title}</h1>
+        {eyebrow && <p className="eyebrow mb-1 flex items-center gap-2"><span className="h-0.5 w-5 rounded-full bg-gradient-to-r from-accent to-info" aria-hidden="true" />{eyebrow}</p>}
+        <h1 className="flex items-center gap-3 text-2xl font-extrabold tracking-tight text-deep sm:text-[28px]"><span className="hidden h-7 w-1.5 rounded-full bg-gradient-to-b from-accent to-info sm:block" aria-hidden="true" />{title}</h1>
         {description && <p className="mt-1 max-w-2xl text-sm text-muted sm:text-[15px]">{description}</p>}
       </div>
       {actions && <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div>}
@@ -164,6 +164,7 @@ export function StatCard({ label, value, icon: IconComp, hint, tone = 'primary',
   }
   return (
     <div className={cn('card hover-lift group relative flex items-start gap-4 overflow-hidden p-5', className)}>
+      <span className="pointer-events-none absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gradient-to-r from-accent via-info to-primary transition-transform duration-500 group-hover:scale-x-100" aria-hidden="true" />
       <span className="pointer-events-none absolute -top-10 -right-10 h-24 w-24 rounded-full bg-gradient-to-br from-info/10 to-accent/10 opacity-0 transition-all duration-500 group-hover:scale-150 group-hover:opacity-100" aria-hidden="true" />
       {IconComp && (
         <span className={cn('relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6', tones[tone])}>
@@ -172,7 +173,7 @@ export function StatCard({ label, value, icon: IconComp, hint, tone = 'primary',
       )}
       <div className="relative min-w-0">
         <p className="text-sm font-medium text-muted">{label}</p>
-        <p className="mt-0.5 text-2xl font-bold tracking-tight text-ink">{value}</p>
+        <p className="mt-0.5 text-2xl font-bold tracking-tight text-ink">{/\d/.test(String(value)) ? <AnimatedCounter value={String(value)} /> : value}</p>
         {hint && <p className="mt-1 text-xs text-muted">{hint}</p>}
       </div>
     </div>

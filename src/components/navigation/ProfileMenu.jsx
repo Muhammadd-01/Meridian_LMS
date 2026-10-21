@@ -1,22 +1,14 @@
-import { useNavigate } from 'react-router-dom'
 import { ChevronDown, LayoutDashboard, Library, User, Settings, LogOut, Globe, Award, Shield } from 'lucide-react'
 import Dropdown from '../common/Dropdown'
 import { Avatar } from '../common/ui'
 import { useAuth } from '../../context/AuthContext'
-import { useToast } from '../../context/ToastContext'
+import { useSignOut } from '../../hooks/useSignOut'
 import { cn } from '../../utils/cn'
 
 export default function ProfileMenu({ tone = 'light', showName = true }) {
-  const { user, logout } = useAuth()
-  const toast = useToast()
-  const navigate = useNavigate()
+  const { user } = useAuth()
+  const signOut = useSignOut()
   if (!user) return null
-
-  const signOut = () => {
-    logout()
-    toast.success('You have been signed out of the demo session. Your progress is still saved in this browser.')
-    navigate('/')
-  }
 
   const items = user.role === 'admin'
     ? [

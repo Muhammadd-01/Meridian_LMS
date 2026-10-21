@@ -145,6 +145,7 @@ export default function AdminCategories() {
       >
         {deleting && (
           <div className="space-y-3 text-sm">
+            <div className="mb-4 flex items-center gap-3 rounded-xl bg-danger-soft p-3"><span className="flex h-10 w-10 shrink-0 animate-pop-in items-center justify-center rounded-full bg-gradient-to-br from-danger to-[#f87171] text-white"><Trash2 className="h-5 w-5" aria-hidden="true" /></span><p className="text-sm font-medium text-danger">This permanently removes the record from this browser.</p></div>
             {deps > 0 ? (
               <>
                 <p className="text-slate-700"><strong>{deleting.name}</strong> is used by {deps} course(s). Move them to another category first.</p>

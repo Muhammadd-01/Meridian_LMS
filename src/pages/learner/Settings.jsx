@@ -7,6 +7,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'
 import { useConfirm } from '../../context/ConfirmContext'
 import { useDocumentTitle } from '../../hooks/useDocumentTitle'
+import { useSignOut } from '../../hooks/useSignOut'
 import { DEFAULT_NOTIFICATION_PREFS } from '../../data/users'
 import { readJSON, writeJSON, STORAGE_KEYS } from '../../services/storage'
 
@@ -21,7 +22,8 @@ const PREFS = [
 export default function LearnerSettings() {
   useDocumentTitle('Settings')
   const { actions } = useData()
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
+  const signOut = useSignOut()
   const toast = useToast()
   const confirm = useConfirm()
   const navigate = useNavigate()
@@ -86,7 +88,7 @@ export default function LearnerSettings() {
             <p className="mt-1 text-sm text-muted">All data lives in this browser’s LocalStorage. It is not secure storage and is not synced to any server.</p>
             <div className="mt-5 flex flex-wrap gap-3">
               <button type="button" className="btn btn-danger-ghost border border-danger/30" onClick={reset}><RotateCcw className="h-4 w-4" aria-hidden="true" />Reset demo data</button>
-              <button type="button" className="btn btn-secondary" onClick={() => { logout(); toast.success('Signed out. Your progress is still saved in this browser.'); navigate('/') }}><LogOut className="h-4 w-4" aria-hidden="true" />Sign out</button>
+              <button type="button" className="btn btn-secondary" onClick={signOut}><LogOut className="h-4 w-4" aria-hidden="true" />Sign out</button>
             </div>
           </section>
         </div>

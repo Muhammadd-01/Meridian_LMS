@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Mail, MapPin, ArrowRight, Send, BadgeCheck, CircleCheck, GraduationCap } from 'lucide-react'
+import { Mail, MapPin, ArrowRight, Send, BadgeCheck, CircleCheck, GraduationCap, Phone } from 'lucide-react'
 import BrandLogo from '../common/BrandLogo'
 import { Marquee } from '../common/Motion'
 import { GlobePattern } from '../common/BrandDecor'
 import { useData } from '../../context/DataContext'
 import { useAuth } from '../../context/AuthContext'
 import { isValidEmail } from '../../services/mockAuthService'
+import { COMPANY } from '../../data/companyInfo'
 
-const LOCATIONS = ['Dammam, Saudi Arabia', 'Sitra, Bahrain', 'Lahore, Pakistan', 'Canada']
+const LOCATIONS = ['Saudi Arabia', 'Bahrain', 'Pakistan', 'Canada']
 const TICKER = ['Consulting', 'Auditing', 'Training', 'Certifications', 'Sustainability', 'QHSE', 'ISO Standards', 'Compliance', 'Resilience']
 
 function Newsletter() {
@@ -54,12 +55,13 @@ export default function Footer() {
     {
       title: 'Company',
       links: [
-        { to: '/about', label: 'About Meridian' },
-        { to: '/instructors', label: 'Instructors' },
+        { to: '/about', label: 'About MEQMP' },
+        { to: '/services', label: 'Services' },
         { to: '/programs', label: 'Learning programs' },
+        { to: '/instructors', label: 'Trainers' },
         { to: '/business', label: 'For Business' },
+        { to: '/verify-certificate', label: 'Verify certificate' },
         { to: '/contact', label: 'Contact' },
-        { to: '/help', label: 'Help centre' },
       ],
     },
   ]
@@ -75,7 +77,7 @@ export default function Footer() {
             <div>
               <p className="flex items-center gap-2 text-sm font-semibold text-accent"><GraduationCap className="h-4 w-4" aria-hidden="true" />Start today</p>
               <h2 className="mt-1 text-2xl font-bold text-white sm:text-3xl">Ready to advance your career?</h2>
-              <p className="mt-2 max-w-xl text-white/80">ISO auditor programmes, HSE training, Lean Six Sigma and more — learn at your own pace with Meridian.</p>
+              <p className="mt-2 max-w-xl text-white/80">ISO auditor programmes, safety training, Lean Six Sigma and exam preparation — learn at your own pace with Meridian.</p>
             </div>
             <div className="flex flex-wrap gap-3">
               <Link to="/courses" className="btn btn-accent btn-lg rounded-full">Browse courses <ArrowRight className="h-5 w-5" aria-hidden="true" /></Link>
@@ -93,12 +95,13 @@ export default function Footer() {
         <div className="max-w-sm">
           <BrandLogo tone="light" size="lg" />
           <p className="mt-5 text-sm leading-6 text-white/75">
-            {settings.tagline}. Meridian Quality Management Professionals provides advisory, training, compliance and sustainability services — this LMS is a frontend demonstration of its learning experience.
+            {settings.tagline}. Meridian Quality Management Professionals is an ISO 9001:2015 certified provider of advisory, training, compliance, sustainability and corporate wellbeing services since {COMPANY.since}.
           </p>
           <ul className="mt-5 space-y-2 text-sm text-white/75">
-            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-accent" aria-hidden="true" />{settings.supportEmail} <span className="text-white/45">(demo)</span></li>
+            <li><a href={`tel:${COMPANY.phone.replace(/\s/g, '')}`} className="flex items-center gap-2 transition-colors hover:text-accent"><Phone className="h-4 w-4 text-accent" aria-hidden="true" />{COMPANY.phone}</a></li>
+            <li><a href={`mailto:${COMPANY.email}`} className="flex items-center gap-2 transition-colors hover:text-accent"><Mail className="h-4 w-4 text-accent" aria-hidden="true" />{COMPANY.email}</a></li>
             <li className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" /><span>{LOCATIONS.join(' · ')}</span></li>
-            <li className="flex items-center gap-2"><BadgeCheck className="h-4 w-4 text-accent" aria-hidden="true" />Quality · HSE · Sustainability training</li>
+            <li className="flex items-center gap-2"><BadgeCheck className="h-4 w-4 text-accent" aria-hidden="true" />First TVTC foreign registered training center in KSA</li>
           </ul>
           <Newsletter />
         </div>
@@ -125,7 +128,7 @@ export default function Footer() {
 
       <div className="relative">
         <div className="container-page flex flex-col gap-3 py-5 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Meridian Quality Management Professionals · {settings.platformName} demo. Learner data and metrics shown are illustrative.</p>
+          <p>© {new Date().getFullYear()} Meridians. All rights reserved · {settings.platformName} demo — learner data shown is illustrative.</p>
           <nav aria-label="Legal" className="flex gap-4">
             <Link to="/terms" className="transition-colors hover:text-accent">Terms</Link>
             <Link to="/privacy" className="transition-colors hover:text-accent">Privacy</Link>

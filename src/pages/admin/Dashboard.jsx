@@ -5,7 +5,9 @@ import {
 } from 'lucide-react'
 import ChartCard from '../../components/charts/ChartCard'
 import SmartImage from '../../components/common/SmartImage'
-import { PageHeader, StatCard, StatusBadge, Avatar, DemoPill } from '../../components/common/ui'
+import { StatCard, StatusBadge, Avatar, DemoPill } from '../../components/common/ui'
+import DashboardHero from '../../components/common/DashboardHero'
+import { Reveal, AnimatedCounter } from '../../components/common/Motion'
 import { axisProps, tooltipProps, CHART_PRIMARY, CHART_GRID } from '../../components/charts/chartTheme'
 import { useData } from '../../context/DataContext'
 import { useAuth } from '../../context/AuthContext'
@@ -46,27 +48,39 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        eyebrow="Admin"
+      <DashboardHero
+        eyebrow={`Admin console · ${formatDate(now, { weekday: 'long', month: 'long', day: 'numeric' })}`}
         title={`Welcome back, ${user.name.split(' ')[0]}`}
-        description="Platform overview. Counts are derived from the local demo records; ratings are illustrative."
-        actions={(
-          <>
-            <Link to="/admin/courses/new" className="btn btn-primary"><Plus className="h-4 w-4" aria-hidden="true" />New course</Link>
-            <Link to="/admin/announcements" className="btn btn-secondary"><Megaphone className="h-4 w-4" aria-hidden="true" />Announce</Link>
-          </>
+        subtitle={`${summary.published} published programmes, ${summary.enrollments} enrolments and ${pendingReviews + pendingSubs} items waiting for your review.`}
+        aside={(
+          <div className="grid grid-cols-2 gap-3">
+            {[{ label: 'Completion', value: `${summary.completionRate}%` }, { label: 'Learners', value: String(summary.learners) }].map((k) => (
+              <div key={k.label} className="rounded-2xl border border-white/15 bg-white/10 px-5 py-4 text-center backdrop-blur-md transition-transform hover:-translate-y-1">
+                <p className="text-3xl font-extrabold text-white"><AnimatedCounter value={k.value} /></p>
+                <p className="text-xs text-white/70">{k.label}</p>
+              </div>
+            ))}
+          </div>
         )}
-      />
+      >
+        <Link to="/admin/courses/new" className="btn btn-accent rounded-full"><Plus className="h-4 w-4" aria-hidden="true" />New course</Link>
+        <Link to="/admin/announcements" className="btn btn-on-dark rounded-full"><Megaphone className="h-4 w-4" aria-hidden="true" />Announce</Link>
+        <Link to="/admin/analytics" className="btn btn-on-dark rounded-full">View analytics</Link>
+      </DashboardHero>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Demo learners" value={summary.learners} icon={Users} hint={`${summary.activeLearners} active`} />
-        <StatCard label="Published courses" value={summary.published} icon={BookOpen} tone="success" hint={`${summary.archived} archived`} />
-        <StatCard label="Draft courses" value={summary.drafts} icon={FilePen} tone="warning" hint="Not visible to learners" />
-        <StatCard label="Total enrollments" value={summary.enrollments} icon={ClipboardCheck} tone="info" hint="Recorded enrolment records" />
-        <StatCard label="Course completion rate" value={`${summary.completionRate}%`} icon={CircleCheck} tone="success" hint={`${summary.completed} completed enrolments`} />
-        <StatCard label="Average course rating" value={summary.avgRating || '—'} icon={Star} tone="accent" hint="Illustrative catalogue ratings" />
-        <StatCard label="New learner registrations" value={summary.newLearners} icon={UserPlus} hint="Joined in the last 30 days" />
-        <StatCard label="Awaiting moderation" value={pendingReviews + pendingSubs} icon={MessageSquareWarning} tone="warning" hint={`${pendingReviews} reviews · ${pendingSubs} submissions`} />
+        {[
+          { label: 'Learners', value: summary.learners, icon: Users, hint: `${summary.activeLearners} active` },
+          { label: 'Published courses', value: summary.published, icon: BookOpen, tone: 'success', hint: `${summary.archived} archived` },
+          { label: 'Draft courses', value: summary.drafts, icon: FilePen, tone: 'warning', hint: 'Not visible to learners' },
+          { label: 'Total enrollments', value: summary.enrollments, icon: ClipboardCheck, tone: 'info', hint: 'Recorded enrolment records' },
+          { label: 'Course completion rate', value: `${summary.completionRate}%`, icon: CircleCheck, tone: 'success', hint: `${summary.completed} completed enrolments` },
+          { label: 'Average course rating', value: summary.avgRating || '—', icon: Star, tone: 'accent', hint: 'Illustrative catalogue ratings' },
+          { label: 'New learner registrations', value: summary.newLearners, icon: UserPlus, hint: 'Joined in the last 30 days' },
+          { label: 'Awaiting moderation', value: pendingReviews + pendingSubs, icon: MessageSquareWarning, tone: 'warning', hint: `${pendingReviews} reviews · ${pendingSubs} submissions` },
+        ].map((stat, i) => (
+          <Reveal key={stat.label} delay={(i % 4) * 70}><StatCard {...stat} className="h-full" /></Reveal>
+        ))}
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.5fr_1fr]">

@@ -28,8 +28,8 @@ export default function AppSidebar({ groups, collapsed = false, tone = 'dark', o
                       'group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 hover:translate-x-0.5',
                       collapsed && 'justify-center px-2',
                       dark
-                        ? isActive ? 'bg-white/12 text-white' : 'text-white/70 hover:bg-white/8 hover:text-white'
-                        : isActive ? 'bg-primary-soft text-primary' : 'text-slate-600 hover:bg-slate-100 hover:text-ink',
+                        ? isActive ? 'bg-gradient-to-r from-white/20 to-white/5 text-white shadow-[inset_0_0_0_1px_rgb(255_255_255/0.12)]' : 'text-white/70 hover:bg-white/8 hover:text-white'
+                        : isActive ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-[0_10px_20px_-12px_rgb(9_63_80/0.9)]' : 'text-slate-600 hover:bg-primary-soft hover:text-primary',
                     )}
                   >
                     {({ isActive }) => (

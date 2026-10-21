@@ -93,7 +93,7 @@ export default function AdminDiscussions() {
                           <p className="text-sm text-slate-700">{r.body}</p>
                         </div>
                         <button type="button" className="btn btn-ghost btn-sm" onClick={() => { actions.setReplyStatus(t.id, r.id, r.status === 'visible' ? 'hidden' : 'visible'); toast.success(r.status === 'visible' ? 'Reply hidden.' : 'Reply restored.') }}>{r.status === 'visible' ? 'Hide' : 'Show'}</button>
-                        <button type="button" className="btn btn-danger-ghost btn-sm" onClick={() => { actions.deleteReply(t.id, r.id); toast.success('Reply removed.') }}>Remove</button>
+                        <button type="button" className="btn btn-danger-ghost btn-sm" onClick={async () => { if (await confirm({ tone: 'danger', title: 'Remove this reply?', message: `The reply by ${a.name} will be permanently removed from the discussion.`, confirmLabel: 'Remove reply' })) { actions.deleteReply(t.id, r.id); toast.success('The reply was removed from the discussion.', { title: 'Reply removed' }) } }}>Remove</button>
                       </li>
                     )
                   })}

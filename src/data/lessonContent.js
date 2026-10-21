@@ -3,153 +3,85 @@
  * ## headings, paragraphs, - lists, 1. lists, ``` code fences, > callouts, **bold** and `code`.
  */
 const HANDWRITTEN = {
-  'What is React and why it matters': `## Why React exists
-Interfaces change constantly: data arrives, people click, forms validate. Updating the page by hand quickly becomes fragile. **React lets you describe what the UI should look like for a given state**, and it works out the minimal changes needed to update the screen.
+  'Principles of auditing and auditor competence': `## Why principles matter
+An audit is only useful if people trust its conclusions. ISO 19011 sets out seven principles that make audit results reliable and comparable.
 
-## Key ideas
-- **Components** are reusable functions that return UI.
-- **Props** pass data into a component, like function arguments.
-- **State** is data a component remembers between renders.
-- React re-renders a component when its state or props change.
+## The seven principles
+- **Integrity** — the foundation of professionalism.
+- **Fair presentation** — report truthfully and accurately.
+- **Due professional care** — apply diligence and judgement.
+- **Confidentiality** — protect information gained during the audit.
+- **Independence** — stay impartial and objective.
+- **Evidence-based approach** — base conclusions on verifiable evidence.
+- **Risk-based approach** — focus on what matters most to the auditee and the audit objectives.
 
-## A first component
-\`\`\`jsx
-function Greeting({ name }) {
-  return <h1>Hello, {name}!</h1>
-}
+## Auditor competence
+Competence combines **knowledge** of the standard and the sector, **skills** in questioning and note-taking, and **personal behaviour** such as being ethical, open-minded and diplomatic.
+
+> Tip: before every audit, ask yourself which of your relationships or past roles could affect your independence.`,
+
+  'Writing nonconformities and observations': `## What a good finding looks like
+A nonconformity is the non-fulfilment of a requirement. Every finding should let a reader understand the problem without being in the room.
+
+## The three parts
+1. **Requirement** — the clause, procedure or legal obligation.
+2. **Evidence** — what you saw, read or heard (records, observations, interviews).
+3. **Statement** — how the evidence fails to meet the requirement.
+
+## Example
+\`\`\`
+Requirement: ISO 9001:2015 clause 7.5.3 requires documented information to be controlled.
+Evidence: Work instruction WI-07 at the packing line was revision B; the controlled master list shows revision D.
+Nonconformity: Obsolete documented information was available at the point of use.
 \`\`\`
 
-> Think of a React app as a tree of components. Data flows down through props; events flow up through callbacks.
+## Observations and opportunities for improvement
+Observations highlight risks or good practice without a requirement being broken. Keep them specific and avoid prescribing solutions — corrective action belongs to the auditee.`,
 
-## Check your understanding
-1. What is the difference between props and state?
-2. Why is describing UI declaratively easier to maintain than manual DOM updates?`,
+  'Opening meetings and gathering audit evidence': `## The opening meeting
+Keep it short and structured: confirm the scope and objectives, introduce the team, agree the timetable, explain how findings will be graded and reported, and confirm confidentiality and safety arrangements.
 
-  'JSX in depth': `## JSX is JavaScript
-JSX looks like HTML, but it compiles to function calls that create React elements. That means you can use any JavaScript expression inside curly braces.
+## Sources of evidence
+- **Documents and records** — procedures, plans, logs and reports
+- **Observation** — watching activities as they happen
+- **Interviews** — with process owners and the people doing the work
 
-\`\`\`jsx
-const items = ['Plan', 'Build', 'Ship']
-return (
-  <ul className="steps">
-    {items.map((item) => <li key={item}>{item}</li>)}
-  </ul>
-)
-\`\`\`
+## Sampling
+You can’t check everything. Choose samples that reflect risk, volume and time period, and record exactly what you sampled so the audit trail is clear.`,
 
-## Rules worth remembering
-- Return a **single root** element (or a fragment \`<>...</>\`).
-- Use \`className\` instead of \`class\`, and \`htmlFor\` instead of \`for\`.
-- Close every tag, including \`<img />\` and \`<input />\`.
-- Attribute names are camelCase: \`onClick\`, \`tabIndex\`.
+  'Fall hazards and fall protection': `## Why falls matter
+Falls from height are a leading cause of serious injuries and fatalities in construction and maintenance work.
 
-> Tip: Conditional rendering is just JavaScript — use \`&&\`, the ternary operator, or an early return.`,
+## Controlling the risk
+1. **Avoid** work at height where possible.
+2. **Prevent** falls with guardrails, covers and properly erected scaffolds.
+3. **Arrest** falls with personal fall-arrest systems where prevention isn’t possible.
 
-  'Components and props': `## Composing interfaces
-Components let you split the UI into independent pieces. A \`CourseCard\` doesn't need to know where its data came from — it simply renders the props it receives.
+## Before work starts
+- Inspect ladders, scaffolds and harnesses
+- Check anchor points and rescue arrangements
+- Confirm everyone has been trained for the equipment they’ll use`,
 
-\`\`\`jsx
-function CourseCard({ title, instructor, rating }) {
-  return (
-    <article>
-      <h3>{title}</h3>
-      <p>{instructor} · {rating} ★</p>
-    </article>
-  )
-}
-\`\`\`
+  'The fire triangle and fire tetrahedron': `## What a fire needs
+A fire needs **heat**, **fuel** and **oxygen** — the fire triangle. Remove any one side and the fire goes out. The fire tetrahedron adds a fourth element: the **chemical chain reaction** that keeps burning going.
 
-## Good component habits
-- Keep components **small and focused** on one job.
-- Name props after what they mean, not how they look.
-- Treat props as **read-only** — never mutate them.
-- Use the \`children\` prop to build flexible wrappers such as cards and modals.`,
+## Putting it to work
+- **Cooling** removes heat (water)
+- **Smothering** removes oxygen (foam, CO₂, fire blankets)
+- **Starving** removes fuel (isolating gas or moving combustibles)
+- **Interrupting the reaction** (dry powder, wet chemical agents)
 
-  'State with useState': `## Remembering information
-\`useState\` gives a component memory. It returns the current value and a setter function that schedules a re-render.
+> Knowing which side of the triangle an extinguisher attacks helps you choose the right one safely.`,
 
-\`\`\`jsx
-const [count, setCount] = useState(0)
-return <button onClick={() => setCount((c) => c + 1)}>Clicked {count} times</button>
-\`\`\`
+  'What Lean Six Sigma is and why it matters': `## Two ideas, one method
+**Lean** removes waste so work flows; **Six Sigma** reduces variation so results are predictable. Together they improve quality, speed and cost at the same time.
 
-## Rules of state
-- Call hooks at the **top level** of your component, never in loops or conditions.
-- Use the **updater function** form when the next value depends on the previous one.
-- Never mutate state directly — create new arrays and objects instead.
+## The eight wastes (DOWNTIME)
+- Defects, Overproduction, Waiting, Non-utilised talent
+- Transportation, Inventory, Motion, Extra-processing
 
-> State updates are asynchronous snapshots. Reading \`count\` right after \`setCount\` still gives you the old value for that render.`,
-
-  'Why Python for data work': `## A language built for exploration
-Python reads almost like plain English, has a huge ecosystem of data libraries, and runs everywhere — from laptops to cloud notebooks.
-
-## The data toolkit
-- **pandas** for tables (DataFrames), cleaning and aggregation.
-- **NumPy** for fast numerical arrays.
-- **Matplotlib / seaborn** for charts.
-- **Jupyter** notebooks for mixing code, results and narrative.
-
-\`\`\`python
-import pandas as pd
-sales = pd.read_csv("sales.csv")
-sales.groupby("region")["revenue"].sum().sort_values(ascending=False)
-\`\`\`
-
-> By the end of this course you will be able to read a line like the one above and explain exactly what it does.`,
-
-  'Series and DataFrames': `## Two core structures
-A **Series** is a labelled one-dimensional array. A **DataFrame** is a table made of Series that share an index.
-
-\`\`\`python
-import pandas as pd
-df = pd.DataFrame({
-    "city": ["Lisbon", "Nairobi", "Osaka"],
-    "orders": [128, 94, 151],
-})
-df["orders"].mean()   # 124.33
-\`\`\`
-
-## Everyday operations
-- \`df.head()\` and \`df.info()\` to inspect structure.
-- \`df[["city", "orders"]]\` to select columns.
-- \`df[df["orders"] > 100]\` to filter rows.
-- \`df.sort_values("orders")\` to sort.`,
-
-  'The CIA triad': `## Three goals of security
-- **Confidentiality** — only authorised people can read information.
-- **Integrity** — information is accurate and has not been tampered with.
-- **Availability** — systems and data are there when people need them.
-
-## Applying the triad
-Every control you implement supports one or more of these goals. Encryption protects confidentiality, hashing and signatures protect integrity, and redundancy protects availability.
-
-> When assessing any security decision, ask: which part of the triad does this protect, and what does it cost the others?`,
-
-  'What UX design is': `## Designing for people
-User experience design is the practice of shaping how a product **works and feels** for the people using it. It spans research, structure, interaction, visual design and testing.
-
-## UX vs. UI
-- **UX** asks: does this solve the right problem in a way people understand?
-- **UI** asks: is each screen clear, consistent and attractive?
-
-## The UX process
-1. Empathise — learn about users and their context.
-2. Define — frame the problem worth solving.
-3. Ideate — explore many possible solutions.
-4. Prototype — make ideas tangible quickly.
-5. Test — learn from real people and iterate.`,
-
-  'What makes a project': `## Projects vs. operations
-A **project** is a temporary effort to create a unique result. Operations are ongoing and repetitive. Recognising the difference helps you choose the right management approach.
-
-## The triple constraint
-Every project balances **scope**, **time** and **cost** — with **quality** at the centre. Changing one affects the others.
-
-## Signs a project is well defined
-- A clear objective and success criteria
-- A named sponsor and project manager
-- Agreed boundaries: what is in and out of scope
-- A realistic timeline with milestones`,
+## How projects run
+Improvement projects follow **DMAIC** — Define, Measure, Analyze, Improve, Control — so decisions are driven by data rather than opinion.`,
 }
 
 function lower(text) {
@@ -174,7 +106,7 @@ export function getLessonContent(title, course) {
 - **Quality check:** simple questions to confirm your work is sound.
 
 ## Worked example
-Imagine a small team at a fictional company, Northstar Outfitters, tackling this topic for the first time. They start with the simplest version that works, review it together, and improve it in short iterations rather than aiming for perfection on day one.
+Imagine the quality and HSE team at a fictional manufacturer, Corvid Components, tackling this topic for the first time. They start with the simplest version that works, review it together, and improve it in short iterations rather than aiming for perfection on day one.
 
 ## Try it yourself
 Spend ten minutes applying today's idea to a small example from your own work or studies. Write down one question to bring to the course discussion.

@@ -6,6 +6,8 @@ import {
 import CourseCard from '../../components/courses/CourseCard'
 import EnrolledCourseCard from '../../components/learning/EnrolledCourseCard'
 import ChartCard from '../../components/charts/ChartCard'
+import DashboardHero from '../../components/common/DashboardHero'
+import { Reveal } from '../../components/common/Motion'
 import SmartImage from '../../components/common/SmartImage'
 import Icon from '../../components/common/Icon'
 import { EmptyState, ProgressBar, StatCard, StatusBadge } from '../../components/common/ui'
@@ -89,29 +91,41 @@ export default function LearnerDashboard() {
 
   return (
     <div className="space-y-8">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="text-sm text-muted">{greeting(now)} · {formatDate(now, { weekday: 'long', month: 'long', day: 'numeric' })}</p>
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Welcome back, {firstName}</h1>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Link to="/learn/browse" className="btn btn-secondary btn-sm"><Compass className="h-4 w-4" aria-hidden="true" />Browse</Link>
-          <Link to="/learn/saved" className="btn btn-secondary btn-sm"><Heart className="h-4 w-4" aria-hidden="true" />Saved</Link>
-          <Link to="/learn/certificates" className="btn btn-secondary btn-sm"><Award className="h-4 w-4" aria-hidden="true" />Certificates</Link>
-        </div>
-      </div>
+      <DashboardHero
+        eyebrow={`${greeting(now)} · ${formatDate(now, { weekday: 'long', month: 'long', day: 'numeric' })}`}
+        title={`Welcome back, ${firstName} 👋`}
+        subtitle={resume ? `You’re ${computeProgress(resume.course, resume.enrollment).percent}% through ${resume.course.title}. Keep the momentum going!` : 'Pick up a new course and keep building your skills.'}
+        aside={(
+          <div className="flex items-center gap-4 rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-md">
+            <span className="flex h-14 w-14 animate-float items-center justify-center rounded-2xl bg-accent text-ink shadow-lg"><Flame className="h-7 w-7" aria-hidden="true" /></span>
+            <div>
+              <p className="text-3xl font-extrabold leading-none text-white">{stats.streak}<span className="ml-1 text-base font-semibold text-white/75">day streak</span></p>
+              <p className="mt-1 text-xs text-white/70">{stats.weekMinutes} min studied this week</p>
+            </div>
+          </div>
+        )}
+      >
+        {resume && <Link to={`/learn/course/${resume.course.id}`} className="btn btn-accent rounded-full"><PlayCircle className="h-4 w-4" aria-hidden="true" />Resume learning</Link>}
+        <Link to="/learn/browse" className="btn btn-on-dark rounded-full"><Compass className="h-4 w-4" aria-hidden="true" />Browse</Link>
+        <Link to="/learn/saved" className="btn btn-on-dark rounded-full"><Heart className="h-4 w-4" aria-hidden="true" />Saved</Link>
+        <Link to="/learn/certificates" className="btn btn-on-dark rounded-full"><Award className="h-4 w-4" aria-hidden="true" />Certificates</Link>
+      </DashboardHero>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Enrolled courses" value={stats.enrolled} icon={BookOpen} hint={`${stats.inProgress} in progress · ${stats.notStarted} not started`} />
-        <StatCard label="Courses completed" value={stats.completed} icon={CircleCheck} tone="success" hint={`${stats.lessonsCompleted} lessons completed in total`} />
-        <StatCard label="Learning hours" value={stats.hours} icon={Clock} tone="info" hint="From recorded study sessions" />
-        <StatCard label="Current streak" value={`${stats.streak} day${stats.streak === 1 ? '' : 's'}`} icon={Flame} tone="accent" hint={stats.streak ? 'Complete a lesson today to keep it going' : 'Complete a lesson to start a streak'} />
+        {[
+          { label: 'Enrolled courses', value: stats.enrolled, icon: BookOpen, hint: `${stats.inProgress} in progress · ${stats.notStarted} not started` },
+          { label: 'Courses completed', value: stats.completed, icon: CircleCheck, tone: 'success', hint: `${stats.lessonsCompleted} lessons completed in total` },
+          { label: 'Learning hours', value: stats.hours, icon: Clock, tone: 'info', hint: 'From recorded study sessions' },
+          { label: 'Current streak', value: `${stats.streak} day${stats.streak === 1 ? '' : 's'}`, icon: Flame, tone: 'accent', hint: stats.streak ? 'Complete a lesson today to keep it going' : 'Complete a lesson to start a streak' },
+        ].map((s, i) => (
+          <Reveal key={s.label} delay={i * 80}><StatCard {...s} className="h-full" /></Reveal>
+        ))}
       </div>
 
       {resume && (
-        <section aria-labelledby="continue-title" className="card overflow-hidden">
+        <section aria-labelledby="continue-title" className="card card-hover card-glow group overflow-hidden">
           <div className="grid md:grid-cols-[320px_1fr]">
-            <SmartImage src={resume.course.thumbnail} alt="" seed={resume.course.id} fallbackLabel={resume.course.title} className="aspect-video md:aspect-auto md:h-full" />
+            <SmartImage src={resume.course.thumbnail} alt="" seed={resume.course.id} fallbackLabel={resume.course.title} className="aspect-video md:aspect-auto md:h-full" imgClassName="transition-transform duration-700 group-hover:scale-110" />
             <div className="flex flex-col p-6">
               <p className="eyebrow">Continue learning</p>
               <h2 id="continue-title" className="mt-1 text-xl font-bold">{resume.course.title}</h2>

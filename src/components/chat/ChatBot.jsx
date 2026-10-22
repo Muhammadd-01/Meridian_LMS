@@ -7,6 +7,7 @@ import mark from '../../assets/logos/meridian-mark.png'
 import { getBotReply, WELCOME_CHIPS } from './knowledgeBase'
 import { useData } from '../../context/DataContext'
 import { useAuth } from '../../context/AuthContext'
+import { useScrolledPast } from '../../hooks/useScrolledPast'
 import { cn } from '../../utils/cn'
 
 const STORE_KEY = 'meridian.v1.chat'
@@ -57,6 +58,8 @@ export default function ChatBot() {
   const data = useData()
   const { user } = useAuth()
   const [open, setOpen] = useState(false)
+  // Sits in the corner, then moves up to make room for the back-to-top button.
+  const lifted = useScrolledPast()
   const [messages, setMessages] = useState(() => loadMessages() || [welcome(user)])
   const [input, setInput] = useState('')
   const [typing, setTyping] = useState(false)
@@ -112,7 +115,7 @@ export default function ChatBot() {
         <section
           role="dialog"
           aria-label="Meridian assistant chat"
-          className="fixed right-3 bottom-[9.5rem] z-[60] flex h-[min(72vh,580px)] w-[calc(100vw-1.5rem)] origin-bottom-right animate-pop-in flex-col overflow-hidden rounded-3xl border border-line bg-white shadow-[0_30px_70px_-20px_rgb(9_63_80/0.55)] sm:right-5 sm:w-[390px]"
+          className={cn('fixed right-3 z-[60] flex h-[min(72vh,580px)] w-[calc(100vw-1.5rem)] origin-bottom-right animate-pop-in flex-col overflow-hidden rounded-3xl border border-line bg-white shadow-[0_30px_70px_-20px_rgb(9_63_80/0.55)] transition-[bottom] duration-300 ease-out sm:right-5 sm:w-[390px]', lifted ? 'bottom-[9.5rem]' : 'bottom-[5.5rem]')}
           onKeyDown={(e) => { if (e.key === 'Escape') setOpen(false) }}
         >
           <header className="relative flex items-center gap-3 overflow-hidden bg-gradient-to-br from-deep via-primary to-secondary px-4 py-3.5 text-white">
@@ -208,7 +211,8 @@ export default function ChatBot() {
         aria-expanded={open}
         aria-label={open ? 'Close Meridian assistant' : 'Open Meridian assistant chat'}
         className={cn(
-          'no-print group fixed right-5 bottom-[5.25rem] z-[60] flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary via-secondary to-deep text-white shadow-[0_14px_30px_-10px_rgb(9_63_80/0.7)] transition-transform duration-300 hover:scale-110',
+          'no-print group fixed right-5 z-[60] flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary via-secondary to-deep text-white shadow-[0_14px_30px_-10px_rgb(9_63_80/0.7)] transition-[bottom,transform] duration-300 ease-out hover:scale-110',
+          lifted ? 'bottom-[5.25rem]' : 'bottom-5',
           !open && unread && 'animate-pulse-ring',
         )}
       >

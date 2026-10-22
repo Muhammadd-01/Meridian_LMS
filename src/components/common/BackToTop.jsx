@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { ArrowUp } from 'lucide-react'
+import { BACK_TO_TOP_THRESHOLD } from '../../hooks/useScrolledPast'
 import { cn } from '../../utils/cn'
 
 const RADIUS = 22
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 
 /** Floating "back to top" button with a scroll-progress ring; appears after scrolling down. */
-export default function BackToTop({ threshold = 420 }) {
+export default function BackToTop({ threshold = BACK_TO_TOP_THRESHOLD }) {
   const [state, setState] = useState({ visible: false, progress: 0 })
 
   useEffect(() => {

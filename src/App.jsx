@@ -7,6 +7,7 @@ import { ConfirmProvider } from './context/ConfirmContext'
 import AppRoutes from './routes/AppRoutes'
 import BackToTop from './components/common/BackToTop'
 import ChatBot from './components/chat/ChatBot'
+import RouteLoader from './components/common/PageLoader'
 
 /** Scrolls to top and moves focus to the main region after route changes (not on first load). */
 function RouteFocusManager() {
@@ -41,6 +42,7 @@ export default function App() {
             <AuthProvider>
               <SkipLink />
               <RouteFocusManager />
+              <RouteLoader />
               <AppRoutes />
               <BackToTop />
               <ChatBot />

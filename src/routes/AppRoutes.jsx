@@ -5,7 +5,7 @@ import AuthLayout from '../layouts/AuthLayout'
 import LearnerLayout from '../layouts/LearnerLayout'
 import AdminLayout from '../layouts/AdminLayout'
 import { RequireRole, GuestOnly } from './guards'
-import { Spinner } from '../components/common/ui'
+import { BrandLoader } from '../components/common/PageLoader'
 
 const page = (loader) => lazy(loader)
 
@@ -64,17 +64,9 @@ const AdminContent = page(() => import('../pages/admin/Content'))
 const AdminSettings = page(() => import('../pages/admin/Settings'))
 const AdminActivityLogs = page(() => import('../pages/admin/ActivityLogs'))
 
-function PageLoader() {
-  return (
-    <div className="flex min-h-[50vh] items-center justify-center gap-3 text-sm text-muted" role="status">
-      <Spinner className="h-5 w-5 text-primary" /> Loading…
-    </div>
-  )
-}
-
 export default function AppRoutes() {
   return (
-    <Suspense fallback={<PageLoader />}>
+    <Suspense fallback={<BrandLoader />}>
       <Routes>
         <Route element={<PublicLayout />}>
           <Route index element={<Home />} />
